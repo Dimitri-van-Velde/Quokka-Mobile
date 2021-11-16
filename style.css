@@ -966,6 +966,8 @@ h3 {
     
     .searchbar {
         display: flex;
+        margin-right: auto;
+        margin-left: 20px;
     }
 
     .searchbar input[type="text"] {
