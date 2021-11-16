@@ -18,7 +18,7 @@
     <main>
         <section>
             <article class="form-container">
-                <form class="contact" action="verwerk.php" method="post">
+                <form class="contact" action="process.php" method="post">
                     <h2>Vragen?</h2>
                     <h3>We helpen U graag!</h3>
                     <fieldset>

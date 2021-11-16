@@ -17,8 +17,8 @@ body {
 }
 
 main {
-    margin-top: 75px;
-    margin-bottom: 45px;
+    margin-top: 155px;
+    margin-bottom: 65px;
 }
 
 
@@ -34,7 +34,48 @@ nav:after {
     content: '';
     clear: both;
     display: table;
+}
 
+/* Search Bar */
+.searchbar {
+    display: flex;
+    justify-content: center;
+}
+
+.searchbar form {
+    display: flex;
+    flex-direction: row;
+    background: white;
+    margin: 10px;
+    width: 90%;
+    border-radius: 10px;
+}
+
+.searchbar input[type="text"] {
+    line-height: 20px;
+    padding: 3px;
+    margin: 10px;
+    border: none;
+    width: 100%;
+}
+
+.searchbar input[type="text"]:focus {
+    outline: none;
+}
+
+.searchbar form img {
+    height: 20px;
+    margin: 10px;
+}
+
+.searchbar button {
+    background: white;
+    border: none;
+    border-radius: 10px;
+}
+
+.searchbar2 {
+    display: none;
 }
 
 .logo {
@@ -614,10 +655,12 @@ h3 {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
     }
 
     .logo {
-        padding-left: 50px;
+        display: flex;
+        padding-left: 20px;
     }
 
     .show+a,
@@ -630,6 +673,48 @@ h3 {
     .show+a {
         line-height: normal;
         margin-top: 16px;
+    }
+
+    /* Search Bar */
+    .searchbar {
+        display: none;
+    }
+
+    .searchbar2 {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .searchbar2 form {
+        display: flex;
+        flex-direction: row;
+        background: white;
+        margin: 10px;
+        width: 90%;
+        border-radius: 10px;
+    }
+    
+    .searchbar2 input[type="text"] {
+        line-height: 20px;
+        padding: 3px;
+        margin: 10px;
+        border: none;
+        width: 100%;
+    }
+    
+    .searchbar2 input[type="text"]:focus {
+        outline: none;
+    }
+    
+    .searchbar2 form img {
+        height: 20px;
+        margin: 10px;
+    }
+    
+    .searchbar2 button {
+        background: white;
+        border: none;
+        border-radius: 10px;
     }
 
     nav ul {
@@ -871,5 +956,33 @@ h3 {
         width: 40vw;
         margin-left: 2.5vw;
         margin-top: 50px;
+    }
+
+    /* Search Bar */
+    .searchbar2 {
+        display: none;
+    }
+    
+    .searchbar {
+        display: flex;
+    }
+
+    .searchbar input[type="text"] {
+        width: 40vw;
+        max-width: 200px;
+    }
+}
+
+@media screen and (min-width: 1250px) {
+    /* Search Bar */
+    .searchbar input[type="text"] {
+        max-width: 300px;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    /* Search Bar */
+    .searchbar input[type="text"] {
+        max-width: 500px;
     }
 }

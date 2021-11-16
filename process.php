@@ -11,9 +11,7 @@
 </head>
 <body>
     <main>
-        <section>
-            
-        </section>
+        
     </main>
     <?php
         include 'footer.html';
