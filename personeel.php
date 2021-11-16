@@ -21,7 +21,7 @@
                 <ul>
                     <li>
                         <img src="images/stout-heiger.jpg" alt="Stout Heiger">
-                        <p>Stout Heiger,</p>
+                        <p>Flip de With,</p>
                         <p>Directeur</p>
                     </li>
                     <li>

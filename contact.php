@@ -23,7 +23,7 @@
                     <p>Kerkweg 32</p>
                     <p>3235 XL Rockanje</p>
                     <p><a href="tel:0181123456">0181-123456</a></p>
-                    <p><a href="mailto:info@stoutheiger.nl">info@stoutheiger.nl</a></p>
+                    <p><a href="mailto:info@quokkamobile.nl">info@quokkamobile.nl</a></p>
                 </address>
             </article>
             <article>

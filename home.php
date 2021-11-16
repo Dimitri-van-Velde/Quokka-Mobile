@@ -19,25 +19,25 @@
     <main class="home-container">
         <section class="home-text-container">
             <article>
-                <h2>Welkom bij Stout Heiger!</h2>
-                <p class="subtitle">Wij verkopen al sinds 1998 de mooiste en best geprijste
-                    steigerhouten meubels in Zuid-Holland en omstreken. We hopen dat U hier alles kan vinden wat Uw hart
+                <h2>Welkom bij Quokka Mobile!</h2>
+                <p class="subtitle">Wij verkopen al sinds 1998 de best geprijsde
+                    mobiele telefoons in Zuid-Holland en omstreken. We hopen dat u hier alles kan vinden wat uw hart
                     begeert. Hieronder een kleine catalogus van wat wij onder andere verkopen.</p>
             </article>
         </section>
         <section>
             <article class="carousel-container">
                 <ul class="carousel">
-                    <li class="slide" id="stoelen">
-                        <a href="stoelen.php">
-                            <img src="images/stoel.jpg" alt="Stoelen">
-                            <p>Stoelen</p>
+                    <li class="slide" id="samsung">
+                        <a href="samsung.php">
+                            <img src="images/samsung_phones.jpg" alt="Samsung Telefoons">
+                            <p>Samsungs</p>
                         </a>
                     </li>
-                    <li class="slide" id="kasten">
-                        <a href="kasten.php">
-                            <img src="images/kast.jpg" alt="Kast">
-                            <p>Kasten</p>
+                    <li class="slide" id="iphone">
+                        <a href="iphone.php">
+                            <img src="images/iPhone-lineup.jpeg" alt="iPhone Telefoons">
+                            <p>iPhones</p>
                         </a>
                     </li>
                 </ul>
@@ -45,15 +45,15 @@
             <article class="home-gallery-container">
                 <ul>
                     <li class="tile">
-                        <a href="stoelen.php">
-                            <img src="images/stoel.jpg" alt="Stoelen">
-                            <p>Stoelen</p>
+                        <a href="samsung.php">
+                            <img src="images/samsung_phones.jpg" alt="Samsung Telefoons">
+                            <p>Samsungs</p>
                         </a>
                     </li>
                     <li class="tile">
-                        <a href="kasten.php">
-                            <img src="images/kast.jpg" alt="Kast">
-                            <p>Kasten</p>
+                        <a href="iphone.php">
+                            <img src="images/iPhone-lineup.jpeg" alt="iPhone Telefoons">
+                            <p>iPhones</p>
                         </a>
                     </li>
                 </ul>
