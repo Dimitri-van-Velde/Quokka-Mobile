@@ -38,13 +38,19 @@ nav:after {
 }
 
 nav .logo {
-    float: left;
+    display: flex;
+    align-items: center;
     color: white;
     font-size: 27px;
     font-weight: 600;
     line-height: 70px;
-    padding-left: 30px;
-    width: 100%;
+    padding-left: 10px;
+}
+
+nav .logo img {
+    justify-self: flex-start;
+    height: 50px;
+    padding-right: 10px;
 }
 
 nav ul {
@@ -144,10 +150,11 @@ ul {
 }
 
 .icon {
-    display: block;
+    justify-self: flex-end;
+    align-self: center;
     color: white;
     position: absolute;
-    right: 40px;
+    right: 30px;
     line-height: 70px;
     font-size: 30px;
     cursor: pointer;
@@ -595,6 +602,14 @@ h3 {
 @media screen and (min-width: 801px) {
 
     /* Nav */
+    .nav-container {
+        display: flex;
+    }
+
+    .menu-container {
+        justify-content: flex-end;
+    }
+
     .show,
     .icon,
     input {
@@ -614,12 +629,14 @@ h3 {
     }
 
     nav .logo {
-        padding-left: 100px;
-        width: 300px;
+        padding-left: 50px;
+        width: max-content;
+        justify-self: flex-end;
     }
 
     nav ul {
-        float: right;
+        display: flex;
+        justify-content: flex-end;
         list-style: none;
         margin-right: 100px;
         position: relative;
