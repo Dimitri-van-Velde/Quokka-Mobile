@@ -457,7 +457,8 @@ form input {
     width: 100%;
     margin: 85px auto 0 auto;
     position: relative;
-    z-index: -1;
+    /* Submit button doet het niet, maar zonder komt de nav er onder. */
+    /* z-index: -1; */
 }
 
 .contact {
