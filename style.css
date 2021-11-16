@@ -37,9 +37,8 @@ nav:after {
 
 }
 
-nav .logo {
+.logo {
     display: flex;
-    align-items: center;
     color: white;
     font-size: 27px;
     font-weight: 600;
@@ -47,10 +46,54 @@ nav .logo {
     padding-left: 10px;
 }
 
-nav .logo img {
+.logo img {
     justify-self: flex-start;
+    align-self: center;
     height: 50px;
-    padding-right: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+.plus {
+    margin-left: 30px;
+}
+
+.show {
+    display: block;
+    color: white;
+    font-size: 18px;
+    padding: 0 16px;
+    line-height: 70px;
+    cursor: pointer;
+}
+
+.show:hover {
+    color: cyan;
+}
+
+.show+a,
+.menu {
+    display: none;
+}
+
+.icon {
+    justify-self: flex-end;
+    align-self: center;
+    color: white;
+    position: absolute;
+    right: 30px;
+    line-height: 70px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+input {
+    display: none;
+}
+
+[id^=btn]:checked+.menu,
+[id^=btn]:checked+ul {
+    display: block;
 }
 
 nav ul {
@@ -125,47 +168,6 @@ nav ul ul ul li {
 
 nav ul ul ul a {
     padding-left: 40px;
-}
-
-.plus {
-    margin-left: 30px;
-}
-
-.show {
-    display: block;
-    color: white;
-    font-size: 18px;
-    padding: 0 16px;
-    line-height: 70px;
-    cursor: pointer;
-}
-
-.show:hover {
-    color: cyan;
-}
-
-.show+a,
-ul {
-    display: none;
-}
-
-.icon {
-    justify-self: flex-end;
-    align-self: center;
-    color: white;
-    position: absolute;
-    right: 30px;
-    line-height: 70px;
-    font-size: 30px;
-    cursor: pointer;
-}
-
-input {
-    display: none;
-}
-
-[id^=btn]:checked+ul {
-    display: block;
 }
 
 /* Footer */
@@ -602,22 +604,24 @@ h3 {
 @media screen and (min-width: 801px) {
 
     /* Nav */
-    .nav-container {
-        display: flex;
-    }
-
-    .menu-container {
-        justify-content: flex-end;
-    }
-
     .show,
     .icon,
     input {
         display: none;
     }
 
+    .nav-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .logo {
+        padding-left: 50px;
+    }
+
     .show+a,
-    ul {
+    .menu {
         display: flex;
         flex-direction: row;
         z-index: 2;
@@ -626,12 +630,6 @@ h3 {
     .show+a {
         line-height: normal;
         margin-top: 16px;
-    }
-
-    nav .logo {
-        padding-left: 50px;
-        width: max-content;
-        justify-self: flex-end;
     }
 
     nav ul {
