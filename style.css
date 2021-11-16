@@ -74,6 +74,10 @@ nav:after {
     border-radius: 10px;
 }
 
+.searchbar button:hover {
+    cursor: pointer;
+}
+
 .searchbar2 {
     display: none;
 }
@@ -716,6 +720,10 @@ h3 {
         background: white;
         border: none;
         border-radius: 10px;
+    }
+
+    .searchbar2 button:hover {
+        cursor: pointer;
     }
 
     nav ul {

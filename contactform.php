@@ -56,7 +56,7 @@
                     $timestamp = date("c");
                     
                     // Webhook URL
-                    $url = "https://discord.com/api/webhooks/910216656318513182/6BKSXzfrrBYqpTc2ceYpMMKea-91TtH9k-RfLYjHj2WJMZ2MIeAsfeZWoxcPqL85nkQy";
+                    $url = "https://discord.com/api/webhooks/910252315573895218/VJPppRzEJOj7dI3ZRcHis-THXvOqodo7dc0ouEUDB6xV8womwvzxqOEFY4Bv-Kz6ztsM";
 
                     // Embed for Discord
                     $embedResult = json_encode([
