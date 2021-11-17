@@ -856,7 +856,7 @@ h3 {
         transform: scale(1.1);
     }
 
-    .tile>a>img {
+    .tile>a>video {
         height: 250px;
     }
 

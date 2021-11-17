@@ -30,13 +30,13 @@
                 <ul class="carousel">
                     <li class="slide" id="samsung">
                         <a href="samsung.php">
-                            <img src="images/samsung_phones.jpg" alt="Samsung Telefoons">
+                            <video src="videos/samsung.mp4" alt="Samsung Telefoons" autoplay muted loop></video>
                             <p>Samsungs</p>
                         </a>
                     </li>
                     <li class="slide" id="iphone">
                         <a href="iphone.php">
-                            <img src="images/iPhone-lineup.jpeg" alt="iPhone Telefoons">
+                            <video src="videos/iphone.mp4" alt="iPhone Telefoons" autoplay muted loop></video>
                             <p>iPhones</p>
                         </a>
                     </li>
@@ -46,13 +46,13 @@
                 <ul>
                     <li class="tile">
                         <a href="samsung.php">
-                            <img src="images/samsung_phones.jpg" alt="Samsung Telefoons">
+                            <video src="videos/samsung.mp4" alt="Samsung Telefoons" autoplay muted loop></video>
                             <p>Samsungs</p>
                         </a>
                     </li>
                     <li class="tile">
                         <a href="iphone.php">
-                            <img src="images/iPhone-lineup.jpeg" alt="iPhone Telefoons">
+                            <video src="videos/iphone.mp4" alt="iPhone Telefoons" autoplay muted loop></video>
                             <p>iPhones</p>
                         </a>
                     </li>
