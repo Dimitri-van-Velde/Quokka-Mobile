@@ -399,10 +399,6 @@ footer .button-container {
     transition: all .2s ease-in-out;
 }
 
-.product img:hover {
-    transform: scale(1.05);
-}
-
 .product-container {
     margin-top: 85px;
     margin-bottom: 75px;
