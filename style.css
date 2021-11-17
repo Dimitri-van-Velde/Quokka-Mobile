@@ -499,6 +499,7 @@ fieldset {
 .contact input[type="text"],
 .contact input[type="email"],
 .contact input[type="tel"],
+.contact select,
 .contact textarea {
     width: 100%;
     border: 1px solid #CCC;
@@ -511,6 +512,7 @@ fieldset {
 .contact input[type="text"]:hover,
 .contact input[type="email"]:hover,
 .contact input[type="tel"]:hover,
+.contact select:hover,
 .contact textarea:hover {
     -webkit-transition: border-color 0.3s ease-in-out;
     -moz-transition: border-color 0.3s ease-in-out;
@@ -548,7 +550,8 @@ fieldset {
 }
 
 .contact input:focus,
-.contact textarea:focus {
+.contact textarea:focus,
+.contact select:focus {
     outline: 0;
     border: 1px solid #999;
 }
@@ -567,6 +570,14 @@ fieldset {
 
 :-ms-input-placeholder {
     color: #888;
+}
+
+#vraag,
+#mening,
+#bug,
+#bug_page {
+    display: none;
+    margin: none;
 }
 
 /* History */
@@ -950,6 +961,9 @@ h3 {
 }
 
 @media screen and (min-width: 1100px) {
+    main {
+        margin-top: 85px;
+    }
 
     /* History */
     .history-ontstaan {
