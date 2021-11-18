@@ -1,6 +1,8 @@
 <?php
     include_once 'includes/dbh.inc.php';
-    include_once 'includes/product.inc.php';
+    include_once 'includes/search.inc.php';
+    include_once 'includes/filter.inc.php';
+    include_once 'includes/products.inc.php';
 ?>   
 
 <!DOCTYPE html>
@@ -21,14 +23,25 @@
     ?>
 
     <main>
-        <?php
-            
-            $object = new User;
-            echo $object->getAllProducts();
-
-        ?>
-
-        <section>
+        <section class="product-container">
+            <article class="filter-sidebar">
+                <h2>Filter Producten</h2>
+                <form action="producten.php" method="get" class="filter">
+                    <h3>Kies Merk</h3>
+                    <select name="brand">
+                        <option value="0" selected disabled>Kies merk...</option>
+                        <option value="1">Samsung</option>
+                        <option value="2">Apple</option>
+                        <option value="3">Huawei</option>
+                        <option value="4">OnePlus</option>
+                    </select>
+                    <h3>Prijs Range</h3>
+                    <input type="number" name="prijsmin" value="100">
+                    <p>tot</p>
+                    <input type="number" name="prijsmax" value="500">
+                    <input type="submit">
+                </form>
+            </article>
             <article class="product">
                 <ul>
                     <!-- <li>
@@ -36,7 +49,18 @@
                         <a href="#">Loungestoel (beton grijs)</a>
                         <p>€ 116,<sup>00</sup></p>
                     </li> -->
-                    
+                    <?php
+
+                        $object = new Products;
+                        echo $object->getProducts();
+            
+                        // $object1 = new Search;
+                        // echo $object1->searchResult();
+
+                        // $object2 = new Filter;
+                        // echo $object2->filterResult();
+
+                    ?>
                 </ul>
             </article>
         </section>

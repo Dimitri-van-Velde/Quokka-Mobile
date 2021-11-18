@@ -29,13 +29,13 @@
             <article class="carousel-container">
                 <ul class="carousel">
                     <li class="slide" id="samsung">
-                        <a href="samsung.php">
+                        <a href="producten.php?search=Samsung">
                             <video src="videos/samsung.mp4" alt="Samsung Telefoons" autoplay muted loop></video>
                             <p>Samsungs</p>
                         </a>
                     </li>
                     <li class="slide" id="iphone">
-                        <a href="iphone.php">
+                        <a href="producten.php?search=iPhone">
                             <video src="videos/iphone.mp4" alt="iPhone Telefoons" autoplay muted loop></video>
                             <p>iPhones</p>
                         </a>
@@ -45,13 +45,13 @@
             <article class="home-gallery-container">
                 <ul>
                     <li class="tile">
-                        <a href="samsung.php">
+                        <a href="producten.php?search=Samsung">
                             <video src="videos/samsung.mp4" alt="Samsung Telefoons" autoplay muted loop></video>
                             <p>Samsungs</p>
                         </a>
                     </li>
                     <li class="tile">
-                        <a href="iphone.php">
+                        <a href="producten.php?search=iPhone">
                             <video src="videos/iphone.mp4" alt="iPhone Telefoons" autoplay muted loop></video>
                             <p>iPhones</p>
                         </a>

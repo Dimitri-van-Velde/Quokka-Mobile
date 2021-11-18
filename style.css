@@ -362,11 +362,64 @@ footer .button-container {
 
 /* Producten */
 
+.product-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.filter-sidebar {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border: 1px solid #1b1b1b;
+    min-width: 200px;
+    max-width: 200px;
+    height: max-content;
+    min-height: 80vh;
+    margin: 0px 20px 0px 20px;
+}
+
+.filter-sidebar h2 {
+    font-size: 1.2rem;
+    margin: 10px 0px 10px 10px!important;
+    text-align: left!important;
+}
+
+.filter-sidebar h3 {
+    font-size: 1rem;
+    margin: 0px 0px 10px 10px;
+    text-align: left;
+    margin: 5px auto 0 10px;
+    padding-right: 60px;
+}
+
+.filter-sidebar .filter {
+    display: flex;
+    flex-flow: wrap row;
+    justify-content: space-around;
+}
+
+.filter-sidebar .filter input[type="number"] {
+    width: 35%;
+    min-width: 50px;
+    margin: 0px 10px 10px 10px;
+}
+
+.filter-sidebar .filter select {
+    width: 90%;
+    margin: 0px 10px 10px 10px;
+}
+
+.filter-sidebar .filter input[type="submit"] {
+    margin: 5px auto 0 10px;
+}
+
 .product ul {
     display: flex;
     flex-flow: row wrap;
     gap: 1rem;
-    justify-content: center;
+    justify-content: space-between;
+    margin: 0 20px;
 }
 
 .product li {
