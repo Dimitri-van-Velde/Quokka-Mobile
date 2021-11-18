@@ -28,6 +28,7 @@ nav {
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 100;
 }
 
 nav:after {
@@ -144,7 +145,6 @@ input {
 nav ul {
     margin-right: 0px;
     float: left;
-    z-index: 2;
 }
 
 nav ul li,
@@ -251,7 +251,6 @@ footer .button-container {
     display: grid;
     place-content: center;
     text-align: center;
-    z-index: -1;
     background: var(--bg-color);
     margin-top: 25px;
 }
@@ -335,7 +334,6 @@ footer .button-container {
 
 .slide {
     position: relative;
-    z-index: -1;
 }
 
 .slide>a>img {
@@ -457,8 +455,6 @@ form input {
     width: 100%;
     margin: 85px auto 0 auto;
     position: relative;
-    /* Submit button doet het niet, maar zonder komt de nav er onder. */
-    /* z-index: -1; */
 }
 
 .contact {
@@ -679,7 +675,6 @@ h3 {
     .menu {
         display: flex;
         flex-direction: row;
-        z-index: 2;
     }
 
     .show+a {

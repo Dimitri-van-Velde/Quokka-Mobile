@@ -1,3 +1,8 @@
+<?php
+    include_once 'includes/dbh.inc.php';
+    include_once 'includes/product.inc.php';
+?>   
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -16,84 +21,22 @@
     ?>
 
     <main>
+        <?php
+            
+            $object = new User;
+            echo $object->getAllProducts();
+
+        ?>
+
         <section>
             <article class="product">
                 <ul>
-                    <li>
+                    <!-- <li>
                         <a href="#"><img src="images/logo.png" alt="Loungestoel Beton Grijs"></a>
                         <a href="#">Loungestoel (beton grijs)</a>
                         <p>€ 116,<sup>00</sup></p>
-                    </li>
-                    <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Zandkleur"></a>
-                        <a href="#">Loungestoel (zandkleur)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li>
-                    <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Schelpwit"></a>
-                        <a href="#">Loungestoel (schelpwit)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li>
-                    <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Schelpwit"></a>
-                        <a href="#">Loungestoel (schelpwit)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li>
-                    <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Schelpwit"></a>
-                        <a href="#">Loungestoel (schelpwit)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li>
-                    <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Schelpwit"></a>
-                        <a href="#">Loungestoel (schelpwit)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li>
-                    <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Schelpwit"></a>
-                        <a href="#">Loungestoel (schelpwit)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li>
-                    <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Schelpwit"></a>
-                        <a href="#">Loungestoel (schelpwit)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li>
-                    <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Schelpwit"></a>
-                        <a href="#">Loungestoel (schelpwit)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li>
-                    <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Schelpwit"></a>
-                        <a href="#">Loungestoel (schelpwit)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li>
-                    <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Schelpwit"></a>
-                        <a href="#">Loungestoel (schelpwit)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li>
-                    <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Schelpwit"></a>
-                        <a href="#">Loungestoel (schelpwit)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li>
-                    <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Schelpwit"></a>
-                        <a href="#">Loungestoel (schelpwit)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li>
-                    <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Schelpwit"></a>
-                        <a href="#">Loungestoel (schelpwit)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li>
-                    <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Schelpwit"></a>
-                        <a href="#">Loungestoel (schelpwit)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li>
+                    </li> -->
+                    
                 </ul>
             </article>
         </section>

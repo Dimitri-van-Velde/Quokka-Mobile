@@ -15,7 +15,7 @@
     <?php
         include 'nav.html';
     ?>
-
+    
     <main class="home-container">
         <section class="home-text-container">
             <article>
@@ -60,6 +60,7 @@
             </article>
         </section>
     </main>
+
     <?php
         include 'footer.html';
     ?>
