@@ -40,7 +40,6 @@
                         <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
                         <a href=\"producten/$url.php\">$name</a>
                         <p>Prijs: €$price</p>
-                        <p>Schermgrootte: $screensize inch scherm</p>
                     </li>";
 
                 }
@@ -80,7 +79,6 @@
                         <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
                         <a href=\"producten/$url.php\">$name</a>
                         <p>Prijs: €$price</p>
-                        <p>Schermgrootte: $screensize inch scherm</p>
                     </li>";
                 }
 
@@ -119,7 +117,6 @@
                         <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
                         <a href=\"producten/$url.php\">$name</a>
                         <p>Prijs: €$price</p>
-                        <p>Schermgrootte: $screensize inch scherm</p>
                     </li>";
 
                 }
@@ -159,7 +156,6 @@
                         <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
                         <a href=\"producten/$url.php\">$name</a>
                         <p>Prijs: €$price</p>
-                        <p>Schermgrootte: $screensize inch scherm</p>
                     </li>";
 
                 }

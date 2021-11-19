@@ -24,19 +24,16 @@
     ?>
 
     <main>
-        <section>
-            <article class="product">
-                <ul>
+        <section class="product-page-container">
 
-                    <?php
+            <?php
 
-                        // Echo to screen
-                        // Set product id in ()
-                        echo $object->getSingleProduct(7);
+                // Echo to screen
+                // Set product id in ()
+                echo $object->getSingleProduct(7);
 
-                    ?>
-
-                </ul>   
+            ?>
+                 
         </section>
     </main>
 

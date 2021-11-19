@@ -36,9 +36,11 @@
                         <option value="4">OnePlus</option>
                     </select>
                     <h3>Prijs Range</h3>
-                    <input type="number" name="prijsmin" value="100">
-                    <p>tot</p>
-                    <input type="number" name="prijsmax" value="500">
+                    <fieldset class="filter-numbers">
+                        <input type="number" name="prijsmin" value="100">
+                        <p>tot</p>
+                        <input type="number" name="prijsmax" value="2000">
+                    </fieldset>
                     <input type="submit">
                 </form>
             </article>

@@ -24,19 +24,17 @@
     ?>
 
     <main>
-        <section>
-            <article class="product">
-                <ul>
+        <section class="product-page-container">
+            <!-- <a href="javascript:history.go(-1)" class="back-arrow">&LeftArrow;</a> -->
 
-                    <?php
+            <?php
 
-                        // Echo to screen
-                        // Set product id in ()
-                        echo $object->getSingleProduct(1);
+                // Echo to screen
+                // Set product id in ()
+                echo $object->getSingleProduct(1);
 
-                    ?>
-
-                </ul>   
+            ?>
+                 
         </section>
     </main>
 

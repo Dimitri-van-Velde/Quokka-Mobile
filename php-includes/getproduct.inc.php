@@ -20,25 +20,33 @@
                 $name = $results[$i]["name"];
                 $price = $results[$i]["price"];
                 $screensize = $results[$i]["screensize"];
+                $color = $results[$i]["color"];
                 
                 // Replace . with , in price
                 $price = substr_replace($price, ",", strlen($price) -3, 1);
 
-                // Get image URL
+                // Get image and site URL
                 // Make lower case
-                $imgUrl = strtolower($name);
+                $url = strtolower($name);
                 //Make alphanumeric
-                $imgUrl = preg_replace("/[^a-z0-9_\s-]/", "", $imgUrl);
+                $url = preg_replace("/[^a-z0-9_\s-]/", "", $url);
                 //Clean up multiple dashes or whitespaces
-                $imgUrl = preg_replace("/[\s-]+/", " ", $imgUrl);
+                $url = preg_replace("/[\s-]+/", " ", $url);
                 //Convert whitespaces and underscore to dash
-                $imgUrl = preg_replace("/[\s_]/", "-", $imgUrl);
-                echo "<li>
-                    <a href=\"#\"><img src=\"../images/$imgUrl.jpg\" alt=\"$name\"></a>
-                    <a href=\"#\">$name</a>
-                    <p>Prijs: €$price</p>
-                    <p>Schermgrootte: $screensize inch scherm</p>
-                </li>";
+                $url = preg_replace("/[\s_]/", "-", $url);
+                echo "
+                    <a href=\"javascript:history.go(-1)\" class=\"back-arrow\">&LeftArrow; Terug</a>
+                    <article class=\"product-page-image\">
+                        <img src=\"../images/$url.jpg\" alt=\"$name\">
+                    </article>
+                    <article class=\"product-page-info\">
+                        <ul>
+                            <li>Prijs: €$price</li>
+                            <li>Schermgrootte: $screensize inch scherm</li>
+                            <li>Kleur: $color</li>
+                        </ul>
+                    </article>
+                ";
             }
         }
     }
