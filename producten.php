@@ -28,13 +28,15 @@
                 <h2>Filter Producten</h2>
                 <form action="producten.php" method="get" class="filter">
                     <h3>Kies Merk</h3>
-                    <select name="brand">
-                        <option value="0" selected disabled>Kies merk...</option>
-                        <option value="1">Samsung</option>
-                        <option value="2">Apple</option>
-                        <option value="3">Huawei</option>
-                        <option value="4">OnePlus</option>
-                    </select>
+                    <fieldset>
+                        <select name="brand">
+                            <option value="0" selected disabled>Kies merk...</option>
+                            <option value="1">Samsung</option>
+                            <option value="2">Apple</option>
+                            <option value="3">Huawei</option>
+                            <option value="4">OnePlus</option>
+                        </select>
+                    </fieldset>
                     <h3>Prijs Range</h3>
                     <fieldset class="filter-numbers">
                         <input type="number" name="prijsmin" value="100">

@@ -24,6 +24,10 @@
                     
                     // Replace . with , in price
                     $price = substr_replace($price, ",", strlen($price) -3, 1);
+                    // Get numbers after comma
+                    $pricecomma = substr($price, -2);
+                    // Remove after comma
+                    $price = substr($price, 0, -2);
 
                     // Get image and site URL
                     // Make lower case
@@ -39,7 +43,7 @@
                     echo "<li>
                         <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
                         <a href=\"producten/$url.php\">$name</a>
-                        <p>Prijs: €$price</p>
+                        <p>Prijs: €$price<sup>$pricecomma</sup></p>
                     </li>";
 
                 }
@@ -63,6 +67,10 @@
                     
                     // Replace . with , in price
                     $price = substr_replace($price, ",", strlen($price) -3, 1);
+                    // Get numbers after comma
+                    $pricecomma = substr($price, -2);
+                    // Remove after comma
+                    $price = substr($price, 0, -2);
 
                     // Get image and site URL
                     // Make lower case
@@ -78,7 +86,7 @@
                     echo "<li>
                         <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
                         <a href=\"producten/$url.php\">$name</a>
-                        <p>Prijs: €$price</p>
+                        <p>Prijs: €$price<sup>$pricecomma</sup></p>
                     </li>";
                 }
 
@@ -101,6 +109,10 @@
                     
                     // Replace . with , in price
                     $price = substr_replace($price, ",", strlen($price) -3, 1);
+                    // Get numbers after comma
+                    $pricecomma = substr($price, -2);
+                    // Remove after comma
+                    $price = substr($price, 0, -2);
 
                     // Get image and site URL
                     // Make lower case
@@ -116,7 +128,7 @@
                     echo "<li>
                         <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
                         <a href=\"producten/$url.php\">$name</a>
-                        <p>Prijs: €$price</p>
+                        <p>Prijs: €$price<sup>$pricecomma</sup></p>
                     </li>";
 
                 }
@@ -131,8 +143,6 @@
                 // Create product element
                 for($i = 0; $i < count($results); $i++) {
 
-                    // echo $results[$i]["name"]."<br>";
-
                     // Variables
                     $name = $results[$i]["name"];
                     $price = $results[$i]["price"];
@@ -140,6 +150,10 @@
                     
                     // Replace . with , in price
                     $price = substr_replace($price, ",", strlen($price) -3, 1);
+                    // Get numbers after comma
+                    $pricecomma = substr($price, -2);
+                    // Remove after comma
+                    $price = substr($price, 0, -2);
 
                     // Get image and site URL
                     // Make lower case
@@ -155,7 +169,7 @@
                     echo "<li>
                         <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
                         <a href=\"producten/$url.php\">$name</a>
-                        <p>Prijs: €$price</p>
+                        <p>Prijs: €$price<sup>$pricecomma</sup></p>
                     </li>";
 
                 }

@@ -21,9 +21,15 @@
                 $price = $results[$i]["price"];
                 $screensize = $results[$i]["screensize"];
                 $color = $results[$i]["color"];
+                $releasedate = $results[$i]["releasedate"];
                 
                 // Replace . with , in price
                 $price = substr_replace($price, ",", strlen($price) -3, 1);
+                // Get numbers after comma
+                $pricecomma = substr($price, -2);
+                // Remove after comma
+                $price = substr($price, 0, -2);
+
 
                 // Get image and site URL
                 // Make lower case
@@ -41,9 +47,10 @@
                     </article>
                     <article class=\"product-page-info\">
                         <ul>
-                            <li>Prijs: €$price</li>
+                            <li>Prijs: €$price<sup>$pricecomma</sup></li>
                             <li>Schermgrootte: $screensize inch scherm</li>
                             <li>Kleur: $color</li>
+                            <li>Releasedatum: $releasedate</li>
                         </ul>
                     </article>
                 ";
