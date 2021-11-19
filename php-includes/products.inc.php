@@ -25,18 +25,20 @@
                     // Replace . with , in price
                     $price = substr_replace($price, ",", strlen($price) -3, 1);
 
-                    // Get image URL
+                    // Get image and site URL
                     // Make lower case
-                    $imgUrl = strtolower($name);
+                    $url = strtolower($name);
                     //Make alphanumeric
-                    $imgUrl = preg_replace("/[^a-z0-9_\s-]/", "", $imgUrl);
+                    $url = preg_replace("/[^a-z0-9_\s-]/", "", $url);
                     //Clean up multiple dashes or whitespaces
-                    $imgUrl = preg_replace("/[\s-]+/", " ", $imgUrl);
+                    $url = preg_replace("/[\s-]+/", " ", $url);
                     //Convert whitespaces and underscore to dash
-                    $imgUrl = preg_replace("/[\s_]/", "-", $imgUrl);
+                    $url = preg_replace("/[\s_]/", "-", $url);
+
+                    // Echo to screen
                     echo "<li>
-                        <a href=\"#\"><img src=\"images/$imgUrl.jpg\" alt=\"$name\"></a>
-                        <a href=\"#\">$name</a>
+                        <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
+                        <a href=\"producten/$url.php\">$name</a>
                         <p>Prijs: €$price</p>
                         <p>Schermgrootte: $screensize inch scherm</p>
                     </li>";
@@ -63,18 +65,20 @@
                     // Replace . with , in price
                     $price = substr_replace($price, ",", strlen($price) -3, 1);
 
-                    // Get image URL
+                    // Get image and site URL
                     // Make lower case
-                    $imgUrl = strtolower($name);
+                    $url = strtolower($name);
                     //Make alphanumeric
-                    $imgUrl = preg_replace("/[^a-z0-9_\s-]/", "", $imgUrl);
+                    $url = preg_replace("/[^a-z0-9_\s-]/", "", $url);
                     //Clean up multiple dashes or whitespaces
-                    $imgUrl = preg_replace("/[\s-]+/", " ", $imgUrl);
+                    $url = preg_replace("/[\s-]+/", " ", $url);
                     //Convert whitespaces and underscore to dash
-                    $imgUrl = preg_replace("/[\s_]/", "-", $imgUrl);
+                    $url = preg_replace("/[\s_]/", "-", $url);
+                    
+                    // Echo to screen
                     echo "<li>
-                        <a href=\"#\"><img src=\"images/$imgUrl.jpg\" alt=\"$name\"></a>
-                        <a href=\"#\">$name</a>
+                        <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
+                        <a href=\"producten/$url.php\">$name</a>
                         <p>Prijs: €$price</p>
                         <p>Schermgrootte: $screensize inch scherm</p>
                     </li>";
@@ -100,18 +104,20 @@
                     // Replace . with , in price
                     $price = substr_replace($price, ",", strlen($price) -3, 1);
 
-                    // Get image URL
+                    // Get image and site URL
                     // Make lower case
-                    $imgUrl = strtolower($name);
+                    $url = strtolower($name);
                     //Make alphanumeric
-                    $imgUrl = preg_replace("/[^a-z0-9_\s-]/", "", $imgUrl);
+                    $url = preg_replace("/[^a-z0-9_\s-]/", "", $url);
                     //Clean up multiple dashes or whitespaces
-                    $imgUrl = preg_replace("/[\s-]+/", " ", $imgUrl);
+                    $url = preg_replace("/[\s-]+/", " ", $url);
                     //Convert whitespaces and underscore to dash
-                    $imgUrl = preg_replace("/[\s_]/", "-", $imgUrl);
+                    $url = preg_replace("/[\s_]/", "-", $url);
+
+                    // Echo to screen
                     echo "<li>
-                        <a href=\"#\"><img src=\"images/$imgUrl.jpg\" alt=\"$name\"></a>
-                        <a href=\"#\">$name</a>
+                        <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
+                        <a href=\"producten/$url.php\">$name</a>
                         <p>Prijs: €$price</p>
                         <p>Schermgrootte: $screensize inch scherm</p>
                     </li>";
@@ -138,18 +144,20 @@
                     // Replace . with , in price
                     $price = substr_replace($price, ",", strlen($price) -3, 1);
 
-                    // Get image URL
+                    // Get image and site URL
                     // Make lower case
-                    $imgUrl = strtolower($name);
+                    $url = strtolower($name);
                     //Make alphanumeric
-                    $imgUrl = preg_replace("/[^a-z0-9_\s-]/", "", $imgUrl);
+                    $url = preg_replace("/[^a-z0-9_\s-]/", "", $url);
                     //Clean up multiple dashes or whitespaces
-                    $imgUrl = preg_replace("/[\s-]+/", " ", $imgUrl);
+                    $url = preg_replace("/[\s-]+/", " ", $url);
                     //Convert whitespaces and underscore to dash
-                    $imgUrl = preg_replace("/[\s_]/", "-", $imgUrl);
+                    $url = preg_replace("/[\s_]/", "-", $url);
+
+                    // Echo to screen
                     echo "<li>
-                        <a href=\"#\"><img src=\"images/$imgUrl.jpg\" alt=\"$name\"></a>
-                        <a href=\"#\">$name</a>
+                        <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
+                        <a href=\"producten/$url.php\">$name</a>
                         <p>Prijs: €$price</p>
                         <p>Schermgrootte: $screensize inch scherm</p>
                     </li>";

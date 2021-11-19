@@ -1,8 +1,8 @@
 <?php
-    include_once 'includes/dbh.inc.php';
-    include_once 'includes/search.inc.php';
-    include_once 'includes/filter.inc.php';
-    include_once 'includes/products.inc.php';
+    include_once 'php-includes/dbh.inc.php';
+    include_once 'php-includes/search.inc.php';
+    include_once 'php-includes/filter.inc.php';
+    include_once 'php-includes/products.inc.php';
 ?>   
 
 <!DOCTYPE html>
