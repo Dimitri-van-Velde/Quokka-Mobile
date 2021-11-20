@@ -9,9 +9,10 @@
                 </label>
             </article>
             <article class="searchbar">
-                <form action="../producten.php" method="get">
-                    <input type="text" name="search" placeholder="Waar ben je naar op zoek?">
+                <form action="../producten.php" method="get" autocomplete="off">
+                    <input type="text" name="search" placeholder="Waar ben je naar op zoek?" onkeyup="javascript:load_data(this.value)">
                     <button type="submit"><img src="../images/magnifying-glass.png" alt="Search"></button>
+                    <span id="search_result" class="search-result"></span>
                 </form>
             </article>
             <input type="checkbox" id="btn">
@@ -51,10 +52,80 @@
             </article>
         </section>
         <article class="searchbar2">
-            <form action="../producten.php" method="get">
-                <input type="text" name="search" placeholder="Waar ben je naar op zoek?">
+            <form action="../producten.php" method="get" autocomplete="off">
+                <input type="text" name="search" placeholder="Waar ben je naar op zoek?" onkeyup="javascript:load_data(this.value)">
                 <button type="submit"><img src="../images/magnifying-glass.png" alt="Search"></button>
+                <span id="search_result1" class="search-result search-result1"></span>
             </form>
         </article>
     </nav>
+    <script>
+
+        function load_data(query) {
+
+            if(query.length > 2) {
+
+                let sanitizedQuery = query.replace(/(<([^>]+)>)/gi, "");
+
+                var form_data = new FormData();
+                form_data.append("query", sanitizedQuery);
+
+                var ajax_request = new XMLHttpRequest();
+                
+                ajax_request.open("POST", "../php-includes/search.inc.php");
+                ajax_request.send(form_data);
+
+                ajax_request.onreadystatechange = function() {
+
+                    if(ajax_request.readyState == 4 && ajax_request.status == 200) {
+
+                        var response = JSON.parse(ajax_request.responseText);
+
+                        console.log(response.name);
+
+                        var html = "<article class=\"list-group\">";
+
+                        if(response.length > 0) {
+                            
+                            html += "<a href=\"../producten.php?search="+sanitizedQuery+"\" class=\"list-group-item\">"+
+                                "<p>Zoek naar: \""+sanitizedQuery+"\"</p></a>";
+
+                            for(var count = 0; count < response.length; count++) {
+
+                                var url;
+                                var name = response[count].name;
+
+                                console.log(name);
+
+                                var cleanName = name.replace(/<\/?[^>]+(>|$)/g, "");
+
+                                console.log(cleanName);
+
+                                var url = cleanName.replace(/\s+/g, '-').toLowerCase();
+
+                                console.log(url);
+
+                                html += "<a href=\"../producten/"+url+".php\" class=\"list-group-item\"><img src=\"../images/"+url+".jpg\" alt=\""+name+"\"></img>"+
+                                    "<p>"+name+"</p></a>";
+                            }
+
+                        } else {
+                            html += "<a href=\"../producten.php?search="+sanitizedQuery+"\" class=\"list-group-item\">"+
+                                "<p>Zoek naar: \""+sanitizedQuery+"\"</p></a>";
+                        }
+
+                        html += "</article>";    
+
+                        document.getElementById("search_result").innerHTML = html;
+                        document.getElementById("search_result1").innerHTML = html;
+                    }
+
+                }
+            } else {
+                document.getElementById("search_result").innerHTML = "";
+                document.getElementById("search_result1").innerHTML = "";
+            }
+        }
+
+    </script>
 </header>

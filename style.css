@@ -41,6 +41,7 @@ nav:after {
 .searchbar {
     display: flex;
     justify-content: center;
+    position: relative;
 }
 
 .searchbar form {
@@ -82,6 +83,102 @@ nav:after {
 .searchbar2 {
     display: none;
 }
+
+.search-result {
+    position: absolute;
+    top: 56px;
+    width: 90%;
+}
+
+.list-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.list-group-item {
+    border-bottom: 1px solid #1b1b1b;
+    border-left: 1px solid #1b1b1b;
+    border-right: 1px solid #1b1b1b;
+    background: white;
+    padding: 13px;
+    line-height: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-decoration: none;
+}
+
+.list-group-item:hover {
+    background: #CCC;
+}
+
+.list-group-item:first-child:hover::before {
+    content: "";
+    position: absolute;
+    box-shadow: 0 10px 0 0 #CCC;
+    top: -50px;
+    left: 0;
+    height: 50px;
+    width: 10px;
+    border-bottom-left-radius: 8px;
+}
+
+.list-group-item:first-child:hover::after {
+    content: "";
+    position: absolute;
+    box-shadow: 0 10px 0 0 #CCC;
+    top: -50px;
+    right: 0;
+    height: 50px;
+    width: 10px;
+    border-bottom-right-radius: 8px;
+}
+
+.list-group-item p {
+    color: black;
+}
+
+.list-group-item img {
+    height: 50px!important;
+    margin: 0 10px 0 0!important;
+}
+
+.list-group-item:first-child {
+    border-top: 1px solid #1b1b1b;
+    position: relative;
+}
+
+.list-group-item:first-child::before {
+    content: "";
+    position: absolute;
+    box-shadow: 0 10px 0 0 white;
+    top: -50px;
+    left: 0;
+    height: 50px;
+    width: 10px;
+    border-bottom-left-radius: 8px;
+}
+
+.list-group-item:first-child::after {
+    content: "";
+    position: absolute;
+    box-shadow: 0 10px 0 0 white;
+    top: -50px;
+    right: 0;
+    height: 50px;
+    width: 10px;
+    border-bottom-right-radius: 8px;
+}
+
+.list-group-item:last-child {
+    border-radius: 0 0 10px 10px;
+}
+
+.search-result1 {
+    top: 126px;
+}
+
+/* Nav */
 
 .logo {
     display: flex;
@@ -859,6 +956,8 @@ h3 {
     .searchbar2 button:hover {
         cursor: pointer;
     }
+
+    /* Nav */
 
     nav ul {
         display: flex;

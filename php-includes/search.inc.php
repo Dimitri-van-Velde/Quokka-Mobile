@@ -1,87 +1,53 @@
 <?php
 
-    class Search extends Dbh {
+    if(isset($_POST["query"])) {
 
-        // Get Products Function
-        public function searchResult() {
+        // Variable Information
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "quokka_mobile";
+        $charset = "utf8mb4";
 
-            // Check if searchbar is used
-            if(isset($_GET["search"])) {
-                
-                // Database Query
-                $stmt = $this->connect()->prepare("SELECT * FROM `products` WHERE `name` LIKE :user_input");
-                $parameters = array(":user_input" => "%".$_GET["search"]."%");
-                $stmt->execute($parameters);
-                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // Connect to database
+        $dsn = "mysql:host=".$servername.";dbname=".$dbname.";charset=".$charset;
+        $connect = new PDO($dsn, $username, $password);
 
-                // Create product element
-                for($i = 0; $i < count($results); $i++) {
+        // Set data array
+        $data = array();
 
-                    // Variables
-                    $name = $results[$i]["name"];
-                    $price = $results[$i]["price"];
-                    $screensize = $results[$i]["screensize"];
-                    
-                    // Replace . with , in price
-                    $price = substr_replace($price, ",", strlen($price) -3, 1);
+        // Replace special chars
+        $condition = preg_replace("/[^A-Za-z0-9\- ]/", "", $_POST["query"]);
 
-                    // Get image URL
-                    // Make lower case
-                    $imgUrl = strtolower($name);
-                    //Make alphanumeric
-                    $imgUrl = preg_replace("/[^a-z0-9_\s-]/", "", $imgUrl);
-                    //Clean up multiple dashes or whitespaces
-                    $imgUrl = preg_replace("/[\s-]+/", " ", $imgUrl);
-                    //Convert whitespaces and underscore to dash
-                    $imgUrl = preg_replace("/[\s_]/", "-", $imgUrl);
-                    echo "<li>
-                        <a href=\"#\"><img src=\"images/$imgUrl.jpg\" alt=\"$name\"></a>
-                        <a href=\"#\">$name</a>
-                        <p>Prijs: €$price</p>
-                        <p>Schermgrootte: $screensize inch scherm</p>
-                    </li>";
+        // Query
+        $query = "
+        SELECT `name` FROM `products` 
+            WHERE `name` LIKE \"%".$condition."%\"
+            ORDER BY `idproduct` DESC
+            LIMIT 3
+        ";
 
-                }
-            } else {
+        $result = $connect->query($query);
 
-                // Database Query
-                $stmt = $this->connect()->prepare("SELECT * FROM `products`");
-                $stmt->execute();
-                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $replace_string = "<b>".$condition."</b>";
 
-                // Create product element
-                for($i = 0; $i < count($results); $i++) {
+        // Put result into array
+        foreach($result as $row) {
 
-                    // echo $results[$i]["name"]."<br>";
+            //var_dump($row["name"]);
 
-                    // Variables
-                    $name = $results[$i]["name"];
-                    $price = $results[$i]["price"];
-                    $screensize = $results[$i]["screensize"];
-                    
-                    // Replace . with , in price
-                    $price = substr_replace($price, ",", strlen($price) -3, 1);
-
-                    // Get image URL
-                    // Make lower case
-                    $imgUrl = strtolower($name);
-                    //Make alphanumeric
-                    $imgUrl = preg_replace("/[^a-z0-9_\s-]/", "", $imgUrl);
-                    //Clean up multiple dashes or whitespaces
-                    $imgUrl = preg_replace("/[\s-]+/", " ", $imgUrl);
-                    //Convert whitespaces and underscore to dash
-                    $imgUrl = preg_replace("/[\s_]/", "-", $imgUrl);
-                    echo "<li>
-                        <a href=\"#\"><img src=\"images/$imgUrl.jpg\" alt=\"$name\"></a>
-                        <a href=\"#\">$name</a>
-                        <p>Prijs: €$price</p>
-                        <p>Schermgrootte: $screensize inch scherm</p>
-                    </li>";
-
-                }
-            }
+            $data[] = array(
+                //'name' => $row["name"]
+                "name" => str_ireplace($condition, $replace_string, $row["name"])
+            );
 
         }
+
+        // var_dump($data);
+
+        // Send back as json
+        echo json_encode($data);
+
     }
 
 ?>
