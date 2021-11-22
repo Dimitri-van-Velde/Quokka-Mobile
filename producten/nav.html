@@ -61,15 +61,20 @@
     </nav>
     <script>
 
+        // Load Data funcion
         function load_data(query) {
 
+            // Check if input is 3 or longer
             if(query.length > 2) {
 
+                // Remove HTML tags from input
                 let sanitizedQuery = query.replace(/(<([^>]+)>)/gi, "");
 
+                // Create FormData element
                 var form_data = new FormData();
                 form_data.append("query", sanitizedQuery);
 
+                // Open ajax connection to search.inc.php
                 var ajax_request = new XMLHttpRequest();
                 
                 ajax_request.open("POST", "../php-includes/search.inc.php");
@@ -77,51 +82,65 @@
 
                 ajax_request.onreadystatechange = function() {
 
+                    // Run code if connection was successful
                     if(ajax_request.readyState == 4 && ajax_request.status == 200) {
 
+                        // Parse the returned JSON
                         var response = JSON.parse(ajax_request.responseText);
 
-                        console.log(response.name);
+                        //console.log(response.name);
 
+                        // Create HTML element
                         var html = "<article class=\"list-group\">";
 
+                        // Check if something was found
                         if(response.length > 0) {
                             
+                            // Append standard search result
                             html += "<a href=\"../producten.php?search="+sanitizedQuery+"\" class=\"list-group-item\">"+
                                 "<p>Zoek naar: \""+sanitizedQuery+"\"</p></a>";
 
+                            // Append other search results
                             for(var count = 0; count < response.length; count++) {
 
+                                // Variables
                                 var url;
                                 var name = response[count].name;
 
-                                console.log(name);
+                                //console.log(name);
 
+                                // Remove special characters
                                 var cleanName = name.replace(/<\/?[^>]+(>|$)/g, "");
 
-                                console.log(cleanName);
+                                //console.log(cleanName);
 
+                                // Turn spaces into dashes
                                 var url = cleanName.replace(/\s+/g, '-').toLowerCase();
 
-                                console.log(url);
+                                //console.log(url);
 
+                                // Append to element
                                 html += "<a href=\"../producten/"+url+".php\" class=\"list-group-item\"><img src=\"../images/"+url+".jpg\" alt=\""+name+"\"></img>"+
                                     "<p>"+name+"</p></a>";
                             }
 
                         } else {
+                            // Append standard search result
                             html += "<a href=\"../producten.php?search="+sanitizedQuery+"\" class=\"list-group-item\">"+
                                 "<p>Zoek naar: \""+sanitizedQuery+"\"</p></a>";
                         }
 
+                        // Close html element
                         html += "</article>";    
 
+                        // Set innerHTML to element value
                         document.getElementById("search_result").innerHTML = html;
                         document.getElementById("search_result1").innerHTML = html;
                     }
 
                 }
             } else {
+                // Set innerHTML to element value
                 document.getElementById("search_result").innerHTML = "";
                 document.getElementById("search_result1").innerHTML = "";
             }
