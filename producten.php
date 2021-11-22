@@ -47,6 +47,21 @@
                 </form>
             </article>
             <article class="product">
+                <form action="producten.php" method="get" class="sort">
+                    <label for="sort">Sorteren op: </label>
+                    <select name="sort" id="sort" onchange="(sort(this.value))">
+                        <!-- Populariteit -->
+                        <option value="popularity">Populariteit</option>
+                        <!-- Release lowest to highest -->
+                        <option value="priceLtH">Prijs: laag - hoog</option>
+                        <!-- Release highest to lowest -->
+                        <option value="priceHtL">Prijs hoog - laag</option>
+                        <!-- Release newest to oldest -->
+                        <option value="releaseNtO">Nieuwste</option>
+                        <!-- Release oldest to newest -->
+                        <option value="releaseOtN">Oudste</option>
+                    </select>
+                </form>
                 <ul>
                     <!-- <li>
                         <a href="#"><img src="images/logo.png" alt="Loungestoel Beton Grijs"></a>
@@ -67,6 +82,12 @@
                     ?>
                 </ul>
             </article>
+            <script>
+
+                function sort(value) {
+                    console.log(value);
+                }
+            </script>
         </section>
     </main>
 

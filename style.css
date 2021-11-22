@@ -459,6 +459,12 @@ footer .button-container {
 
 /* Producten */
 
+.sort {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+}
+
 .back-arrow {
     text-decoration: none;
     color: black;
@@ -538,12 +544,16 @@ footer .button-container {
     margin: 5px auto 0 10px;
 }
 
+.product {
+    width: 100%;
+}
+
 .product ul {
     display: flex;
     flex-flow: row wrap;
     gap: 1rem;
     justify-content: center;
-    margin: 0 20px;
+    margin: 20px;
 }
 
 .product li {
