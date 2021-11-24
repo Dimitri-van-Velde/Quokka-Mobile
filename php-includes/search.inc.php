@@ -1,17 +1,13 @@
 <?php
 
+include_once 'dbh.inc.php';
+
+$dbh = new Dbh;
+
     if(isset($_POST["query"])) {
 
-        // Variable Information
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "quokka_mobile";
-        $charset = "utf8mb4";
-
         // Connect to database
-        $dsn = "mysql:host=".$servername.";dbname=".$dbname.";charset=".$charset;
-        $connect = new PDO($dsn, $username, $password);
+        $dsn = $dbh->connect();
 
         // Set data array
         $data = array();
@@ -27,7 +23,7 @@
             LIMIT 3
         ";
 
-        $result = $connect->query($query);
+        $result = $dsn->query($query);
 
         $replace_string = "<b>".$condition."</b>";
 

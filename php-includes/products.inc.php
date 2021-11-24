@@ -19,9 +19,6 @@
 
                     // Create product element
                     for($i = 0; $i < count($results); $i++) {
-
-                        // Strip tags from input
-                        $strippedInput = strip_tags($_GET["search"]); 
                     
                         // Variables
                         $name = $results[$i]["name"];
