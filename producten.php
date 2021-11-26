@@ -72,6 +72,7 @@
                 function default_list(){
 
                     window.history.replaceState({}, null, "http://localhost/quokka_mobile/producten.php");
+                    document.title = "Producten";
 
                     // Variable
                     var default_list = "popularity";

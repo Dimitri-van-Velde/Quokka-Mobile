@@ -19,6 +19,11 @@
                 // Check if something is found
                 if($results != null) { 
 
+                    echo "<script>
+                        document.title = \"Zoekresultaten voor \\\"$strippedInput\\\"\";
+                    </script>
+                    ";
+
                     // Create product element
                     for($i = 0; $i < count($results); $i++) {
 
@@ -53,6 +58,10 @@
 
                     }
                 } else {
+                    echo "<script>
+                        document.title = \"Zoekresultaten voor \\\"$strippedInput\\\"\";
+                    </script>
+                    ";
                     echo "<p>Geen resultaten gevonden voor: <b>".$strippedInput."</b></p>";
                 }
 
