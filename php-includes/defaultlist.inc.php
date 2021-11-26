@@ -15,6 +15,7 @@ $dbh = new Dbh;
         // Query
         $query = "
         SELECT * FROM `products`
+            ORDER BY `sold` DESC
         ";
 
         $result = $dsn->query($query);

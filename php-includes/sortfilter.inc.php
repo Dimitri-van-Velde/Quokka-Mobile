@@ -17,47 +17,76 @@ $dbh = new Dbh;
         $brand = $_POST["current_brand"];
 
         // Set query based on brand value
-        if($_POST["sort"] == "popularity" && $_POST["current_brand"] == "0") {
+        if($brand == 0) {
+            if($_POST["sort"] == "popularity") {
 
-            $query = "
-            SELECT * FROM `products`
-            ";
-        } elseif($_POST["sort"] == "popularity") {
+                $query = "
+                SELECT * FROM `products`
+                    ORDER BY `sold` DESC
+                ";
+            } elseif($_POST["sort"] == "priceLtH") {
 
-            $query = "
-            SELECT * FROM `products`
-                WHERE `idbrand` = $brand
-                ORDER BY `sold` DESC
-            ";
-        } elseif($_POST["sort"] == "priceLtH") {
+                $query = "
+                SELECT * FROM `products`
+                    ORDER BY `price` ASC
+                ";
+            } elseif($_POST["sort"] == "priceHtL") {
 
-            $query = "
-            SELECT * FROM `products`
-                WHERE `idbrand` = $brand
-                ORDER BY `price` ASC
-            ";
-        } elseif($_POST["sort"] == "priceHtL") {
+                $query = "
+                SELECT * FROM `products`
+                    ORDER BY `price` DESC
+                ";
+            } elseif($_POST["sort"] == "releaseNtO") {
 
-            $query = "
-            SELECT * FROM `products`
-                WHERE `idbrand` = $brand
-                ORDER BY `price` DESC
-            ";
-        } elseif($_POST["sort"] == "releaseNtO") {
+                $query = "
+                SELECT * FROM `products`
+                    ORDER BY `releasedate` DESC
+                ";
+            } elseif($_POST["sort"] == "releaseOtN") {
 
-            $query = "
-            SELECT * FROM `products`
-                WHERE `idbrand` = $brand
-                ORDER BY `releasedate` DESC
-            ";
-        } elseif($_POST["sort"] == "releaseOtN") {
+                $query = "
+                SELECT * FROM `products`
+                    ORDER BY `releasedate` ASC
+                ";
+            }
+        } else {
+            if($_POST["sort"] == "popularity") {
 
-            $query = "
-            SELECT * FROM `products`
-                WHERE `idbrand` = $brand
-                ORDER BY `releasedate` ASC
-            ";
-        } 
+                $query = "
+                SELECT * FROM `products`
+                    WHERE `idbrand` = $brand
+                    ORDER BY `sold` DESC
+                ";
+            } elseif($_POST["sort"] == "priceLtH") {
+
+                $query = "
+                SELECT * FROM `products`
+                    WHERE `idbrand` = $brand
+                    ORDER BY `price` ASC
+                ";
+            } elseif($_POST["sort"] == "priceHtL") {
+
+                $query = "
+                SELECT * FROM `products`
+                    WHERE `idbrand` = $brand
+                    ORDER BY `price` DESC
+                ";
+            } elseif($_POST["sort"] == "releaseNtO") {
+
+                $query = "
+                SELECT * FROM `products`
+                    WHERE `idbrand` = $brand
+                    ORDER BY `releasedate` DESC
+                ";
+            } elseif($_POST["sort"] == "releaseOtN") {
+
+                $query = "
+                SELECT * FROM `products`
+                    WHERE `idbrand` = $brand
+                    ORDER BY `releasedate` ASC
+                ";
+            } 
+        }
 
         $result = $dsn->query($query);
 

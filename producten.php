@@ -1,8 +1,6 @@
 <?php
-    // include_once 'php-includes/dbh.inc.php';
-    // include_once 'php-includes/search.inc.php';
-    // include_once 'php-includes/filter.inc.php';
-    //include_once 'php-includes/products.inc.php';
+    include_once 'php-includes/dbh.inc.php';
+    include_once 'php-includes/products.inc.php';
 ?>   
 
 <!DOCTYPE html>
@@ -58,31 +56,22 @@
                     </select>
                 </form>
                 <ul id="product-ul">
-                    <!-- <li>
-                        <a href="#"><img src="images/logo.png" alt="Loungestoel Beton Grijs"></a>
-                        <a href="#">Loungestoel (beton grijs)</a>
-                        <p>€ 116,<sup>00</sup></p>
-                    </li> -->
                     <?php
 
-                        // $object = new Products;
-                        // echo $object->getProducts();
-            
-                        // $object1 = new Search;
-                        // echo $object1->searchResult();
-
-                        // $object2 = new Filter;
-                        // echo $object2->filterResult();
+                        $object = new Products;
+                        echo $object->getProducts();
 
                     ?>
                 </ul>
             </article>
             <script>
 
-                default_list();
+                //default_list();
 
                 // Default function
                 function default_list(){
+
+                    window.history.replaceState({}, null, "http://localhost/quokka_mobile/producten.php");
 
                     // Variable
                     var default_list = "popularity";
