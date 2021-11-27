@@ -41,7 +41,7 @@
                 //Convert whitespaces and underscore to dash
                 $url = preg_replace("/[\s_]/", "-", $url);
                 echo "
-                    <a href=\"javascript:history.go(-1)\" class=\"back-arrow\">&LeftArrow; Terug</a>
+                    <a href=\"javascript:history.back()\" class=\"back-arrow\">&LeftArrow; Terug</a>
                     <article class=\"product-page-image\">
                         <img src=\"../images/$url.jpg\" alt=\"$name\">
                     </article>
