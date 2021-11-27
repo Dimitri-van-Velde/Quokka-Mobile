@@ -28,10 +28,10 @@
                         <input placeholder="Achternaam" name="achternaam" id="achternaam" type="text" tabindex="2" required>
                     </fieldset>
                     <fieldset>
-                        <input placeholder="Uw Email Adres" name="email" id="email" type="email" tabindex="3" required>
+                        <input placeholder="Uw Emailadres" name="email" id="email" type="email" tabindex="3" required>
                     </fieldset>
                     <fieldset>
-                        <input placeholder="Uw Telefoon Nummer" name="tel" id="tel" type="tel" pattern="[0-9]{10}" tabindex="4"
+                        <input placeholder="Uw Telefoonnummer" name="tel" id="tel" type="tel" pattern="[0-9]{10}" tabindex="4"
                             required>
                     </fieldset>
                     <fieldset>
@@ -121,11 +121,11 @@
                                             "value" => $aNaam
                                         ],
                                         [
-                                            "name" => "Email Adres: ",
+                                            "name" => "Emailadres: ",
                                             "value" => $email
                                         ],
                                         [
-                                            "name" => "Telefoon Nummer: ",
+                                            "name" => "Telefoonnummer: ",
                                             "value" => $tel
                                         ],
                                         [
@@ -194,11 +194,11 @@
                                             "value" => $aNaam
                                         ],
                                         [
-                                            "name" => "Email Adres: ",
+                                            "name" => "Emailadres: ",
                                             "value" => $email
                                         ],
                                         [
-                                            "name" => "Telefoon Nummer: ",
+                                            "name" => "Telefoonnummer: ",
                                             "value" => $tel
                                         ],
                                         [
@@ -267,11 +267,11 @@
                                             "value" => $aNaam
                                         ],
                                         [
-                                            "name" => "Email Adres: ",
+                                            "name" => "Emailadres: ",
                                             "value" => $email
                                         ],
                                         [
-                                            "name" => "Telefoon Nummer: ",
+                                            "name" => "Telefoonnummer: ",
                                             "value" => $tel
                                         ],
                                         [
