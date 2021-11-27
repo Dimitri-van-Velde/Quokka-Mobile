@@ -19,7 +19,7 @@ $dbh = new Dbh;
         $query = "
         SELECT `name` FROM `products` 
             WHERE `name` LIKE \"%".$condition."%\"
-            ORDER BY `idproduct` DESC
+            ORDER BY `sold` DESC
             LIMIT 3
         ";
 

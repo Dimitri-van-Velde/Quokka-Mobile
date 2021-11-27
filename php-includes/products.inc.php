@@ -37,7 +37,7 @@
                         // Get numbers after comma
                         $pricecomma = substr($price, -2);
                         // Remove after comma
-                        $price = substr($price, 0, -2);
+                        //$price = substr($price, 0, -2);
 
                         // Get image and site URL
                         // Make lower case
@@ -53,7 +53,7 @@
                         echo "<li>
                             <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
                             <a href=\"producten/$url.php\">$name</a>
-                            <p>Prijs: €$price<sup>$pricecomma</sup></p>
+                            <p>Prijs: €$price</p>
                         </li>";
 
                     }
@@ -89,7 +89,7 @@
                         // Get numbers after comma
                         $pricecomma = substr($price, -2);
                         // Remove after comma
-                        $price = substr($price, 0, -2);
+                        //$price = substr($price, 0, -2);
 
                         // Get image and site URL
                         // Make lower case
@@ -105,7 +105,7 @@
                         echo "<li>
                             <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
                             <a href=\"producten/$url.php\">$name</a>
-                            <p>Prijs: €$price<sup>$pricecomma</sup></p>
+                            <p>Prijs: €$price</p>
                         </li>";
 
                     }

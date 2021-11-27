@@ -64,9 +64,23 @@
                     ?>
                 </ul>
             </article>
+
+            <?php
+
+                $searchValue;
+
+                if(isset($_GET["search"])){ 
+                    $searchValue = $_GET["search"];
+                } else {
+                    $searchValue = "";
+                }  
+            ?>
+
             <script>
 
                 //default_list();
+
+                //console.log("<?php //Print($_GET["search"]) ?>");
 
                 // Default function
                 function default_list(){
@@ -145,7 +159,7 @@
                 // Get brand function
                 function get_brand(brand) {
                     var current_sort = document.getElementById("sort").value;
-                    console.log(current_sort);
+                    //console.log(current_sort);
 
                     //console.log(brand);
 
@@ -215,12 +229,15 @@
                 // Get sort function
                 function get_sort(sort) {
                     var current_brand = document.getElementById("brand").value;
-                    console.log(current_brand);
+                    var current_search =  "<?php Print($searchValue)?>";
+                    //console.log(current_search);
+                    //console.log(current_brand);
 
                     // Create FormData element
                     var form_data = new FormData();
                     form_data.append("sort", sort);
                     form_data.append("current_brand", current_brand);
+                    form_data.append("current_search", current_search);
 
                     // Open ajax connection to search.inc.php
                     var ajax_request = new XMLHttpRequest();

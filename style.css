@@ -481,6 +481,7 @@ footer .button-container {
 
 .product-page-image img {
     width: 300px;
+    mix-blend-mode: multiply;
 }
 
 .product-page-info {
@@ -566,22 +567,24 @@ footer .button-container {
     background: #d6d6d6;
     border: 1px solid black;
     border-radius: 15px;
-    width: 75vw;
+    width: 290px;
     height: max-content;
 }
 
 .product a,
 .product p {
     align-self: flex-start;
-    margin-left: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 .product img {
     height: 400px;
+    width: 100%;
     object-fit: scale-down;
-    border-radius: 15px;
+    /* border-radius: 15px;
     border: 1px solid #c6c6c6;
-    box-shadow: 3px 3px 3px #c2c2c2;
+    box-shadow: 3px 3px 3px #c2c2c2; */
     mix-blend-mode: multiply;
     transition: all .2s ease-in-out;
 }
