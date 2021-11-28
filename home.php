@@ -26,38 +26,60 @@
             </article>
         </section>
         <section>
-            <article class="carousel-container">
-                <ul class="carousel">
-                    <li class="slide" id="samsung">
-                        <a href="producten.php?search=Samsung">
-                            <video src="videos/samsung.mp4" alt="Samsung Telefoons" autoplay muted loop></video>
-                            <p>Samsungs</p>
-                        </a>
-                    </li>
-                    <li class="slide" id="iphone">
-                        <a href="producten.php?search=iPhone">
-                            <video src="videos/iphone.mp4" alt="iPhone Telefoons" autoplay muted loop></video>
-                            <p>iPhones</p>
-                        </a>
-                    </li>
+            <article>
+                <ul id="home-ul">
+                    
                 </ul>
             </article>
-            <article class="home-gallery-container">
-                <ul>
-                    <li class="tile">
-                        <a href="producten.php?search=Samsung">
-                            <video src="videos/samsung.mp4" alt="Samsung Telefoons" autoplay muted loop></video>
-                            <p>Samsungs</p>
-                        </a>
-                    </li>
-                    <li class="tile">
-                        <a href="producten.php?search=iPhone">
-                            <video src="videos/iphone.mp4" alt="iPhone Telefoons" autoplay muted loop></video>
-                            <p>iPhones</p>
-                        </a>
-                    </li>
-                </ul>
-            </article>
+            <script>
+                homeProducts();
+                function homeProducts(){
+                    var home = "home";
+                    // Create FormData element
+                    var form_data = new FormData();
+                    form_data.append("home", home);
+                    // Open ajax connection to search.inc.php
+                    var ajax_request = new XMLHttpRequest();
+            
+                    ajax_request.open("POST", "php-includes/home.inc.php");
+                    ajax_request.send(form_data);
+                    ajax_request.onreadystatechange = function() {
+                        // Run code if connection was successful
+                        if(ajax_request.readyState == 4 && ajax_request.status == 200) {
+                            // Parse the returned JSON
+                            var response = JSON.parse(ajax_request.responseText);
+                            // Create HTML element
+                            html = "";
+                            // Check if something was found
+                            if(response.length > 0) {
+                                // Create li elements
+                                for(var count = 0; count < response.length; count++) {
+                                    // Variables
+                                    var url;
+                                    var name = response[count].name;
+                                    var price = response[count].price;
+                                    var priceWithComma = price.replace(".", ",")
+                                    //console.log(name);
+                                    // Remove special characters
+                                    var cleanName = name.replace(/<\/?[^>]+(>|$)/g, "");
+                                    //console.log(cleanName);
+                                    // Turn spaces into dashes
+                                    var url = cleanName.replace(/\s+/g, '-').toLowerCase();
+                                    //console.log(url);
+                                    // Append li's
+                                    html += "<li>" +
+                                    "<a href=\"producten/"+url+".php\"><img src=\"images/"+url+".jpg\" alt=\""+name+"\"></a>" +
+                                    "<a href=\"producten/"+url+".php\">"+name+"</a>" +
+                                    "<p>Prijs: €"+priceWithComma+"</p>" +
+                                "</li>";
+                                }
+                            }
+                            // Put li's on screen
+                            document.getElementById("home-ul").innerHTML = html;
+                        }
+                    }
+                }
+            </script>
         </section>
     </main>
 
