@@ -23,7 +23,8 @@ $dbh = new Dbh;
                 if($_POST["sort"] == "popularity") {
 
                     $query = "
-                    SELECT * FROM `products`
+                    SELECT `products`.*, `sales`.`sold` FROM `products` 
+                        JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
                         ORDER BY `sold` DESC
                     ";
                 } elseif($_POST["sort"] == "priceLtH") {
@@ -55,7 +56,8 @@ $dbh = new Dbh;
                 if($_POST["sort"] == "popularity") {
 
                     $query = "
-                    SELECT * FROM `products`
+                    SELECT `products`.*, `sales`.`sold` FROM `products` 
+                        JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
                         WHERE `idbrand` = $brand
                         ORDER BY `sold` DESC
                     ";
@@ -94,7 +96,8 @@ $dbh = new Dbh;
                 if($_POST["sort"] == "popularity") {
 
                     $query = "
-                    SELECT * FROM `products`
+                    SELECT `products`.*, `sales`.`sold` FROM `products` 
+                        JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
                         WHERE `name` LIKE \"%".$search."%\"
                         ORDER BY `sold` DESC
                     ";
@@ -131,7 +134,8 @@ $dbh = new Dbh;
                 if($_POST["sort"] == "popularity") {
 
                     $query = "
-                    SELECT * FROM `products`
+                    SELECT `products`.*, `sales`.`sold` FROM `products` 
+                        JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
                         WHERE `idbrand` = $brand
                         AND WHERE `name` LIKE \"%".$search."%\"
                         ORDER BY `sold` DESC

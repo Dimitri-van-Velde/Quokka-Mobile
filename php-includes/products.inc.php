@@ -69,7 +69,9 @@
             } else { 
                 
                 // Database Query
-                $stmt = $this->connect()->prepare("SELECT * FROM `products` ORDER BY `sold` DESC");
+                $stmt = $this->connect()->prepare("SELECT `products`.*, `sales`.`sold` FROM `products` 
+                    JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
+                    ORDER BY `sold` DESC");
                 $stmt->execute();
                 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

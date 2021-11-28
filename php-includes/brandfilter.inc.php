@@ -19,7 +19,8 @@ $dbh = new Dbh;
         if($_POST["current_sort"] == "popularity") {
 
             $query = "
-            SELECT * FROM `products`
+            SELECT `products`.*, `sales`.`sold` FROM `products` 
+                JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
                 WHERE `idbrand` = $brand
                 ORDER BY `sold` DESC
             ";

@@ -17,7 +17,8 @@ $dbh = new Dbh;
 
         // Query
         $query = "
-        SELECT `name` FROM `products` 
+        SELECT `products`.*, `sales`.`sold` FROM `products` 
+            JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
             WHERE `name` LIKE \"%".$condition."%\"
             ORDER BY `sold` DESC
             LIMIT 3
