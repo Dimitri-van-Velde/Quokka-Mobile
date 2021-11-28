@@ -14,7 +14,8 @@ $dbh = new Dbh;
 
         // Query
         $query = "
-        SELECT * FROM `products`
+        SELECT `products`.*, `sales`.`sold` FROM `products` 
+            JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
             ORDER BY `sold` DESC
         ";
 
