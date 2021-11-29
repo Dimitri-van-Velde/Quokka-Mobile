@@ -867,6 +867,29 @@ h3 {
     width: 100%;
 }
 
+/* Log In */
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Sign Up */
+.signup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.aanhef {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+}
+
 @media screen and (min-width: 426px) {
 
     /* Home */
@@ -1013,7 +1036,7 @@ h3 {
         display: flex;
         justify-content: flex-end;
         list-style: none;
-        margin-right: 100px;
+        margin-right: 20px;
         position: relative;
     }
 
