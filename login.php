@@ -20,8 +20,8 @@
             <article class="login">
                 <form action="php-includes/login.inc.php" class="login-form" method="post">
                     <fieldset>
-                        <label for="username">Gebruikersnaam: </label>
-                        <input type="text" name="username" id="username">
+                        <label for="email">E-mailadres: </label>
+                        <input type="text" name="email" id="email">
                     </fieldset>
                     <fieldset>
                         <label for="username">Wachtwoord: </label>
@@ -30,6 +30,7 @@
                     <input type="submit" value="Log In">
                 </form>
                 <p>Nog geen account? <br><a href="signup.php">Meld u hier aan.</a></p>
+                <p id="login-message"></p>
             </article>
         </section>
     </main>

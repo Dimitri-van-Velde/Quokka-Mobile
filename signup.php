@@ -1,3 +1,5 @@
+<?php require_once 'php-includes/signup.inc.php'; ?>
+
 <!DOCTYPE html>
 <html lang="nl">
 
@@ -18,7 +20,7 @@
     <main>
         <section>
             <article class="signup">
-                <form action="php-includes/signup.inc.php" class="signup-form" method="post">
+                <form action="signup.php" class="signup-form" method="post">
                     <h2>Inloggegevens</h2>
                     <fieldset>
                         <input type="email" name="email" id="email" placeholder="E-mailadres" required>
@@ -63,10 +65,12 @@
                         placeholder="Telefoonnummer" required>
                     </fieldset>
                     <fieldset>
+                        <label for="birthdate">Geboortedatum: </label>
                         <input type="date" name="birthdate" id="birthdate" placeholder="Geboortedatum">
                     </fieldset>
                     <input type="submit" value="Sign Up">
                 </form>
+                <span id="confirm-message"></span>
             </article>
         </section>
     </main>

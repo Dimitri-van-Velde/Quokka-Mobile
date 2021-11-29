@@ -4,29 +4,8 @@ include_once 'dbh.inc.php';
 
 $dbh = new Dbh;
 
-// echo $_POST["email"];
-// echo "<br>";
-// echo $_POST["password0"];
-// echo "<br>";
-// echo $_POST["pronoun"];
-// echo "<br>";
-// echo $_POST["firstname"];
-// echo "<br>";
-// echo $_POST["preposition"];
-// echo "<br>";
-// echo $_POST["lastname"];
-// echo "<br>";
-// echo $_POST["postalcode"];
-// echo "<br>";
-// echo $_POST["housenumber"];
-// echo "<br>";
-// echo $_POST["phonenumber"];
-// echo "<br>";
-// echo $_POST["birthdate"];
-// echo "<br>";
-
-if(isset($_POST["email"], $_POST["password0"], $_POST["pronoun"], $_POST["firstname"], $_POST["preposition"],
- $_POST["lastname"], $_POST["postalcode"], $_POST["housenumber"], $_POST["phonenumber"], $_POST["birthdate"])) {
+if(isset($_POST["email"], $_POST["password0"], $_POST["password1"], $_POST["pronoun"], $_POST["firstname"], $_POST["preposition"],
+    $_POST["lastname"], $_POST["postalcode"], $_POST["housenumber"], $_POST["phonenumber"], $_POST["birthdate"])) {
 
     // Connect to database
     $dsn = $dbh->connect();
@@ -34,6 +13,10 @@ if(isset($_POST["email"], $_POST["password0"], $_POST["pronoun"], $_POST["firstn
     // Variables
     $email = $_POST["email"];
     $password = $_POST["password0"];
+
+    // Hash Password
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
     $pronoun = $_POST["pronoun"];
     $firstname = $_POST["firstname"];
     $preposition = $_POST["preposition"];
@@ -50,11 +33,13 @@ if(isset($_POST["email"], $_POST["password0"], $_POST["pronoun"], $_POST["firstn
     ";
 
     $stmt = $dsn->prepare($query);
-    $stmt->execute([$email, $password, $pronoun, $firstname, $preposition, $lastname, $postalcode, $housenumber, $phonenumber, $birthdate]);
+    $stmt->execute([$email, $hashedPassword, $pronoun, $firstname, $preposition, $lastname, $postalcode, $housenumber, $phonenumber, $birthdate]);
+
+    echo "<script>window.onload = function() {document.getElementById(\"confirm-message\").innerHTML = \"Uw account is aangemaakt $firstname!\";}</script>";
 
     //echo $result;
-} elseif(isset($_POST["email"], $_POST["password0"], $_POST["pronoun"], $_POST["firstname"], $_POST["preposition"],
-$_POST["lastname"], $_POST["postalcode"], $_POST["housenumber"], $_POST["phonenumber"])) {
+} elseif(isset($_POST["email"], $_POST["password0"], $_POST["password1"], $_POST["pronoun"], $_POST["firstname"], $_POST["preposition"],
+    $_POST["lastname"], $_POST["postalcode"], $_POST["housenumber"], $_POST["phonenumber"])) {
 
     // Connect to database
     $dsn = $dbh->connect();
@@ -62,6 +47,10 @@ $_POST["lastname"], $_POST["postalcode"], $_POST["housenumber"], $_POST["phonenu
     // Variables
     $email = $_POST["email"];
     $password = $_POST["password0"];
+
+    // Hash Password
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
     $pronoun = $_POST["pronoun"];
     $firstname = $_POST["firstname"];
     $preposition = $_POST["preposition"];
@@ -69,14 +58,17 @@ $_POST["lastname"], $_POST["postalcode"], $_POST["housenumber"], $_POST["phonenu
     $postalcode = $_POST["postalcode"];
     $housenumber = $_POST["housenumber"];
     $phonenumber = $_POST["phonenumber"];
+    $birthdate = "NULL";
 
     // Query
     $query = "
     INSERT INTO `users` (email, password, pronoun, firstname, preposition, lastname, postalcode, housenumber, phonenumber, birthdate)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ";
 
     $stmt = $dsn->prepare($query);
-    $stmt->execute([$email, $password, $pronoun, $firstname, $preposition, $lastname, $postalcode, $housenumber, $phonenumber]);
+    $stmt->execute([$email, $hashedPassword, $pronoun, $firstname, $preposition, $lastname, $postalcode, $housenumber, $phonenumber, $birthdate]);
+
+    echo "<script>window.onload = function() {document.getElementById(\"confirm-message\").innerHTML = \"Uw account is aangemaakt $firstname!\";}</script>";
 } 
 ?>
