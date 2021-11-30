@@ -12,38 +12,42 @@ $dbh = new Dbh;
       // Connect to database
       $dsn = $dbh->connect();
 
+      // Get email input
       $email = $_POST["email"];
 
+      // Create Query
       $query = "
       SELECT * FROM `users` WHERE `email` = \"$email\"
       ";
 
-      //echo $_POST["email"]." <br>";
-
+      // Send and get results
       $result = $dsn->query($query);
-
       $user = $result->fetchAll();
 
-      if(empty($user)) {
+      // Check if inputs are right
+      if(empty($user)) { 
+        // Wrong email address
+
+        // Echo to screen
         echo "<script>window.onload = function() {document.getElementById(\"login-message\").innerHTML =
           \"Dit e-mailadres bestaat niet in onze database!\";}</script>";
       } else {
 
-        foreach($result as $row) {
+        if(password_verify($_POST['password'], $user[0]["password"])) { 
+          //Correct login
 
-          //var_dump($row);
+          $firstname = $user[0]["firstname"];
 
-          if(password_verify($_POST['password'], $row["password"])) {
+          //header("Location: account.php");
+          echo "<script>window.onload = function() {document.getElementById(\"login-message\").innerHTML =
+            \"Het inloggen was succesvol! Welkom $firstname!\";}</script>";
+        } else {
+          //Wrong password
 
-            $firstname = $row["firstname"];
-
-            echo "<script>window.onload = function() {document.getElementById(\"login-message\").innerHTML =
-              \"Het inloggen was succesvol! Welkom $firstname!\";}</script>";
-          } else {
-            echo "<script>window.onload = function() {document.getElementById(\"login-message\").innerHTML =
-              \"Verkeerd wachtwoord!\";}</script>";
-          }
-        } 
-      }
+          echo "<script>window.onload = function() {document.getElementById(\"login-message\").innerHTML =
+            \"Verkeerd wachtwoord!\";}</script>";
+        }
+      } 
+      
   }
 ?>

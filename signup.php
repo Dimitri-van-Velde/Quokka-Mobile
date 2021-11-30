@@ -26,10 +26,10 @@
                         <input type="email" name="email" id="email" placeholder="E-mailadres" required>
                     </fieldset>
                     <fieldset>
-                        <input type="password" name="password0" id="password0" placeholder="Wachtwoord" required pattern=".{3,}">
+                        <input type="password" name="password0" id="password0" placeholder="Wachtwoord" required pattern=".{8,}">
                     </fieldset>
                     <fieldset>
-                        <input type="password" name="password1" id="password1" placeholder="Herhaal Wachtwoord" required>
+                        <input type="password" name="password1" id="password1" placeholder="Herhaal Wachtwoord" required pattern=".{8,}">
                     </fieldset>
                     <h2>Persoonlijke Gegevens</h2>
                     <fieldset class="aanhef">
