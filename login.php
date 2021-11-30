@@ -1,3 +1,5 @@
+<?php require_once 'php-includes/login.inc.php'; ?>
+
 <!DOCTYPE html>
 <html lang="nl">
 
@@ -18,14 +20,14 @@
     <main>
         <section>
             <article class="login">
-                <form action="php-includes/login.inc.php" class="login-form" method="post">
+                <form action="login.php" class="login-form" method="post">
                     <fieldset>
                         <label for="email">E-mailadres: </label>
-                        <input type="text" name="email" id="email">
+                        <input type="text" name="email" id="email" required>
                     </fieldset>
                     <fieldset>
                         <label for="username">Wachtwoord: </label>
-                        <input type="password" name="password" id="password">
+                        <input type="password" name="password" id="password" required>
                     </fieldset>
                     <input type="submit" value="Log In">
                 </form>

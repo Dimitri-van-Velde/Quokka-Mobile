@@ -26,7 +26,7 @@
                         <input type="email" name="email" id="email" placeholder="E-mailadres" required>
                     </fieldset>
                     <fieldset>
-                        <input type="password" name="password0" id="password0" placeholder="Wachtwoord" required pattern=".{8,}">
+                        <input type="password" name="password0" id="password0" placeholder="Wachtwoord" required pattern=".{3,}">
                     </fieldset>
                     <fieldset>
                         <input type="password" name="password1" id="password1" placeholder="Herhaal Wachtwoord" required>
@@ -48,7 +48,7 @@
                         <input type="text" name="firstname" id="firstname" placeholder="Voornaam" required>
                     </fieldset>
                     <fieldset>
-                        <input type="text" name="preposition" id="preposition" placeholder="Tussenvoegsel" required>
+                        <input type="text" name="preposition" id="preposition" placeholder="Tussenvoegsel">
                     </fieldset>
                     <fieldset>
                         <input type="text" name="lastname" id="lastname" placeholder="Achternaam" required>
