@@ -20,22 +20,22 @@
     <main>
         <section>
             <article class="signup">
-                <form action="signup.php" class="signup-form" method="post">
+                <form action="php-includes/signup.inc.php" class="signup-form" method="post">
                     <h2>Inloggegevens</h2>
                     <fieldset>
-                        <input type="email" name="email" id="email" placeholder="E-mailadres" required>
+                        <input type="email" name="email" id="email" placeholder="E-mailadres" >
                     </fieldset>
                     <fieldset>
-                        <input type="password" name="password0" id="password0" placeholder="Wachtwoord" required pattern=".{8,}">
+                        <input type="password" name="password" id="password" placeholder="Wachtwoord"  pattern=".{3,}">
                     </fieldset>
                     <fieldset>
-                        <input type="password" name="password1" id="password1" placeholder="Herhaal Wachtwoord" required pattern=".{8,}">
+                        <input type="password" name="passwordrepeat" id="passwordrepeat" placeholder="Herhaal Wachtwoord"  pattern=".{3,}">
                     </fieldset>
                     <h2>Persoonlijke Gegevens</h2>
                     <fieldset class="aanhef">
                         <label for="pronoun">Aanhef: </label>
                         <label>
-                            <input type="radio" name="pronoun" id="man" value="man" required> Man
+                            <input type="radio" name="pronoun" id="man" value="man" > Man
                         </label>
                         <label>
                             <input type="radio" name="pronoun" id="vrouw" value="vrouw"> Vrouw
@@ -45,30 +45,30 @@
                         </label>
                     </fieldset>
                     <fieldset>
-                        <input type="text" name="firstname" id="firstname" placeholder="Voornaam" required>
+                        <input type="text" name="firstname" id="firstname" placeholder="Voornaam" >
                     </fieldset>
                     <fieldset>
                         <input type="text" name="preposition" id="preposition" placeholder="Tussenvoegsel">
                     </fieldset>
                     <fieldset>
-                        <input type="text" name="lastname" id="lastname" placeholder="Achternaam" required>
+                        <input type="text" name="lastname" id="lastname" placeholder="Achternaam" >
                     </fieldset>
                     <fieldset>
                         <input type="text" name="postalcode" id="postalcode" pattern="[0-9]{4}[A-Z]{2}" 
-                        placeholder="Postcode" required>
+                        placeholder="Postcode" >
                     </fieldset>
                     <fieldset>
-                        <input type="number" name="housenumber" id="housenumber" maxlength="5" placeholder="Huisnummer" required>
+                        <input type="number" name="housenumber" id="housenumber" maxlength="5" placeholder="Huisnummer" >
                     </fieldset>
                     <fieldset>
                         <input type="number" name="phonenumber" id="phonenumber" maxlength="10" 
-                        placeholder="Telefoonnummer" required>
+                        placeholder="Telefoonnummer" >
                     </fieldset>
                     <fieldset>
                         <label for="birthdate">Geboortedatum: </label>
                         <input type="date" name="birthdate" id="birthdate" placeholder="Geboortedatum">
                     </fieldset>
-                    <input type="submit" value="Sign Up">
+                    <input type="submit" name="submit" value="Sign Up">
                 </form>
                 <span id="confirm-message"></span>
             </article>

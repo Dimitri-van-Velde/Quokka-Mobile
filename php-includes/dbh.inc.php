@@ -10,7 +10,7 @@ class Dbh {
     private $charset;
 
     // Connect function
-    public function connect() {
+    protected function connect() {
         // Set Variable information
         $this->servername = "localhost";
         $this->username = "root";
@@ -32,7 +32,8 @@ class Dbh {
             return $pdo;
 
         } catch (PDOException $e) {
-            echo "Connection failed: ".$e->getMessage();
+            print "Connection failed: ".$e->getMessage();
+            die();
         }
     }
 

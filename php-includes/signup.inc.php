@@ -1,29 +1,11 @@
 <?php
 
-include_once 'dbh.inc.php';
-
-$dbh = new Dbh;
-
-if (isset(
-    $_POST["email"],
-    $_POST["password0"],
-    $_POST["password1"],
-    $_POST["pronoun"],
-    $_POST["firstname"],
-    $_POST["preposition"],
-    $_POST["lastname"],
-    $_POST["postalcode"],
-    $_POST["housenumber"],
-    $_POST["phonenumber"],
-    $_POST["birthdate"]
-)) {
-
-    // Connect to database
-    $dsn = $dbh->connect();
+if(isset($_POST["submit"])) {
 
     // Variables
     $email = $_POST["email"];
-    $password = $_POST["password0"];
+    $password = $_POST["password"];
+    $passwordrepeat = $_POST["passwordrepeat"];
 
     // Hash Password
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -31,32 +13,33 @@ if (isset(
     $pronoun = $_POST["pronoun"];
     $firstname = $_POST["firstname"];
     $preposition = $_POST["preposition"];
-    if($preposition != "") {
-        $preposition = $preposition;
-    } else {
-        $preposition = null;
-    }
+    // if($preposition != "") {
+    //     $preposition = $preposition;
+    // } else {
+    //     $preposition = null;
+    // }
     $lastname = $_POST["lastname"];
     $postalcode = $_POST["postalcode"];
     $housenumber = $_POST["housenumber"];
     $phonenumber = $_POST["phonenumber"];
     $birthdate = $_POST["birthdate"];
-    if($birthdate != "") {
-        $birthdate = $birthdate;
-    } else {
-        $birthdate = null;
-    }
+    // if($birthdate != "") {
+    //     $birthdate = $birthdate;
+    // } else {
+    //     $birthdate = null;
+    // }
 
-    // Query
-    $query = "
-    INSERT INTO `users` (email, password, pronoun, firstname, preposition, lastname, postalcode, housenumber, phonenumber, birthdate)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ";
+    // Instantiate SignupContr class
+    include "../php-includes/dbh.inc.php";
+    include "../classes/signup.classes.php";
+    include "../classes/signup-contr.classes.php";
 
-    $stmt = $dsn->prepare($query);
-    $stmt->execute([$email, $hashedPassword, $pronoun, $firstname, $preposition, $lastname,
-     $postalcode, $housenumber, $phonenumber, $birthdate]);
+    $signup = new SignupContr($email, $password, $passwordrepeat, $pronoun, $firstname, $preposition, $lastname, $postalcode, $housenumber, $phonenumber, $birthdate);
 
-    echo "<script>window.onload = function() {document.getElementById(\"confirm-message\").innerHTML =
-         \"Uw account is aangemaakt $firstname!\";}</script>";
+    // Running error handlers and user signup
+    $signup->signupUser();
+
+    // Going back to page
+    header("Location: ../signup.php?error=none");
+
 }
