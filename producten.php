@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include_once 'php-includes/dbh.inc.php';
     include_once 'php-includes/products.inc.php';
 ?>   
@@ -17,7 +18,7 @@
 
 <body>
     <?php
-        include 'nav.html';
+        include 'nav.php';
     ?>
 
     <main>

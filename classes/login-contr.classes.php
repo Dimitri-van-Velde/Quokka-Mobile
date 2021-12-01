@@ -1,6 +1,6 @@
 <?php
 
-class SignupContr extends Login {
+class LoginContr extends Login {
 
     private $email;
     private $password;
@@ -32,3 +32,5 @@ class SignupContr extends Login {
         return $result;
     }
 }
+
+?>

@@ -1,4 +1,7 @@
-<?php require_once 'php-includes/login.inc.php'; ?>
+<?php 
+    session_start();
+    require_once 'php-includes/login.inc.php'; 
+?>
 
 <!DOCTYPE html>
 <html lang="nl">
@@ -15,24 +18,39 @@
 
 <body>
     <?php
-        include 'nav.html';
+        include 'nav.php';
     ?>
     <main>
         <section>
             <article>
-                <form action="login.php" class="login-form" method="post">
-                    <fieldset class="login-info">
-                        <h2>Log In</h2>
-                        <fieldset>
-                            <input type="text" name="email" id="email" tabindex="1" autofocus placeholder="E-mailadres"> 
+                <?php 
+                    if(isset($_SESSION["userid"])) {
+                ?>
+                    <form action="php-includes/login.inc.php" class="login-form" method="post">
+                        <fieldset class="login-info">
+                            <h2>U bent al ingelogd!</h2>
+                            <p>Ga <a href="account.php">hier</a> naar uw account.</p>
                         </fieldset>
-                        <fieldset>
-                            <input type="password" name="password" id="password" tabindex="2" placeholder="Wachtwoord">
+                    </form>
+                <?php
+                    } else {
+                ?>                            
+                    <form action="php-includes/login.inc.php" class="login-form" method="post">
+                        <fieldset class="login-info">
+                            <h2>Log In</h2>
+                            <fieldset>
+                                <input type="email" name="email" id="email" tabindex="1" autofocus placeholder="E-mailadres"> 
+                            </fieldset>
+                            <fieldset>
+                                <input type="password" name="password" id="password" tabindex="2" placeholder="Wachtwoord">
+                            </fieldset>
+                            <input type="submit" name="submit" value="Log In">
+                            <p>Nog geen account? <br><a href="signup.php">Meld u hier aan.</a></p>
                         </fieldset>
-                        <input type="submit" value="Log In">
-                    <p>Nog geen account? <br><a href="signup.php">Meld u hier aan.</a></p>
-                </fieldset>
-                </form>
+                    </form>
+                <?php
+                    }
+                ?>
             </article>
         </section>
     </main>

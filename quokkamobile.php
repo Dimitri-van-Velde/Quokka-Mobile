@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="nl">
 
@@ -13,7 +17,7 @@
 
 <body>
     <?php
-        include 'nav.html';
+        include 'nav.php';
     ?>
     <main>
         <section class="history-container">

@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="nl">
 
@@ -13,12 +17,75 @@
 
 <body>
     <?php
-        include 'nav.html';
+        include 'nav.php';
     ?>
     <main>
         <section>
             <article class="form-container">
-                <form class="contact" action="contactform.php" method="post">
+                <?php 
+                    if(isset($_SESSION["userid"])) {
+                ?>
+                    <form class="contact" action="contactform.php" method="post">
+                    <h2>Vragen?</h2>
+                    <h3>We helpen U graag!</h3>
+                    <fieldset>
+                        <input placeholder="Voornaam" name="voornaam" id="voornaam" type="text" tabindex="1" required autofocus 
+                        value="<?php echo $_SESSION["firstname"]; ?>">
+                    </fieldset>
+                    <fieldset>
+                        <input placeholder="Achternaam" name="achternaam" id="achternaam" type="text" tabindex="2" required
+                        value="<?php 
+                            if($_SESSION["preposition"] != "") {
+                                echo $_SESSION["preposition"] . " " . $_SESSION["lastname"];
+                            } else {
+                                echo $_SESSION["lastname"];
+                            }
+                        ?>">
+                    </fieldset>
+                    <fieldset>
+                        <input placeholder="Uw Emailadres" name="email" id="email" type="email" tabindex="3" required
+                        value="<?php echo $_SESSION["email"]; ?>">
+                    </fieldset>
+                    <fieldset>
+                        <input placeholder="Uw Telefoonnummer" name="tel" id="tel" type="tel" pattern="[0-9]{10}" tabindex="4"
+                            required value="<?php echo $_SESSION["phonenumber"]; ?>">
+                    </fieldset>
+                    <fieldset>
+                        <select name="soort" id="soort" onchange="getOption(this)" tabindex="5" required>
+                            <option value="empty" disabled selected>Kies uw onderwerp</option>
+                            <option value="vraag">Vraag</option>
+                            <option value="mening">Mening</option>
+                            <option value="bug">Bug/Fout</option>
+                        </select>
+                    </fieldset>
+                    <fieldset id="vraag">
+                        <textarea placeholder="Typ uw vraag hier...." tabindex="6" name="vraag"></textarea>
+                    </fieldset>
+                    <fieldset id="mening">
+                        <textarea placeholder="Typ uw mening hier...." tabindex="6" name="mening"></textarea>
+                    </fieldset>
+                    <fieldset id="bug_page">
+                        <select name="bug_page" tabindex="6">
+                            <option value="empty" disabled selected>Locatie Bug/Fout</option>
+                            <option value="home">Home</option>
+                            <option value="bedrijf">Quokka Mobile</option>
+                            <option value="personeel">Personeel</option>
+                            <option value="producten">Producten</option>
+                            <option value="contact">Contact</option>
+                            <option value="contactform">Contact Formulier</option>
+                        </select>
+                    </fieldset>
+                    <fieldset id="bug">
+                        <textarea placeholder="Beschrijf de fout hier...." tabindex="7" name="bug"></textarea>
+                    </fieldset>
+                    <fieldset>
+                        <button name="submit" type="submit">Submit</button>
+                    </fieldset>
+                </form>
+                <?php
+                    } else {
+                ?>                            
+                    <form class="contact" action="contactform.php" method="post">
                     <h2>Vragen?</h2>
                     <h3>We helpen U graag!</h3>
                     <fieldset>
@@ -66,6 +133,10 @@
                         <button name="submit" type="submit">Submit</button>
                     </fieldset>
                 </form>
+                <?php
+                    }
+                ?>
+                
 
                 <?php
                 

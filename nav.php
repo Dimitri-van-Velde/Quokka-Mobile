@@ -40,7 +40,17 @@
                                 </a></li>
                         </ul>
                     </li>
-                    <li><a href="login.php">Log In</a></li>
+                    <?php 
+                        if(isset($_SESSION["userid"])) {
+                    ?>
+                        <li><a href="account.php"><?php echo $_SESSION["firstname"]; ?></a></li>
+                    <?php
+                        } else {
+                    ?>                            
+                        <li><a href="login.php">Log In</a></li>
+                    <?php
+                        }
+                    ?>
                 </ul>
             </article>
         </section>

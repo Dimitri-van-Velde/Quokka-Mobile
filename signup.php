@@ -1,4 +1,7 @@
-<?php require_once 'php-includes/signup.inc.php'; ?>
+<?php 
+    session_start();
+    require_once 'php-includes/signup.inc.php'; 
+?>
 
 <!DOCTYPE html>
 <html lang="nl">
@@ -15,11 +18,11 @@
 
 <body>
     <?php
-        include 'nav.html';
+        include 'nav.php';
     ?>
     <main>
         <section class="signup-container">
-            <article>
+            <article class="signup-article">
                 <form action="php-includes/signup.inc.php" class="signup-form" method="post">
                     <fieldset class="signup-inlog">
                         <h2>Inloggegevens</h2>

@@ -43,3 +43,5 @@ if(isset($_POST["submit"])) {
     header("Location: ../signup.php?error=none");
 
 }
+
+?>

@@ -929,10 +929,15 @@ h3 {
 }
 
 /* Sign Up */
+.signup-article {
+    display: flex;
+    justify-content: space-around;
+}
+
 .signup-form {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    flex-flow: column wrap;
+    gap: 4rem;
     margin-left: 5%;
     margin-right: 5%;
 }
@@ -1390,7 +1395,7 @@ h3 {
         justify-content: space-around;
     }
 
-    /* Log IN */
+    /* Log In */
     .login-form {
         flex-direction: row;
         justify-content: space-around;
