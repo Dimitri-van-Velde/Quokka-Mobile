@@ -37,6 +37,15 @@
                 ?>                            
                     <form action="php-includes/login.inc.php" class="login-form" method="post">
                         <fieldset class="login-info">
+                            <?php
+                                if(isset($_GET["redirect"])) {
+                                    if($_GET["redirect"] == "account") {
+                            ?>
+                            <span class="login-info-error"><img src="images/info.png" alt="Info Icon">Om uw account te zien moet u eerst inloggen!</span>
+                            <?php
+                                    }
+                                }
+                            ?>
                             <h2>Log In</h2>
                             <fieldset>
                                 <input type="email" name="email" id="email" tabindex="1" autofocus placeholder="E-mailadres"> 
