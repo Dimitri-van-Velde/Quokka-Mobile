@@ -10,7 +10,7 @@ class Dbh {
     private $charset;
 
     // Connect function
-    protected function connect() {
+    public function connect() {
         // Set Variable information
         $this->servername = "localhost";
         $this->username = "root";
