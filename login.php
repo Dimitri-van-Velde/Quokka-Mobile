@@ -22,7 +22,7 @@
     ?>
     <main>
         <section>
-            <article>
+            <article class="login-article">
                 <?php 
                     if(isset($_SESSION["userid"])) {
                 ?>

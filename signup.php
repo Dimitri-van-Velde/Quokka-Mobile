@@ -21,7 +21,7 @@
         include 'nav.php';
     ?>
     <main>
-        <section class="signup-container">
+        <section>
             <article class="signup-article">
                 <form action="php-includes/signup.inc.php" class="signup-form" method="post">
                     <fieldset class="signup-inlog">
