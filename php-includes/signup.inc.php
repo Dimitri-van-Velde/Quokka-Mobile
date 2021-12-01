@@ -40,7 +40,7 @@ if(isset($_POST["submit"])) {
     $signup->signupUser();
 
     // Going back to page
-    header("Location: ../signup.php?error=none");
+    header("Location: ../login.php");
 
 }
 
