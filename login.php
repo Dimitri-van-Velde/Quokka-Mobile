@@ -19,20 +19,20 @@
     ?>
     <main>
         <section>
-            <article class="login">
+            <article>
                 <form action="login.php" class="login-form" method="post">
-                    <fieldset>
-                        <label for="email">E-mailadres: </label>
-                        <input type="text" name="email" id="email" required>
-                    </fieldset>
-                    <fieldset>
-                        <label for="username">Wachtwoord: </label>
-                        <input type="password" name="password" id="password" required>
-                    </fieldset>
-                    <input type="submit" value="Log In">
+                    <fieldset class="login-info">
+                        <h2>Log In</h2>
+                        <fieldset>
+                            <input type="text" name="email" id="email" tabindex="1" autofocus placeholder="E-mailadres"> 
+                        </fieldset>
+                        <fieldset>
+                            <input type="password" name="password" id="password" tabindex="2" placeholder="Wachtwoord">
+                        </fieldset>
+                        <input type="submit" value="Log In">
+                    <p>Nog geen account? <br><a href="signup.php">Meld u hier aan.</a></p>
+                </fieldset>
                 </form>
-                <p>Nog geen account? <br><a href="signup.php">Meld u hier aan.</a></p>
-                <p id="login-message"></p>
             </article>
         </section>
     </main>
