@@ -15,13 +15,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Samsung Galaxy S21 Ultra</title>
     <?php
-        include 'head.html';
+        include '../head.html';
     ?>
 </head>
 
 <body>
     <?php
-        include 'nav.php';
+        include '../nav.php';
     ?>
 
     <main>
@@ -39,7 +39,7 @@
     </main>
 
     <?php
-        include 'footer.html';
+        include '../footer.html';
     ?>
 
 </body>

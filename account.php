@@ -29,7 +29,6 @@
             ?>
                 <?php 
                     echo "<center>";
-                    echo $_SESSION["userid"] . "<br>";
                     echo $_SESSION["email"] . "<br>";
                     echo $_SESSION["created_at"] . "<br>";
                     echo $_SESSION["pronoun"] . "<br>";
@@ -40,10 +39,11 @@
                     echo $_SESSION["housenumber"] . "<br>";
                     echo $_SESSION["phonenumber"] . "<br>";
                     echo $_SESSION["birthdate"] . "<br>";
+                    echo "<br><b>";
                 ?>
                 <a href="php-includes/logout.inc.php">Log Out</a>
             <?php
-                echo "</center>";
+                echo "</b></center>";
                 }
             ?>
         </section>
