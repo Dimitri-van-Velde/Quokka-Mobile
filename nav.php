@@ -45,7 +45,12 @@
                         if($cur_dir[count($cur_dir)-1] != "quokka_mobile") {
                             if(isset($_SESSION["userid"])) {
                                 ?>
-                                    <li><a href="../account.php" id="account-a"><?php echo $_SESSION["firstname"]; ?></a></li>
+                                    <li><a href="../account.php" id="account-a"><?php
+                                        $firstname = $_SESSION["firstname"];
+                                        $firstname = str_replace("-", " ", $firstname);
+                                        $abr = explode(" ", $firstname);
+                                        echo $abr[0];
+                                    ?></a></li>
                                 <?php
                             } else {
                                 ?>                            
@@ -55,7 +60,12 @@
                         } else {
                             if(isset($_SESSION["userid"])) {
                                 ?>
-                                    <li><a href="account.php" id="account-a"><?php echo $_SESSION["firstname"]; ?></a></li>
+                                    <li><a href="account.php" id="account-a"><?php
+                                        $firstname = $_SESSION["firstname"];
+                                        $firstname = str_replace("-", " ", $firstname);
+                                        $abr = explode(" ", $firstname);
+                                        echo $abr[0];
+                                    ?></a></li>
                                 <?php
                             } else {
                                 ?>                            
