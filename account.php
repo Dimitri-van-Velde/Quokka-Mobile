@@ -29,6 +29,7 @@
             ?>
                 <?php 
                     echo "<center>";
+                    echo "<h2>Welkom " . $_SESSION["firstname"] . "!</h2>";
                     echo $_SESSION["email"] . "<br>";
                     echo $_SESSION["created_at"] . "<br>";
                     echo $_SESSION["pronoun"] . "<br>";

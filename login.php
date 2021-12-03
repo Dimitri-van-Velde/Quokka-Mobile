@@ -26,37 +26,75 @@
                 <?php 
                     if(isset($_SESSION["userid"])) {
                 ?>
-                    <form action="php-includes/login.inc.php" class="login-form" method="post">
-                        <fieldset class="login-info">
-                            <h2>U bent al ingelogd!</h2>
-                            <p>Ga <a href="account.php">hier</a> naar uw account.</p>
-                        </fieldset>
-                    </form>
+                <form action="php-includes/login.inc.php" class="login-form" method="post">
+                    <fieldset class="login-info">
+                        <h2>U bent al ingelogd!</h2>
+                        <p>Ga <a href="account.php">hier</a> naar uw account.</p>
+                    </fieldset>
+                </form>
                 <?php
                     } else {
-                ?>                            
-                    <form action="php-includes/login.inc.php" class="login-form" method="post">
-                        <fieldset class="login-info">
-                            <?php
+                ?>
+                <form action="php-includes/login.inc.php" class="login-form" method="post">
+                    <fieldset class="login-info">
+                        <?php
                                 if(isset($_GET["redirect"])) {
                                     if($_GET["redirect"] == "account") {
                             ?>
-                            <span class="login-info-error"><img src="images/info.png" alt="Info Icon">Om uw account te zien moet u eerst inloggen!</span>
-                            <?php
+                        <span class="login-info-message"><img src="images/info.svg" alt="Info Icon">
+                            <p>Om uw account te
+                                zien moet u eerst inloggen!</p>
+                        </span>
+                        <?php
                                     }
                                 }
                             ?>
-                            <h2>Log In</h2>
-                            <fieldset>
-                                <input type="email" name="email" id="email" tabindex="1" autofocus placeholder="E-mailadres"> 
-                            </fieldset>
-                            <fieldset>
-                                <input type="password" name="password" id="password" tabindex="2" placeholder="Wachtwoord">
-                            </fieldset>
-                            <input type="submit" name="submit" value="Log In">
-                            <p>Nog geen account? <br><a href="signup.php">Meld u hier aan.</a></p>
+                        <?php
+                                if(isset($_GET["error"])) {
+                                    if($_GET["error"] == "emptyinput") {
+                            ?>
+                        <span class="login-error-message"><img src="images/error.svg" alt="Error Icon">
+                            <p>Vul alle velden
+                                in om in te kunnen loggen!</p>
+                        </span>
+                        <?php
+                                    } elseif($_GET["error"] == "stmtfailed") {
+                            ?>
+                        <span class="login-error-message"><img src="images/error.svg" alt="Error Icon">
+                            <p>Er was een fout
+                                in verbinden met de database! Neem A.U.B. <a href="contactform.php">contact</a> op met ons
+                                op!</p>
+                        </span>
+                        <?php 
+                                    } elseif($_GET["error"] == "usernotfound") {
+                            ?>
+                        <span class="login-error-message"><img src="images/error.svg" alt="Error Icon">
+                            <p>Er was geen
+                                account gevonden met dit email adres! Probeer het nog een keer of maak <a
+                                    href="signup.php">hier</a> een account aan.</p>
+                        </span>
+                        <?php 
+                                    } elseif($_GET["error"] == "wrongpassword") {
+                            ?>
+                        <span class="login-error-message"><img src="images/error.svg" alt="Error Icon">
+                            <p>Het wachtwoord dat u heeft ingetypt klopt niet! Probeer het nog eens.</p>
+                        </span>
+                        <?php 
+                                    }
+                                }
+                            ?>
+                        <h2>Log In</h2>
+                        <fieldset>
+                            <input type="email" name="email" id="email" tabindex="1" autofocus
+                                placeholder="E-mailadres">
                         </fieldset>
-                    </form>
+                        <fieldset>
+                            <input type="password" name="password" id="password" tabindex="2" placeholder="Wachtwoord">
+                        </fieldset>
+                        <input type="submit" name="submit" value="Log In">
+                        <p>Nog geen account? <br><a href="signup.php">Meld u hier aan.</a></p>
+                    </fieldset>
+                </form>
                 <?php
                     }
                 ?>
