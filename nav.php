@@ -40,9 +40,13 @@
                                 </a></li>
                         </ul>
                     </li>
-                    <?php 
+                    <?php
+                        // Get file directory 
                         $cur_dir = explode('\\', getcwd());
+
+                        // Check if file is in main folder
                         if($cur_dir[count($cur_dir)-1] != "quokka_mobile") {
+                            // Check if user is logged in
                             if(isset($_SESSION["userid"])) {
                                 ?>
                                     <li><a href="../account.php" id="account-a"><?php

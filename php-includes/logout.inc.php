@@ -1,10 +1,11 @@
 <?php
 
+// Terminate session
 session_start();
 session_unset();
 session_destroy();
 
-// Going back to home page
+// Sending user to login page
 header("Location: ../login.php");
 
 ?>
