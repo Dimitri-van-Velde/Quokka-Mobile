@@ -30,6 +30,11 @@
                 <?php 
                     echo "<center>";
                     echo "<h2>Welkom " . $_SESSION["firstname"] . "!</h2>";
+                    if($_SESSION["perms"] == 1) {
+                        echo "<h3>U bent een beheerder.</h3>";
+                    } elseif($_SESSION["perms"] == 0) {
+                        echo "<h3>U bent een klant.</h3>";
+                    }
                     echo $_SESSION["email"] . "<br>";
                     echo $_SESSION["created_at"] . "<br>";
                     echo $_SESSION["pronoun"] . "<br>";

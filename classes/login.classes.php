@@ -55,6 +55,7 @@ class Login extends Dbh {
             $_SESSION["housenumber"] = $user[0]["housenumber"];
             $_SESSION["phonenumber"] = $user[0]["phonenumber"];
             $_SESSION["birthdate"] = $user[0]["birthdate"];
+            $_SESSION["perms"] = $user[0]["perms"];
 
             $stmt = null;
         }
