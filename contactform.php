@@ -50,6 +50,18 @@
                         <input placeholder="Uw Telefoonnummer" name="tel" id="tel" type="tel" pattern="[0-9]{10}" tabindex="4"
                             required value="<?php echo $_SESSION["phonenumber"]; ?>">
                     </fieldset>
+                    <fieldset class="form-mark">
+                        <label for="mark">1</label>
+                        <input type="radio" name="mark" value="1">
+                        <label for="mark">2</label>
+                        <input type="radio" name="mark" value="2">
+                        <label for="mark">3</label>
+                        <input type="radio" name="mark" value="3">
+                        <label for="mark">4</label>
+                        <input type="radio" name="mark" value="4">
+                        <label for="mark">5</label>
+                        <input type="radio" name="mark" value="5">
+                    </fieldset>
                     <fieldset>
                         <select name="soort" id="soort" onchange="getOption(this)" tabindex="5" required>
                             <option value="empty" disabled selected>Kies uw onderwerp</option>

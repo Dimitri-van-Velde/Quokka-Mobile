@@ -717,6 +717,11 @@ form input {
     width: 100%;
 }
 
+.form-mark {
+    display: flex;
+    flex-direction: row;
+}
+
 .contact input[type="text"],
 .contact input[type="email"],
 .contact input[type="tel"],
