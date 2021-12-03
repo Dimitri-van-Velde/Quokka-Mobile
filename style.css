@@ -1107,6 +1107,10 @@ h3 {
         text-align: left;
         margin: 5px auto 0 10px;
     }
+
+    .filter-sidebar fieldset {
+        border: medium none !important;
+    }
     
     .filter-sidebar .filter {
         display: flex;
