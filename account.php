@@ -2,6 +2,8 @@
     session_start();
     if(!isset($_SESSION["userid"])) {
         header("Location: login.php?redirect=account");
+    } else {
+        header("Location: account/overzicht.php");
     }
 ?>
 
@@ -24,34 +26,7 @@
     ?>
     <main>
         <section>
-            <?php 
-                if(isset($_SESSION["userid"])) {
-            ?>
-                <?php 
-                    echo "<center>";
-                    echo "<h2>Welkom " . $_SESSION["firstname"] . "!</h2>";
-                    if($_SESSION["perms"] == 1) {
-                        echo "<h3>U bent een beheerder.</h3>";
-                    } elseif($_SESSION["perms"] == 0) {
-                        echo "<h3>U bent een klant.</h3>";
-                    }
-                    echo $_SESSION["email"] . "<br>";
-                    echo $_SESSION["created_at"] . "<br>";
-                    echo $_SESSION["pronoun"] . "<br>";
-                    echo $_SESSION["firstname"] . "<br>";
-                    echo $_SESSION["preposition"] . "<br>";
-                    echo $_SESSION["lastname"] . "<br>";
-                    echo $_SESSION["postalcode"] . "<br>";
-                    echo $_SESSION["housenumber"] . "<br>";
-                    echo $_SESSION["phonenumber"] . "<br>";
-                    echo $_SESSION["birthdate"] . "<br>";
-                    echo "<br><b>";
-                ?>
-                <a href="php-includes/logout.inc.php">Log Out</a>
-            <?php
-                echo "</b></center>";
-                }
-            ?>
+            
         </section>
     </main>
     <?php
