@@ -1017,6 +1017,19 @@ h3 {
     height: 25px;
 }
 
+.login-check-message {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background: #ecffd3;
+    border-left: 5px solid #5eff00;
+}
+
+.login-check-message img {
+    align-self: center;
+    height: 25px;
+}
+
 .login-error-message {
     display: flex;
     gap: 10px;

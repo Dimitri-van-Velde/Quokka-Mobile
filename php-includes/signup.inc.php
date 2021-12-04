@@ -42,7 +42,9 @@ if(isset($_POST["submit"])) {
     $signup->signupUser();
 
     // Sending user to login page
-    header("Location: ../login.php");
+    session_start();
+    $_SESSION["signupemail"] = $email;
+    header("Location: ../login.php?signup=success");
 
 }
 

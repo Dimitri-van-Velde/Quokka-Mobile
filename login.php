@@ -38,6 +38,17 @@
                 <form action="php-includes/login.inc.php" class="login-form" method="post">
                     <fieldset class="login-info">
                         <?php
+                                if(isset($_GET["signup"])) {
+                                    if($_GET["signup"] == "success") {
+                            ?>
+                        <span class="login-check-message"><img src="images/check.svg" alt="Check Icon">
+                            <p>Uw account is aangemaakt! U kunt hier onder inloggen.</p>
+                        </span>
+                        <?php
+                                    }
+                                }
+                            ?>
+                        <?php
                                 if(isset($_GET["redirect"])) {
                                     if($_GET["redirect"] == "account") {
                             ?>
@@ -85,8 +96,17 @@
                             ?>
                         <h2>Log In</h2>
                         <fieldset>
-                            <input type="email" name="email" id="email" tabindex="1" autofocus
-                                placeholder="E-mailadres">
+                            <?php 
+                                if(isset($_SESSION["signupemail"])) {
+                                    $email = $_SESSION["signupemail"];
+                                } else {
+                                    $email = "";
+                                }
+                                echo "<input type=\"email\" name=\"email\" id=\"email\" tabindex=\"1\" autofocus
+                                placeholder=\"E-mailadres\" value=\"$email\">";
+                                session_unset();
+                                session_destroy();
+                            ?>
                         </fieldset>
                         <fieldset>
                             <input type="password" name="password" id="password" tabindex="2" placeholder="Wachtwoord">
