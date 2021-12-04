@@ -1160,7 +1160,7 @@ h3 {
     }
 }
 
-@media screen and (min-width: 801px) {
+@media screen and (min-width: 851px) {
 
     .product-container {
         flex-direction: row;

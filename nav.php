@@ -53,7 +53,7 @@
                                         $firstname = $_SESSION["firstname"];
                                         $firstname = str_replace("-", " ", $firstname);
                                         $abr = explode(" ", $firstname);
-                                        echo $abr[0];
+                                        echo substr($abr[0], 0, 10);
                                     ?></a></li>
                                 <?php
                             } else {
@@ -68,7 +68,7 @@
                                         $firstname = $_SESSION["firstname"];
                                         $firstname = str_replace("-", " ", $firstname);
                                         $abr = explode(" ", $firstname);
-                                        echo $abr[0];
+                                        echo substr($abr[0], 0, 10);
                                     ?></a></li>
                                 <?php
                             } else {
