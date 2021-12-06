@@ -3,6 +3,10 @@
     if(!isset($_SESSION["userid"])) {
         header("Location: ../login.php?redirect=account");
     }
+
+    if($_SESSION["perms"] != 1) {
+        header("Location: overzicht.php?redirect=noperms");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +16,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $_SESSION["firstname"]?> | Accountoverzicht</title>
+    <title>User Manager</title>
     <?php
         include '../head.html';
     ?>
@@ -25,21 +29,9 @@
     <main>
         <section class="account">
             <article class="account-list">
-                <?php
-                    if(isset($_GET["redirect"])) {
-                        if($_GET["redirect"] == "noperms") {
-                ?>
-                <span class="account-info-message"><img src="../images/info.svg" alt="Info Icon">
-                    <p>U heeft geen toegang tot deze pagina. Als u denkt dat dat niet de bedoeling is, neem dan <a
-                            href="../contactform.php">contact</a> met ons op!</p>
-                </span>
-                <?php
-                        }
-                    }
-                ?>
                 <ul>
                     <li>
-                        <a href="overzicht.php" class="account-current-page">
+                        <a href="overzicht.php">
                             <svg version="1.1" viewBox="0 0 24 24" aria-hidden="true" focusable="false"
                                 class="account-svg">
                                 <path
@@ -89,7 +81,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="usermanager.php">
+                        <a href="usermanager.php" class="account-current-page">
                             <svg version="1.1" viewBox="0 0 24 24" aria-hidden="true" focusable="false"
                                 class="account-svg">
                                 <path
