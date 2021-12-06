@@ -110,6 +110,10 @@
                     </li>
                 </ul>
             </article>
+            <article class="account-content">
+                <h2>Manage Users</h2>
+                
+            </article>
         </section>
     </main>
     <?php

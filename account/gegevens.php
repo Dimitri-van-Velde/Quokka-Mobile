@@ -106,6 +106,10 @@
                     </li>
                 </ul>
             </article>
+            <article class="account-content">
+                <h2>Gegevens aanpassen</h2>
+                
+            </article>
         </section>
     </main>
     <?php

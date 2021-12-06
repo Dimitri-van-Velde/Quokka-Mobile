@@ -118,6 +118,12 @@
                     </li>
                 </ul>
             </article>
+            <article class="account-content">
+                <h2>Accountoverzicht</h2>
+                <article class="account-welcome">
+                    <h3>Welkom <?php echo $_SESSION["firstname"]?></h3>
+                </article>
+            </article>
         </section>
     </main>
     <?php
