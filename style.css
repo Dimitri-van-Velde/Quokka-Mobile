@@ -1153,7 +1153,7 @@ h3 {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
-    width: 60%;
+    width: 80%;
     margin: 0 auto;
 }
 
@@ -1183,7 +1183,7 @@ h3 {
 
 .account-list {
     margin-top: 20px;
-    width: 30%;
+    width: 20%;
     min-width: 250px;
 }
 .account-list li {
@@ -1231,6 +1231,40 @@ h3 {
 .account-welcome {
     height: 100px;
     margin-top: 25px;
+}
+
+.account-content-select {
+    margin-top: 10px;
+}
+
+.account-content-table {
+    height: max-content;
+    max-height: 400px;
+    width: 100%;
+    overflow: auto;  
+    margin-top: 10px;
+    border: 2px solid #1b1b1b;
+}
+
+.account-content-table table {
+    border-collapse: collapse;
+}
+
+.account-content-table th {
+    text-align: left;
+    padding-right: 20px;
+}
+
+.account-content-table td {
+    padding-right: 20px;
+}
+
+.account-content-table th {
+    border: 1px solid black;
+}
+
+.account-content-table td {
+    border: 1px solid black;
 }
 
 @media screen and (min-width: 426px) {

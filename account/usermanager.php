@@ -112,8 +112,118 @@
             </article>
             <article class="account-content">
                 <h2>Manage Users</h2>
-                
-            </article>
+                <article class="account-content-select">
+                    <form action="usermanager.php" method="post">
+                        <input type="submit" name="klanten" value="Klanten ophalen">
+                    </form>
+                    <form action="usermanager.php" method="post">
+                        <input type="submit" name="beheerders" value="Beheerders ophalen">
+                    </form>
+                </article>
+                <article class="account-content-table">
+                    <?php
+                        if(isset($_POST["klanten"])) {
+                    ?>
+                    <table>
+                        <colgroup>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                        </colgroup>
+                        <thead>
+                            <th>iduser</th>
+                            <th>email</th>
+                            <th>created_at</th>
+                            <th>pronoun</th>
+                            <th>firstname</th>
+                            <th>preposition</th>
+                            <th>lastname</th>
+                            <th>postalcode</th>
+                            <th>housenumber</th>
+                            <th>phonenumber</th>
+                            <th>birthdate</th>
+                        </thead>
+                        <tbody>
+                            <?php
+                                require_once '../php-includes/dbh.inc.php';
+                                $dsn = new Dbh;
+                                $stmt = $dsn->connect()->prepare("SELECT * FROM users");
+                                $stmt->execute();
+                                foreach($stmt as $row) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row["iduser"] . "</td>";
+                                    echo "<td>" . $row["email"] . "</td>";
+                                    echo "<td>" . $row["created_at"] . "</td>";
+                                    echo "<td>" . $row["pronoun"] . "</td>";
+                                    echo "<td>" . $row["firstname"] . "</td>";
+                                    echo "<td>" . $row["preposition"] . "</td>";
+                                    echo "<td>" . $row["lastname"] . "</td>";
+                                    echo "<td>" . $row["postalcode"] . "</td>";
+                                    echo "<td>" . $row["housenumber"] . "</td>";
+                                    echo "<td>" . $row["phonenumber"] . "</td>";
+                                    echo "<td>" . $row["birthdate"] . "</td>";
+                                    echo "</tr>";
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+                    <?php
+                        }
+                    ?>
+                    <?php
+                        if(isset($_POST["beheerders"])) {
+                    ?>
+                    <table>
+                        <thead>
+                            <th>iduser</th>
+                            <th>email</th>
+                            <th>created_at</th>
+                            <th>pronoun</th>
+                            <th>firstname</th>
+                            <th>preposition</th>
+                            <th>lastname</th>
+                            <th>postalcode</th>
+                            <th>housenumber</th>
+                            <th>phonenumber</th>
+                            <th>birthdate</th>
+                        </thead>
+                        <tbody>
+                            <?php
+                                require_once '../php-includes/dbh.inc.php';
+                                $dsn = new Dbh;
+                                $stmt = $dsn->connect()->prepare("SELECT * FROM users WHERE perms = 1");
+                                $stmt->execute();
+                                foreach($stmt as $row) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row["iduser"] . "</td>";
+                                    echo "<td>" . $row["email"] . "</td>";
+                                    echo "<td>" . $row["created_at"] . "</td>";
+                                    echo "<td>" . $row["pronoun"] . "</td>";
+                                    echo "<td>" . $row["firstname"] . "</td>";
+                                    echo "<td>" . $row["preposition"] . "</td>";
+                                    echo "<td>" . $row["lastname"] . "</td>";
+                                    echo "<td>" . $row["postalcode"] . "</td>";
+                                    echo "<td>" . $row["housenumber"] . "</td>";
+                                    echo "<td>" . $row["phonenumber"] . "</td>";
+                                    echo "<td>" . $row["birthdate"] . "</td>";
+                                    echo "</tr>";
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+                    <?php
+                        }
+                    ?>
+                                </article>
+                </article>
         </section>
     </main>
     <?php
