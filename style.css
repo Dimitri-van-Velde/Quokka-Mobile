@@ -1235,10 +1235,14 @@ h3 {
 
 .account-content-select {
     margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }
 
 .account-content-table {
     height: max-content;
+    min-height: 100px;
     max-height: 400px;
     width: 100%;
     overflow: auto;  
@@ -1252,11 +1256,11 @@ h3 {
 
 .account-content-table th {
     text-align: left;
-    padding-right: 20px;
+    padding: 10px 20px 10px 10px;
 }
 
 .account-content-table td {
-    padding-right: 20px;
+    padding: 10px 20px 10px 10px;
 }
 
 .account-content-table th {

@@ -112,7 +112,55 @@
             </article>
             <article class="account-content">
                 <h2>Manage Producten</h2>
-                
+                <article class="account-content-select">
+                    <form action="productmanager.php" method="post">
+                        <input type="submit" name="producten" value="Producten ophalen">
+                    </form>
+                    <form action="productmanager.php" method="post">
+                        <input type="submit" name="bestellingen" value="Bestellingen ophalen">
+                    </form>
+                </article>
+                <article class="account-content-table" id="account-content-table">
+                    <?php
+                        if(isset($_POST["producten"])) {
+                    ?>
+                    <table>
+                        <thead>
+                            <th>idproduct</th>
+                            <th>name</th>
+                            <th>idbrand</th>
+                            <th>price</th>
+                            <th>releasedate</th>
+                            <th>screensize</th>
+                            <th>color</th>
+                            <th>sold</th>
+                        </thead>
+                        <tbody>
+                            <?php
+                                require_once '../php-includes/dbh.inc.php';
+                                $dsn = new Dbh;
+                                $stmt = $dsn->connect()->prepare("SELECT products.*, sales.sold FROM products
+                                JOIN sales ON products.idproduct = sales.idproduct");
+                                $stmt->execute();
+                                foreach($stmt as $row) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row["idproduct"] . "</td>";
+                                    echo "<td>" . $row["name"] . "</td>";
+                                    echo "<td>" . $row["idbrand"] . "</td>";
+                                    echo "<td>" . $row["price"] . "</td>";
+                                    echo "<td>" . $row["releasedate"] . "</td>";
+                                    echo "<td>" . $row["screensize"] . "</td>";
+                                    echo "<td>" . $row["color"] . "</td>";
+                                    echo "<td>" . $row["sold"] . "</td>";
+                                    echo "</tr>";
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+                    <?php
+                        }
+                    ?>
+                </article>
             </article>
         </section>
     </main>

@@ -120,24 +120,11 @@
                         <input type="submit" name="beheerders" value="Beheerders ophalen">
                     </form>
                 </article>
-                <article class="account-content-table">
+                <article class="account-content-table" id="account-content-table">
                     <?php
                         if(isset($_POST["klanten"])) {
                     ?>
                     <table>
-                        <colgroup>
-                            <col>
-                            <col>
-                            <col>
-                            <col>
-                            <col>
-                            <col>
-                            <col>
-                            <col>
-                            <col>
-                            <col>
-                            <col>
-                        </colgroup>
                         <thead>
                             <th>iduser</th>
                             <th>email</th>
@@ -222,7 +209,7 @@
                     <?php
                         }
                     ?>
-                                </article>
+                    </article>
                 </article>
         </section>
     </main>
