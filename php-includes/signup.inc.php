@@ -30,7 +30,7 @@ if(isset($_POST["submit"])) {
         $birthdate = null;
     }
     $streetname = $_POST["streetname"];
-    $cityname = $_POST["cityname"];
+    $cityname = strtoupper($_POST["cityname"]);
 
     // Include database connection and signup classes
     include "../php-includes/dbh.inc.php";

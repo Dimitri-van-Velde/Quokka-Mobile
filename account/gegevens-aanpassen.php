@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $_SESSION["firstname"]?> | Gegevens</title>
+    <title><?php echo $_SESSION["firstname"]?> | Gegevens Aanpassen</title>
     <?php
         include '../head.html';
     ?>
@@ -108,35 +108,32 @@
             </article>
             <article class="account-content">
                 <h2>Gegevens aanpassen</h2>
-                <h3>Uw gegevens</h3>
-                <ul class="geg-pers-ul">
-                    <li>
-                        <?php
-                            if($_SESSION["preposition"] != null) {
-                                echo $_SESSION["firstname"] . " " . $_SESSION["preposition"] . " " . $_SESSION["lastname"];
-                            } else {
-                                echo $_SESSION["firstname"] . " " . $_SESSION["lastname"];
-                            }
-                        ?>
-                    </li>
-                    <li>
-                        <?php echo $_SESSION["streetname"] . " " . $_SESSION["housenumber"] ?>
-                    </li>
-                    <li>
-                        <?php echo $_SESSION["postalcode"] . " " . $_SESSION["cityname"] ?>
-                    </li>
-                    <li>
-                        <?php echo $_SESSION["email"] ?>
-                    </li>
-                    <li>
-                        <?php echo "Klantnummer: " . $_SESSION["userid"] ?>
-                    </li>
-                    <li>
-                        <form action="gegevens-aanpassen.php" method="post">
-                            <input type="submit" value="Aanpassen">
-                        </form>
-                    </li>
-                </ul>
+                    <form action="" method="post" class="signup-form">
+                        <fieldset class="signup-pers">
+                            <fieldset><input type="text" name="firstname" id="firstname" placeholder="Voornaam" tabindex="1"
+                                    maxlength="50" autofocus></fieldset>
+                            <fieldset><input type="text" name="preposition" id="preposition" placeholder="Tussenvoegsel"
+                                    tabindex="2" maxlength="50">
+                            </fieldset>
+                            <fieldset><input type="text" name="lastname" id="lastname" placeholder="Achternaam" tabindex="3"
+                                    maxlength="50"></fieldset>
+                            <fieldset><input type="text" name="streetname" id="streetname" maxlength="50"
+                                    placeholder="Straatnaam" tabindex="4"></fieldset>
+                            <fieldset><input type="number" name="housenumber" id="housenumber" maxlength="5"
+                                    placeholder="Huisnummer" tabindex="5"></fieldset>
+                            <fieldset><input type="text" name="postalcode" id="postalcode" pattern="[0-9]{4}[A-Z]{2}"
+                                    placeholder="Postcode" tabindex="6"></fieldset>
+                            <fieldset><input type="text" name="cityname" id="cityname" maxlength="50"
+                                    placeholder="Plaatsnaam" tabindex="7"></fieldset>
+                            <fieldset><input type="number" name="phonenumber" id="phonenumber" maxlength="10"
+                                    placeholder="Telefoonnummer" tabindex="8"></fieldset>
+                            <fieldset><label for="birthdate">Geboortedatum: </label></fieldset>
+                            <fieldset><input type="date" name="birthdate" id="birthdate" placeholder="Geboortedatum"
+                                    tabindex="9">
+                            </fieldset>
+                            <input type="submit" name="submit" value="Pas aan">
+                        </fieldset>
+                    </form>
             </article>
         </section>
     </main>
