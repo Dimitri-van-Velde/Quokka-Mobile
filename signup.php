@@ -78,11 +78,13 @@
                                 ?>
                         <h2>Inloggegevens</h2>
                         <fieldset><input type="email" name="email" id="email" placeholder="E-mailadres" tabindex="1"
-                                autofocus></fieldset>
+                                autofocus maxlength="255"></fieldset>
                         <fieldset><input type="password" name="password" id="password"
-                                placeholder="Wachtwoord (minimaal 8 karakters)" pattern=".{8,}" tabindex="2"></fieldset>
+                                placeholder="Wachtwoord (minimaal 8 karakters)" pattern=".{8,}" tabindex="2"
+                                maxlength="20"></fieldset>
                         <fieldset><input type="password" name="passwordrepeat" id="passwordrepeat"
-                                placeholder="Herhaal Wachtwoord" pattern=".{8,}" tabindex="3"></fieldset>
+                                placeholder="Herhaal Wachtwoord" pattern=".{8,3}" tabindex="3" maxlength="20">
+                        </fieldset>
                     </fieldset>
 
                     <fieldset class="signup-pers">
@@ -99,22 +101,26 @@
                                 <input type="radio" name="pronoun" id="overig" value="overig"> Overig
                             </label>
                         </fieldset>
-                        <fieldset><input type="text" name="firstname" id="firstname" placeholder="Voornaam"
-                                tabindex="5"></fieldset>
+                        <fieldset><input type="text" name="firstname" id="firstname" placeholder="Voornaam" tabindex="5"
+                                maxlength="50"></fieldset>
                         <fieldset><input type="text" name="preposition" id="preposition" placeholder="Tussenvoegsel"
-                                tabindex="6">
+                                tabindex="6" maxlength="50">
                         </fieldset>
-                        <fieldset><input type="text" name="lastname" id="lastname" placeholder="Achternaam"
-                                tabindex="7"></fieldset>
-                        <fieldset><input type="text" name="postalcode" id="postalcode" pattern="[0-9]{4}[A-Z]{2}"
-                                placeholder="Postcode" tabindex="8"></fieldset>
+                        <fieldset><input type="text" name="lastname" id="lastname" placeholder="Achternaam" tabindex="7"
+                                maxlength="50"></fieldset>
+                        <fieldset><input type="text" name="streetname" id="streetname" maxlength="50"
+                                placeholder="Straatnaam" tabindex="8"></fieldset>
                         <fieldset><input type="number" name="housenumber" id="housenumber" maxlength="5"
                                 placeholder="Huisnummer" tabindex="9"></fieldset>
+                        <fieldset><input type="text" name="postalcode" id="postalcode" pattern="[0-9]{4}[A-Z]{2}"
+                                placeholder="Postcode" tabindex="10"></fieldset>
+                        <fieldset><input type="text" name="cityname" id="cityname" maxlength="50"
+                                placeholder="Plaatsnaam" tabindex="11"></fieldset>
                         <fieldset><input type="number" name="phonenumber" id="phonenumber" maxlength="10"
-                                placeholder="Telefoonnummer" tabindex="10"></fieldset>
+                                placeholder="Telefoonnummer" tabindex="12"></fieldset>
                         <fieldset><label for="birthdate">Geboortedatum: </label></fieldset>
                         <fieldset><input type="date" name="birthdate" id="birthdate" placeholder="Geboortedatum"
-                                tabindex="11">
+                                tabindex="13">
                         </fieldset>
                         <input type="submit" name="submit" value="Sign Up">
                     </fieldset>

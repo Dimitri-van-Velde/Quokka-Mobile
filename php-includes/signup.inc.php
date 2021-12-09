@@ -29,6 +29,8 @@ if(isset($_POST["submit"])) {
     } else {
         $birthdate = null;
     }
+    $streetname = $_POST["streetname"];
+    $cityname = $_POST["cityname"];
 
     // Include database connection and signup classes
     include "../php-includes/dbh.inc.php";
@@ -36,7 +38,8 @@ if(isset($_POST["submit"])) {
     include "../classes/signup-contr.classes.php";
 
     // Create SignupContr instance
-    $signup = new SignupContr($email, $password, $passwordrepeat, $pronoun, $firstname, $preposition, $lastname, $postalcode, $housenumber, $phonenumber, $birthdate);
+    $signup = new SignupContr($email, $password, $passwordrepeat, $pronoun, $firstname, $preposition, $lastname, $postalcode, 
+    $housenumber, $phonenumber, $birthdate, $streetname, $cityname);
 
     // Running error handlers and signing user up
     $signup->signupUser();

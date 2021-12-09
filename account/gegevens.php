@@ -108,7 +108,17 @@
             </article>
             <article class="account-content">
                 <h2>Gegevens aanpassen</h2>
-                
+                <ul class="geg-pers-ul">
+                    <li>
+                        <?php
+                            if($_SESSION["preposition"] != null) {
+                                echo $_SESSION["firstname"] . " " . $_SESSION["preposition"] . " " . $_SESSION["lastname"];
+                            } else {
+                                echo $_SESSION["firstname"] . " " . $_SESSION["lastname"];
+                            }
+                        ?>
+                    </li>
+                </ul>
             </article>
         </section>
     </main>

@@ -6,15 +6,17 @@ require_once '../php-includes/dbh.inc.php';
 class Signup extends Dbh {
 
     // Create setUser function
-    protected function setUser($email, $password, $pronoun, $firstname, $preposition, $lastname, $postalcode, $housenumber, $phonenumber, $birthdate) {
-        $stmt = $this->connect()->prepare("INSERT INTO `users` (email, password, pronoun, firstname, preposition, lastname, postalcode, housenumber, phonenumber, birthdate)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    protected function setUser($email, $password, $pronoun, $firstname, $preposition, $lastname, $postalcode, $housenumber, $phonenumber, $birthdate, $streetname, $cityname) {
+        $stmt = $this->connect()->prepare("INSERT INTO `users` (email, password, pronoun, firstname, preposition, lastname, streetname, 
+        housenumber, postalcode, cityname, phonenumber, birthdate)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         // Hash password
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // If the statement failed, give an error
-        if(!$stmt->execute(array($email, $hashedPassword, $pronoun, $firstname, $preposition, $lastname, $postalcode, $housenumber, $phonenumber, $birthdate))) {
+        if(!$stmt->execute(array($email, $hashedPassword, $pronoun, $firstname, $preposition, $lastname, $streetname, 
+        $housenumber, $postalcode, $cityname, $phonenumber, $birthdate))) {
             $stmt = null;
             header("Location: ../signup.php?error=stmtfailed");
             exit();

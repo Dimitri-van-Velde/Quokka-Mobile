@@ -15,9 +15,12 @@ class SignupContr extends Signup {
     private $housenumber;
     private $phonenumber;
     private $birthdate;
+    private $streetname;
+    private $cityname;
 
     // Construct variables
-    public function __construct($email, $password, $passwordrepeat, $pronoun, $firstname, $preposition, $lastname, $postalcode, $housenumber, $phonenumber, $birthdate) {
+    public function __construct($email, $password, $passwordrepeat, $pronoun, $firstname, $preposition, $lastname, $postalcode, 
+    $housenumber, $phonenumber, $birthdate, $streetname, $cityname) {
         $this->email = $email;
         $this->password = $password;
         $this->passwordrepeat = $passwordrepeat;
@@ -29,6 +32,8 @@ class SignupContr extends Signup {
         $this->housenumber = $housenumber;
         $this->phonenumber = $phonenumber;
         $this->birthdate = $birthdate;
+        $this->streetname = $streetname;
+        $this->cityname = $cityname;
     }
 
     // Create signupUser function
@@ -60,7 +65,7 @@ class SignupContr extends Signup {
 
         // Call setUser function
         $this->setUser($this->email, $this->password, $this->pronoun, $this->firstname, $this->preposition, 
-        $this->lastname, $this->postalcode, $this->housenumber, $this->phonenumber, $this->birthdate);
+        $this->lastname, $this->postalcode, $this->housenumber, $this->phonenumber, $this->birthdate, $this->streetname, $this->cityname);
     }
 
     // Create emptyInput function
@@ -69,7 +74,7 @@ class SignupContr extends Signup {
 
         // Check if an input is empty
         if(empty($this->email) || empty($this->password) || empty($this->passwordrepeat) || empty($this->pronoun) || empty($this->firstname) ||
-        empty($this->lastname) || empty($this->postalcode) || empty($this->housenumber) || empty($this->phonenumber)) {
+        empty($this->lastname) || empty($this->postalcode) || empty($this->housenumber) || empty($this->phonenumber) || empty($this->streetname) || empty($this->cityname)) {
             $result = false;
         } else {
             $result = true;
