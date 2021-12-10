@@ -107,7 +107,7 @@
                 </ul>
             </article>
             <article class="account-content">
-                <h2>Gegevens aanpassen</h2>
+                <h2>Persoonlijke gegevens aanpassen</h2>
                 <form action="../php-includes/changeinfo.inc.php" method="post" class="change-form">
                     <fieldset class="change-pers">
                         <?php

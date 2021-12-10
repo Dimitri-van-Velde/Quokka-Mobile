@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $_SESSION["firstname"]?> | Accountoverzicht</title>
+    <title><?php echo $_SESSION["firstname"]?> | Gegevens Aanpassen</title>
     <?php
         include '../head.html';
     ?>
@@ -25,21 +25,9 @@
     <main>
         <section class="account">
             <article class="account-list">
-                <?php
-                    if(isset($_GET["redirect"])) {
-                        if($_GET["redirect"] == "noperms") {
-                ?>
-                <span class="account-info-message"><img src="../images/info.svg" alt="Info Icon">
-                    <p>U heeft geen toegang tot deze pagina. Als u denkt dat dat niet de bedoeling is, neem dan <a
-                            href="../contactform.php">contact</a> met ons op!</p>
-                </span>
-                <?php
-                        }
-                    }
-                ?>
                 <ul>
                     <li>
-                        <a href="overzicht.php" class="account-current-page">
+                        <a href="overzicht.php">
                             <svg version="1.1" viewBox="0 0 24 24" aria-hidden="true" focusable="false"
                                 class="account-svg">
                                 <path
@@ -49,7 +37,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="gegevens.php">
+                        <a href="gegevens.php" class="account-current-page">
                             <svg version="1.1" viewBox="0 0 14 14" aria-hidden="true" class="account-svg"
                                 focusable="false">
                                 <g fill-rule="nonzero">
@@ -119,30 +107,45 @@
                 </ul>
             </article>
             <article class="account-content">
-                <h2>Accountoverzicht</h2>
-                <article class="account-welcome">
-                    <h3>Welkom <?php
-                                if($_SESSION["preposition"] != null) {
-                                    echo $_SESSION["firstname"] . " " . $_SESSION["preposition"] . " " . $_SESSION["lastname"];
-                                } else {
-                                    echo $_SESSION["firstname"] . " " . $_SESSION["lastname"];
+                <h2>Wachtwoord aanpassen</h2>
+                <form action="../php-includes/changepassword.inc.php" method="post" class="change-form">
+                    <fieldset class="change-pers">
+                        <?php
+                            if(isset($_GET["error"])) {
+                                if($_GET["error"] == "emptyinput") {
+                            ?>
+                        <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                            <p>Vul alle verplichte velden
+                                in om aan te kunnen passen!</p>
+                        </span>
+                        <?php 
+                                } elseif($_GET["error"] == "stmtfailed") {
+                        ?>
+                        <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                            <p>Er was een fout
+                                in verbinden met de database! Neem A.U.B. <a href="../contactform.php">contact</a> op met
+                                ons
+                                op!</p>
+                        </span>
+                        <?php
                                 }
-                            ?></h3>
-                    <ul class="geg-ovz-ul">
-                        <li>
-                            <?php echo $_SESSION["streetname"] . " " . $_SESSION["housenumber"]; ?>
-                        </li>
-                        <li>
-                            <?php echo $_SESSION["postalcode"] . " " . $_SESSION["cityname"]; ?>
-                        </li>
-                        <li>
-                            <?php echo $_SESSION["email"]; ?>
-                        </li>
-                        <li>
-                            <?php echo "Klantnummer: " . $_SESSION["userid"]; ?>
-                        </li>
-                    </ul>
-                </article>
+                            }
+                        ?>
+                        <fieldset>
+                            <input type="password" name="password" id="password" placeholder="Huidig Wachtwoord" tabindex="1"
+                                pattern=".{8,}" autofocus>
+                        </fieldset>
+                        <fieldset>
+                            <input type="password" name="newpassword" id="newpassword" placeholder="Nieuw Wachtwoord"
+                                tabindex="2" pattern=".{8,}">
+                        </fieldset>
+                        <fieldset>
+                            <input type="password" name="newpasswordrepeat" id="newpasswordrepeat" placeholder="Herhaal Nieuw Wachtwoord" tabindex="3"
+                                pattern=".{8,}">
+                        </fieldset>
+                        <input type="submit" name="submit" value="Pas aan">
+                    </fieldset>
+                </form>
             </article>
         </section>
     </main>

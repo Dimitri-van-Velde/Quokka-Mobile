@@ -108,32 +108,19 @@
             </article>
             <article class="account-content">
                 <h2>Gegevens aanpassen</h2>
-                <h3>Uw gegevens</h3>
+                <h3>Persoonlijke gegevens</h3>
                 <ul class="geg-pers-ul">
                     <li>
-                        <?php
-                            if($_SESSION["preposition"] != null) {
-                                echo $_SESSION["firstname"] . " " . $_SESSION["preposition"] . " " . $_SESSION["lastname"];
-                            } else {
-                                echo $_SESSION["firstname"] . " " . $_SESSION["lastname"];
-                            }
-                        ?>
-                    </li>
-                    <li>
-                        <?php echo $_SESSION["streetname"] . " " . $_SESSION["housenumber"] ?>
-                    </li>
-                    <li>
-                        <?php echo $_SESSION["postalcode"] . " " . $_SESSION["cityname"] ?>
-                    </li>
-                    <li>
-                        <?php echo $_SESSION["email"] ?>
-                    </li>
-                    <li>
-                        <?php echo "Klantnummer: " . $_SESSION["userid"] ?>
-                    </li>
-                    <li>
                         <form action="gegevens-aanpassen.php" method="post">
-                            <input type="submit" value="Aanpassen">
+                            <input type="submit" value="Persoonlijke gegevens aanpassen">
+                        </form>
+                    </li>
+                </ul>
+                <h3>Inlog gegevens</h3>
+                <ul class="geg-acc-ul">
+                    <li>
+                        <form action="wachtwoord-aanpassen.php" method="post">
+                            <input type="submit" value="Wachtwoord aanpassen">
                         </form>
                     </li>
                 </ul>
