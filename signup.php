@@ -42,7 +42,7 @@
                                         if($_GET["error"] == "emptyinput") {
                                     ?>
                         <span class="login-error-message"><img src="images/error.svg" alt="Error Icon">
-                            <p>Vul alle velden
+                            <p>Vul alle verplichte velden
                                 in om aan te kunnen melden!</p>
                         </span>
                         <?php

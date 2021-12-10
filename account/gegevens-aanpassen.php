@@ -108,32 +108,85 @@
             </article>
             <article class="account-content">
                 <h2>Gegevens aanpassen</h2>
-                    <form action="" method="post" class="signup-form">
-                        <fieldset class="signup-pers">
-                            <fieldset><input type="text" name="firstname" id="firstname" placeholder="Voornaam" tabindex="1"
-                                    maxlength="50" autofocus></fieldset>
-                            <fieldset><input type="text" name="preposition" id="preposition" placeholder="Tussenvoegsel"
-                                    tabindex="2" maxlength="50">
-                            </fieldset>
-                            <fieldset><input type="text" name="lastname" id="lastname" placeholder="Achternaam" tabindex="3"
-                                    maxlength="50"></fieldset>
-                            <fieldset><input type="text" name="streetname" id="streetname" maxlength="50"
-                                    placeholder="Straatnaam" tabindex="4"></fieldset>
-                            <fieldset><input type="number" name="housenumber" id="housenumber" maxlength="5"
-                                    placeholder="Huisnummer" tabindex="5"></fieldset>
-                            <fieldset><input type="text" name="postalcode" id="postalcode" pattern="[0-9]{4}[A-Z]{2}"
-                                    placeholder="Postcode" tabindex="6"></fieldset>
-                            <fieldset><input type="text" name="cityname" id="cityname" maxlength="50"
-                                    placeholder="Plaatsnaam" tabindex="7"></fieldset>
-                            <fieldset><input type="number" name="phonenumber" id="phonenumber" maxlength="10"
-                                    placeholder="Telefoonnummer" tabindex="8"></fieldset>
-                            <fieldset><label for="birthdate">Geboortedatum: </label></fieldset>
-                            <fieldset><input type="date" name="birthdate" id="birthdate" placeholder="Geboortedatum"
-                                    tabindex="9">
-                            </fieldset>
-                            <input type="submit" name="submit" value="Pas aan">
+                <form action="../php-includes/changeinfo.inc.php" method="post" class="change-form">
+                    <fieldset class="change-pers">
+                        <?php
+                                if(isset($_GET["infochange"])) {
+                                    if($_GET["infochange"] == "success") {
+                            ?>
+                            <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                            <p>Uw gegevens zijn aangepast! <a href="../php-includes/logout.inc.php">Log opnieuw in</a> 
+                                om de veranderingen te zien.</p>
+                        </span>
                         </fieldset>
-                    </form>
+                        <?php
+                            }
+                        } else {
+                            if(isset($_GET["error"])) {
+                                if($_GET["error"] == "emptyinput") {
+                            ?>
+                        <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                            <p>Vul alle verplichte velden
+                                in om aan te kunnen passen!</p>
+                        </span>
+                        <?php 
+                                } elseif($_GET["error"] == "stmtfailed") {
+                        ?>
+                        <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                            <p>Er was een fout
+                                in verbinden met de database! Neem A.U.B. <a href="../contactform.php">contact</a> op met
+                                ons
+                                op!</p>
+                        </span>
+                        <?php
+                                }
+                            }
+                        ?>
+                        <fieldset>
+                            <input type="text" name="firstname" id="firstname" placeholder="Voornaam" tabindex="1"
+                                maxlength="50" autofocus value="<?php echo $_SESSION["firstname"]; ?>">
+                        </fieldset>
+                        <fieldset>
+                            <input type="text" name="preposition" id="preposition" placeholder="Tussenvoegsel"
+                                tabindex="2" maxlength="50" value="<?php echo $_SESSION["preposition"]; ?>">
+                        </fieldset>
+                        <fieldset>
+                            <input type="text" name="lastname" id="lastname" placeholder="Achternaam" tabindex="3"
+                                maxlength="50" value="<?php echo $_SESSION["lastname"]; ?>">
+                        </fieldset>
+                        <fieldset>
+                            <input type="text" name="streetname" id="streetname" maxlength="50" placeholder="Straatnaam"
+                                tabindex="4" value="<?php echo $_SESSION["streetname"]; ?>">
+                        </fieldset>
+                        <fieldset>
+                            <input type="number" name="housenumber" id="housenumber" maxlength="5"
+                                placeholder="Huisnummer" tabindex="5" value="<?php echo $_SESSION["housenumber"]; ?>">
+                        </fieldset>
+                        <fieldset>
+                            <input type="text" name="postalcode" id="postalcode" pattern="[0-9]{4}[A-Z]{2}"
+                                placeholder="Postcode" tabindex="6" value="<?php echo $_SESSION["postalcode"]; ?>">
+                        </fieldset>
+                        <fieldset>
+                            <input type="text" name="cityname" id="cityname" maxlength="50" placeholder="Plaatsnaam"
+                                tabindex="7" value="<?php echo $_SESSION["cityname"]; ?>">
+                        </fieldset>
+                        <fieldset>
+                            <input type="number" name="phonenumber" id="phonenumber" maxlength="8"
+                                placeholder="Telefoonnummer" tabindex="8" value="<?php echo $_SESSION["phonenumber"]; ?>">
+                        </fieldset>
+                        <fieldset>
+                            <label for="birthdate">Geboortedatum: </label>
+                        </fieldset>
+                        <fieldset>
+                            <input type="date" name="birthdate" id="birthdate" placeholder="Geboortedatum" tabindex="9"
+                            value="<?php echo $_SESSION["birthdate"]; ?>">
+                        </fieldset>
+                        <input type="submit" name="submit" value="Pas aan">
+                        <?php
+                        }
+                        ?>
+                    </fieldset>
+                </form>
             </article>
         </section>
     </main>
