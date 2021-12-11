@@ -38,7 +38,7 @@ if(isset($_POST["submit"])) {
     // Running error handlers and signing user up
     $changeinfo->doInfoChange();
 
-    // Sending user to login page
+    // Sending user to gegevens page
     session_start();
     header("Location: ../account/gegevens-aanpassen.php?infochange=success");
 

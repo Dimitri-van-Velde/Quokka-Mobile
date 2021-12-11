@@ -48,6 +48,17 @@
                                     }
                                 }
                             ?>
+                            <?php
+                                if(isset($_GET["wachtwoordchange"])) {
+                                    if($_GET["wachtwoordchange"] == "success") {
+                            ?>
+                        <span class="login-check-message"><img src="images/check.svg" alt="Check Icon">
+                            <p>Uw wachtwoord is succesvol aangepast! U kunt hier onder met uw nieuwe wachtwoord inloggen.</p>
+                        </span>
+                        <?php
+                                    }
+                                }
+                            ?>
                         <?php
                                 if(isset($_GET["redirect"])) {
                                     if($_GET["redirect"] == "account") {

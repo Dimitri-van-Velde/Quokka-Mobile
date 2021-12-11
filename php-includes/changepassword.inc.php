@@ -6,25 +6,26 @@ if(isset($_POST["submit"])) {
 
     // Variables
     $uid = $_SESSION["userid"];
+    $currentpassword = $_SESSION["currentpassword"];
     $password = $_POST["password"];
-    $password = $_POST["newpassword"];
-    $password = $_POST["newpasswordrepeat"];
+    $newpassword = $_POST["newpassword"];
+    $newpasswordrepeat = $_POST["newpasswordrepeat"];
 
     // Include database connection and changeinfo classes
     include "../php-includes/dbh.inc.php";
-    include "../classes/changeinfo.classes.php";
-    include "../classes/changeinfo-contr.classes.php";
+    include "../classes/changepassword.classes.php";
+    include "../classes/changepassword-contr.classes.php";
 
-    // Create ChangeinfoContr instance
-    $changeinfo = new ChangeinfoContr($uid, $firstname, $preposition, $lastname, $postalcode, 
-    $housenumber, $phonenumber, $birthdate, $streetname, $cityname);
+    // Create ChangepasswordContr instance
+    $changeinfo = new ChangepasswordContr($uid, $currentpassword, $password, $newpassword, $newpasswordrepeat);
 
     // Running error handlers and signing user up
-    $changeinfo->doInfoChange();
+    $changeinfo->doPasswordChange();
 
     // Sending user to login page
-    session_start();
-    header("Location: ../account/gegevens-aanpassen.php?infochange=success");
+    session_unset();
+    session_destroy();
+    header("Location: ../login.php?wachtwoordchange=success");
 
 }
 

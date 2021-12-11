@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $_SESSION["firstname"]?> | Gegevens Aanpassen</title>
+    <title><?php echo $_SESSION["firstname"]?> | Wachtwoord Aanpassen</title>
     <?php
         include '../head.html';
     ?>
@@ -126,6 +126,24 @@
                                 in verbinden met de database! Neem A.U.B. <a href="../contactform.php">contact</a> op met
                                 ons
                                 op!</p>
+                        </span>
+                        <?php 
+                                } elseif($_GET["error"] == "passwordmatch") {
+                        ?>
+                        <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                            <p>De nieuwe wachtwoorden die u heeft ingetypt komt niet over met elkaar! Probeer het nog eens.</p>
+                        </span>
+                        <?php 
+                                } elseif($_GET["error"] == "oldmatchnew") {
+                        ?>
+                        <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                            <p>Het wachtwoord dat u heeft ingetypt komt over met uw huidige wachtwoord. Vul een ander wachtwoord in om het te kunnen veranderen.</p>
+                        </span>
+                        <?php 
+                                } elseif($_GET["error"] == "wrongpassword") {
+                        ?>
+                        <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                            <p>Het wachtwoord dat u heeft ingetypt klopt niet! Probeer het nog eens.</p>
                         </span>
                         <?php
                                 }
