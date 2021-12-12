@@ -1,24 +1,25 @@
 <?php
-    session_start();
-    include_once 'php-includes/dbh.inc.php';
-    include_once 'php-includes/products.inc.php';
-?>   
+session_start();
+include_once 'php-includes/dbh.inc.php';
+include_once 'php-includes/products.inc.php';
+?>
 
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Producten</title>
     <?php
-        include 'head.html';
+    include 'head.html';
     ?>
 </head>
 
 <body>
     <?php
-        include 'nav.php';
+    include 'nav.php';
     ?>
 
     <main>
@@ -59,8 +60,8 @@
                 <ul id="product-ul">
                     <?php
 
-                        $object = new Products;
-                        echo $object->getProducts();
+                    $object = new Products;
+                    echo $object->getProducts();
 
                     ?>
                 </ul>
@@ -68,23 +69,23 @@
 
             <?php
 
-                $searchValue;
+            $searchValue;
 
-                if(isset($_GET["search"])){ 
-                    $searchValue = $_GET["search"];
-                } else {
-                    $searchValue = "";
-                }  
+            if (isset($_GET["search"])) {
+                $searchValue = $_GET["search"];
+            } else {
+                $searchValue = "";
+            }
             ?>
 
             <script>
-
                 //default_list();
 
-                //console.log("<?php //Print($_GET["search"]) ?>");
+                //console.log("<?php //Print($_GET["search"]) 
+                                ?>");
 
                 // Default function
-                function default_list(){
+                function default_list() {
 
                     window.history.replaceState({}, null, "http://localhost/quokka_mobile/producten.php");
                     document.title = "Producten";
@@ -101,14 +102,14 @@
 
                     // Open ajax connection to search.inc.php
                     var ajax_request = new XMLHttpRequest();
-                    
+
                     ajax_request.open("POST", "php-includes/defaultlist.inc.php");
                     ajax_request.send(form_data);
 
                     ajax_request.onreadystatechange = function() {
 
                         // Run code if connection was successful
-                        if(ajax_request.readyState == 4 && ajax_request.status == 200) {
+                        if (ajax_request.readyState == 4 && ajax_request.status == 200) {
 
                             // Parse the returned JSON
                             var response = JSON.parse(ajax_request.responseText);
@@ -117,10 +118,10 @@
                             html = "";
 
                             // Check if something was found
-                            if(response.length > 0) {
+                            if (response.length > 0) {
 
                                 // Create li elements
-                                for(var count = 0; count < response.length; count++) {
+                                for (var count = 0; count < response.length; count++) {
 
                                     // Variables
                                     var url;
@@ -142,10 +143,10 @@
 
                                     // Append li's
                                     html += "<li>" +
-                                    "<a href=\"producten/"+url+".php\"><img src=\"images/"+url+".jpg\" alt=\""+name+"\"></a>" +
-                                    "<a href=\"producten/"+url+".php\">"+name+"</a>" +
-                                    "<p>Prijs: €"+priceWithComma+"</p>" +
-                                "</li>";
+                                        "<a href=\"producten/" + url + ".php\"><img src=\"images/" + url + ".jpg\" alt=\"" + name + "\"></a>" +
+                                        "<a href=\"producten/" + url + ".php\">" + name + "</a>" +
+                                        "<p>Prijs: €" + priceWithComma + "</p>" +
+                                        "</li>";
                                 }
                             }
 
@@ -171,14 +172,14 @@
 
                     // Open ajax connection to search.inc.php
                     var ajax_request = new XMLHttpRequest();
-                    
+
                     ajax_request.open("POST", "php-includes/brandfilter.inc.php");
                     ajax_request.send(form_data);
 
                     ajax_request.onreadystatechange = function() {
 
                         // Run code if connection was successful
-                        if(ajax_request.readyState == 4 && ajax_request.status == 200) {
+                        if (ajax_request.readyState == 4 && ajax_request.status == 200) {
 
                             // Parse the returned JSON
                             var response = JSON.parse(ajax_request.responseText);
@@ -187,10 +188,10 @@
                             html = "";
 
                             // Check if something was found
-                            if(response.length > 0) {
+                            if (response.length > 0) {
 
                                 // Create li elements
-                                for(var count = 0; count < response.length; count++) {
+                                for (var count = 0; count < response.length; count++) {
 
                                     // Variables
                                     var url;
@@ -212,10 +213,10 @@
 
                                     // Append li's
                                     html += "<li>" +
-                                    "<a href=\"producten/"+url+".php\"><img src=\"images/"+url+".jpg\" alt=\""+name+"\"></a>" +
-                                    "<a href=\"producten/"+url+".php\">"+name+"</a>" +
-                                    "<p>Prijs: €"+priceWithComma+"</p>" +
-                                "</li>";
+                                        "<a href=\"producten/" + url + ".php\"><img src=\"images/" + url + ".jpg\" alt=\"" + name + "\"></a>" +
+                                        "<a href=\"producten/" + url + ".php\">" + name + "</a>" +
+                                        "<p>Prijs: €" + priceWithComma + "</p>" +
+                                        "</li>";
                                 }
                             }
 
@@ -230,7 +231,7 @@
                 // Get sort function
                 function get_sort(sort) {
                     var current_brand = document.getElementById("brand").value;
-                    var current_search =  "<?php Print($searchValue)?>";
+                    var current_search = "<?php print($searchValue) ?>";
                     //console.log(current_search);
                     //console.log(current_brand);
 
@@ -242,14 +243,14 @@
 
                     // Open ajax connection to search.inc.php
                     var ajax_request = new XMLHttpRequest();
-                    
+
                     ajax_request.open("POST", "php-includes/sortfilter.inc.php");
                     ajax_request.send(form_data);
 
                     ajax_request.onreadystatechange = function() {
 
                         // Run code if connection was successful
-                        if(ajax_request.readyState == 4 && ajax_request.status == 200) {
+                        if (ajax_request.readyState == 4 && ajax_request.status == 200) {
 
                             // Parse the returned JSON
                             var response = JSON.parse(ajax_request.responseText);
@@ -258,10 +259,10 @@
                             html = "";
 
                             // Check if something was found
-                            if(response.length > 0) {
+                            if (response.length > 0) {
 
                                 // Create li elements
-                                for(var count = 0; count < response.length; count++) {
+                                for (var count = 0; count < response.length; count++) {
 
                                     // Variables
                                     var url;
@@ -283,10 +284,10 @@
 
                                     // Append li's
                                     html += "<li>" +
-                                    "<a href=\"producten/"+url+".php\"><img src=\"images/"+url+".jpg\" alt=\""+name+"\"></a>" +
-                                    "<a href=\"producten/"+url+".php\">"+name+"</a>" +
-                                    "<p>Prijs: €"+priceWithComma+"</p>" +
-                                "</li>";
+                                        "<a href=\"producten/" + url + ".php\"><img src=\"images/" + url + ".jpg\" alt=\"" + name + "\"></a>" +
+                                        "<a href=\"producten/" + url + ".php\">" + name + "</a>" +
+                                        "<p>Prijs: €" + priceWithComma + "</p>" +
+                                        "</li>";
                                 }
                             }
 
@@ -302,9 +303,9 @@
     </main>
 
     <?php
-        include 'footer.html';
+    include 'footer.html';
     ?>
-    
+
 </body>
 
 </html>

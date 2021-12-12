@@ -1,5 +1,5 @@
 <?php
-    session_start();
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -11,13 +11,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personeel</title>
     <?php
-        include 'head.html';
+    include 'head.html';
     ?>
 </head>
 
 <body>
     <?php
-        include 'nav.php';
+    include 'nav.php';
     ?>
     <main>
         <section class="personeel-container">
@@ -53,7 +53,7 @@
         </section>
     </main>
     <?php
-        include 'footer.html';
+    include 'footer.html';
     ?>
 </body>
 

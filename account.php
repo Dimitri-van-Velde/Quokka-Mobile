@@ -1,10 +1,10 @@
 <?php
-    session_start();
-    if(!isset($_SESSION["userid"])) {
-        header("Location: login.php?redirect=account");
-    } else {
-        header("Location: account/overzicht.php");
-    }
+session_start();
+if (!isset($_SESSION["userid"])) {
+    header("Location: login.php?redirect=account");
+} else {
+    header("Location: account/overzicht.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,21 +16,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account</title>
     <?php
-        include 'head.html';
+    include 'head.html';
     ?>
 </head>
 
 <body>
     <?php
-        include 'nav.php';
+    include 'nav.php';
     ?>
     <main>
         <section>
-            
+
         </section>
     </main>
     <?php
-        include 'footer.html';
+    include 'footer.html';
     ?>
 </body>
 

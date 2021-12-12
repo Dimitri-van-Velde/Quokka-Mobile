@@ -7,5 +7,3 @@ session_destroy();
 
 // Sending user to login page
 header("Location: ../login.php");
-
-?>

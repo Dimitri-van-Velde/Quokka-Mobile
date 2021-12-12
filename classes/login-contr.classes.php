@@ -1,23 +1,26 @@
 <?php
 
 // Create LoginContr class
-class LoginContr extends Login {
+class LoginContr extends Login
+{
 
     // Create variables
     private $email;
     private $password;
 
     // Construct variables
-    public function __construct($email, $password) {
+    public function __construct($email, $password)
+    {
         $this->email = $email;
         $this->password = $password;
     }
 
     // Create loginUser function
-    public function loginUser() {
+    public function loginUser()
+    {
 
         // If there was no input, give an error
-        if($this->emptyInput() == false) {
+        if ($this->emptyInput() == false) {
             header("Location: ../login.php?error=emptyinput");
             exit();
         }
@@ -27,11 +30,11 @@ class LoginContr extends Login {
     }
 
     // Create emptyInput function
-    private function emptyInput()  {
-        $result;
+    private function emptyInput()
+    {
 
         // Check if there was no input
-        if(empty($this->email) || empty($this->password)) {
+        if (empty($this->email) || empty($this->password)) {
             $result = false;
         } else {
             $result = true;
@@ -40,5 +43,3 @@ class LoginContr extends Login {
         return $result;
     }
 }
-
-?>

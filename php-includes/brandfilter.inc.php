@@ -4,69 +4,67 @@ include_once 'dbh.inc.php';
 
 $dbh = new Dbh;
 
-    if(isset($_POST["brand"])) {
+if (isset($_POST["brand"])) {
 
-        // Connect to database
-        $dsn = $dbh->connect();
+    // Connect to database
+    $dsn = $dbh->connect();
 
-        // Set data array
-        $data = array();
+    // Set data array
+    $data = array();
 
-        // Get brand value
-        $brand = $_POST["brand"];
+    // Get brand value
+    $brand = $_POST["brand"];
 
-        // Set query based on sort value
-        if($_POST["current_sort"] == "popularity") {
+    // Set query based on sort value
+    if ($_POST["current_sort"] == "popularity") {
 
-            $query = "
+        $query = "
             SELECT `products`.*, `sales`.`sold` FROM `products` 
                 JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
                 WHERE `idbrand` = $brand
                 ORDER BY `sold` DESC
             ";
-        } elseif($_POST["current_sort"] == "priceLtH") {
+    } elseif ($_POST["current_sort"] == "priceLtH") {
 
-            $query = "
+        $query = "
             SELECT * FROM `products`
                 WHERE `idbrand` = $brand
                 ORDER BY `price` ASC
             ";
-        } elseif($_POST["current_sort"] == "priceHtL") {
+    } elseif ($_POST["current_sort"] == "priceHtL") {
 
-            $query = "
+        $query = "
             SELECT * FROM `products`
                 WHERE `idbrand` = $brand
                 ORDER BY `price` DESC
             ";
-        } elseif($_POST["current_sort"] == "releaseNtO") {
+    } elseif ($_POST["current_sort"] == "releaseNtO") {
 
-            $query = "
+        $query = "
             SELECT * FROM `products`
                 WHERE `idbrand` = $brand
                 ORDER BY `releasedate` DESC
             ";
-        } elseif($_POST["current_sort"] == "releaseOtN") {
+    } elseif ($_POST["current_sort"] == "releaseOtN") {
 
-            $query = "
+        $query = "
             SELECT * FROM `products`
                 WHERE `idbrand` = $brand
                 ORDER BY `releasedate` ASC
             ";
-        }
-
-        $result = $dsn->query($query);
-
-        // Put result into array
-        foreach($result as $row) {
-
-            $data[] = array(
-                "name" => $row["name"],
-                "price" => $row["price"]
-            );
-
-        }
-
-        // Send back as json
-        echo json_encode($data);
     }
-?>
+
+    $result = $dsn->query($query);
+
+    // Put result into array
+    foreach ($result as $row) {
+
+        $data[] = array(
+            "name" => $row["name"],
+            "price" => $row["price"]
+        );
+    }
+
+    // Send back as json
+    echo json_encode($data);
+}

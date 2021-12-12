@@ -2,29 +2,29 @@
 session_start();
 
 // Check if submit button was clicked
-if(isset($_POST["submit"])) {
+if (isset($_POST["submit"])) {
 
     // Variables
     $uid = $_SESSION["userid"];
-    $firstname = $_POST["firstname"];
+    $firstName = $_POST["firstname"];
     $preposition = $_POST["preposition"];
-    if($preposition != "") {
+    if ($preposition != "") {
         $preposition = $preposition;
     } else {
         $preposition = null;
     }
-    $lastname = $_POST["lastname"];
-    $postalcode = $_POST["postalcode"];
-    $housenumber = $_POST["housenumber"];
-    $phonenumber = $_POST["phonenumber"];
+    $lastName = $_POST["lastname"];
+    $postalCode = $_POST["postalcode"];
+    $houseNumber = $_POST["housenumber"];
+    $phoneNumber = $_POST["phonenumber"];
     $birthdate = $_POST["birthdate"];
-    if($birthdate != "") {
+    if ($birthdate != "") {
         $birthdate = $birthdate;
     } else {
         $birthdate = null;
     }
-    $streetname = $_POST["streetname"];
-    $cityname = strtoupper($_POST["cityname"]);
+    $streetName = $_POST["streetname"];
+    $cityName = strtoupper($_POST["cityname"]);
 
     // Include database connection and changeinfo classes
     include "../php-includes/dbh.inc.php";
@@ -32,8 +32,18 @@ if(isset($_POST["submit"])) {
     include "../classes/changeinfo-contr.classes.php";
 
     // Create ChangeinfoContr instance
-    $changeinfo = new ChangeinfoContr($uid, $firstname, $preposition, $lastname, $postalcode, 
-    $housenumber, $phonenumber, $birthdate, $streetname, $cityname);
+    $changeinfo = new ChangeinfoContr(
+        $uid,
+        $firstName,
+        $preposition,
+        $lastName,
+        $postalCode,
+        $houseNumber,
+        $phoneNumber,
+        $birthdate,
+        $streetName,
+        $cityName
+    );
 
     // Running error handlers and signing user up
     $changeinfo->doInfoChange();
@@ -41,7 +51,4 @@ if(isset($_POST["submit"])) {
     // Sending user to gegevens page
     session_start();
     header("Location: ../account/gegevens-aanpassen.php?infochange=success");
-
 }
-
-?>

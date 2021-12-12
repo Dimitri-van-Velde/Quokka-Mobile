@@ -1,36 +1,36 @@
 <?php
 
 // Check if submit button was clicked
-if(isset($_POST["submit"])) {
+if (isset($_POST["submit"])) {
 
     // Variables
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $passwordrepeat = $_POST["passwordrepeat"];
+    $passwordRepeat = $_POST["passwordrepeat"];
 
     // Hash Password
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     $pronoun = $_POST["pronoun"];
-    $firstname = $_POST["firstname"];
+    $firstName = $_POST["firstname"];
     $preposition = $_POST["preposition"];
-    if($preposition != "") {
+    if ($preposition != "") {
         $preposition = $preposition;
     } else {
         $preposition = null;
     }
-    $lastname = $_POST["lastname"];
-    $postalcode = $_POST["postalcode"];
-    $housenumber = $_POST["housenumber"];
-    $phonenumber = $_POST["phonenumber"];
+    $lastName = $_POST["lastname"];
+    $postalCode = $_POST["postalcode"];
+    $houseNumber = $_POST["housenumber"];
+    $phoneNumber = $_POST["phonenumber"];
     $birthdate = $_POST["birthdate"];
-    if($birthdate != "") {
+    if ($birthdate != "") {
         $birthdate = $birthdate;
     } else {
         $birthdate = null;
     }
-    $streetname = $_POST["streetname"];
-    $cityname = strtoupper($_POST["cityname"]);
+    $streetName = $_POST["streetname"];
+    $cityName = strtoupper($_POST["cityname"]);
 
     // Include database connection and signup classes
     include "../php-includes/dbh.inc.php";
@@ -38,8 +38,21 @@ if(isset($_POST["submit"])) {
     include "../classes/signup-contr.classes.php";
 
     // Create SignupContr instance
-    $signup = new SignupContr($email, $password, $passwordrepeat, $pronoun, $firstname, $preposition, $lastname, $postalcode, 
-    $housenumber, $phonenumber, $birthdate, $streetname, $cityname);
+    $signup = new SignupContr(
+        $email,
+        $password,
+        $passwordRepeat,
+        $pronoun,
+        $firstName,
+        $preposition,
+        $lastName,
+        $postalCode,
+        $houseNumber,
+        $phoneNumber,
+        $birthdate,
+        $streetName,
+        $cityName
+    );
 
     // Running error handlers and signing user up
     $signup->signupUser();
@@ -48,7 +61,4 @@ if(isset($_POST["submit"])) {
     session_start();
     $_SESSION["signupemail"] = $email;
     header("Location: ../login.php?signup=success");
-
 }
-
-?>

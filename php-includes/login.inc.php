@@ -1,7 +1,7 @@
 <?php
 
 // Check if submit button was clicked
-if(isset($_POST["submit"])) {
+if (isset($_POST["submit"])) {
 
     // Variables
     $email = $_POST["email"];
@@ -20,7 +20,4 @@ if(isset($_POST["submit"])) {
 
     // Sending user to account page
     header("Location: ../account.php");
-
 }
-
-?>

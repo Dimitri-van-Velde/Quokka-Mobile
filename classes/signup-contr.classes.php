@@ -1,80 +1,109 @@
 <?php
 
 // Create SignupContr class
-class SignupContr extends Signup {
+class SignupContr extends Signup
+{
 
     // Create variables
     private $email;
     private $password;
-    private $passwordrepeat;
+    private $passwordRepeat;
     private $pronoun;
-    private $firstname;
+    private $firstName;
     private $preposition;
-    private $lastname;
-    private $postalcode;
-    private $housenumber;
-    private $phonenumber;
+    private $lastName;
+    private $postalCode;
+    private $houseNumber;
+    private $phoneNumber;
     private $birthdate;
-    private $streetname;
-    private $cityname;
+    private $streetName;
+    private $cityName;
 
     // Construct variables
-    public function __construct($email, $password, $passwordrepeat, $pronoun, $firstname, $preposition, $lastname, $postalcode, 
-    $housenumber, $phonenumber, $birthdate, $streetname, $cityname) {
+    public function __construct(
+        $email,
+        $password,
+        $passwordRepeat,
+        $pronoun,
+        $firstName,
+        $preposition,
+        $lastName,
+        $postalCode,
+        $houseNumber,
+        $phoneNumber,
+        $birthdate,
+        $streetName,
+        $cityName
+    ) {
         $this->email = $email;
         $this->password = $password;
-        $this->passwordrepeat = $passwordrepeat;
+        $this->passwordRepeat = $passwordRepeat;
         $this->pronoun = $pronoun;
-        $this->firstname = $firstname;
+        $this->firstName = $firstName;
         $this->preposition = $preposition;
-        $this->lastname = $lastname;
-        $this->postalcode = $postalcode;
-        $this->housenumber = $housenumber;
-        $this->phonenumber = $phonenumber;
+        $this->lastName = $lastName;
+        $this->postalCode = $postalCode;
+        $this->houseNumber = $houseNumber;
+        $this->phoneNumber = $phoneNumber;
         $this->birthdate = $birthdate;
-        $this->streetname = $streetname;
-        $this->cityname = $cityname;
+        $this->streetName = $streetName;
+        $this->cityName = $cityName;
     }
 
     // Create signupUser function
-    public function signupUser() {
+    public function signupUser()
+    {
 
         // Check if input was empty
-        if($this->emptyInput() == false) {
+        if ($this->emptyInput() == false) {
             header("Location: ../signup.php?error=emptyinput");
             exit();
         }
 
         // Check if email is invalid
-        if($this->invalidEmail() == true) {
+        if ($this->invalidEmail() == true) {
             header("Location: ../signup.php?error=email");
             exit();
         }
 
         // Check if the passwords match
-        if($this->passwordMatch() == false) {
+        if ($this->passwordMatch() == false) {
             header("Location: ../signup.php?error=passwordmatch");
             exit();
         }
 
         // Check if the email address is taken
-        if($this->emailTaken() == false) {
+        if ($this->emailTaken() == false) {
             header("Location: ../signup.php?error=emailtaken");
             exit();
         }
 
         // Call setUser function
-        $this->setUser($this->email, $this->password, $this->pronoun, $this->firstname, $this->preposition, 
-        $this->lastname, $this->postalcode, $this->housenumber, $this->phonenumber, $this->birthdate, $this->streetname, $this->cityname);
+        $this->setUser(
+            $this->email,
+            $this->password,
+            $this->pronoun,
+            $this->firstName,
+            $this->preposition,
+            $this->lastName,
+            $this->postalCode,
+            $this->houseNumber,
+            $this->phoneNumber,
+            $this->birthdate,
+            $this->streetName,
+            $this->cityName
+        );
     }
 
     // Create emptyInput function
-    private function emptyInput()  {
-        $result;
-
+    private function emptyInput()
+    {
+        
         // Check if an input is empty
-        if(empty($this->email) || empty($this->password) || empty($this->passwordrepeat) || empty($this->pronoun) || empty($this->firstname) ||
-        empty($this->lastname) || empty($this->postalcode) || empty($this->housenumber) || empty($this->phonenumber) || empty($this->streetname) || empty($this->cityname)) {
+        if (
+            empty($this->email) || empty($this->password) || empty($this->passwordRepeat) || empty($this->pronoun) || empty($this->firstName) ||
+            empty($this->lastName) || empty($this->postalCode) || empty($this->houseNumber) || empty($this->phoneNumber) || empty($this->streetName) || empty($this->cityName)
+        ) {
             $result = false;
         } else {
             $result = true;
@@ -84,11 +113,11 @@ class SignupContr extends Signup {
     }
 
     // Create invalidEmail function
-    private function invalidEmail() {
-        $result;
-
+    private function invalidEmail()
+    {
+        
         // Check if email address is valid
-        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $result = true;
         } else {
             $result = false;
@@ -98,13 +127,13 @@ class SignupContr extends Signup {
     }
 
     // Create passwordMatch function
-    private function passwordMatch() {
-        $result;
-
+    private function passwordMatch()
+    {
+        
         // Check if the passwords match
-        if($this->password !== $this->passwordrepeat) {
+        if ($this->password !== $this->passwordRepeat) {
             $result = false;
-        } else{
+        } else {
             $result = true;
         }
 
@@ -112,19 +141,16 @@ class SignupContr extends Signup {
     }
 
     // Create emailTaken function
-    private function emailTaken() {
-        $result;
-
+    private function emailTaken()
+    {
+        
         // Check if the email exists in the database already
-        if(!$this->checkEmail($this->email)) {
+        if (!$this->checkEmail($this->email)) {
             $result = false;
-        } else{
+        } else {
             $result = true;
         }
 
         return $result;
     }
-
 }
-
-?>

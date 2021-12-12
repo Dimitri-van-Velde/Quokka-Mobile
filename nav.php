@@ -41,42 +41,50 @@
                         </ul>
                     </li>
                     <?php
-                        // Get file directory 
-                        $cur_dir = explode('\\', getcwd());
+                    // Get file directory 
+                    $cur_dir = explode('\\', getcwd());
 
-                        // Check if file is in main folder
-                        if($cur_dir[count($cur_dir)-1] != "quokka_mobile") {
-                            // Check if user is logged in
-                            if(isset($_SESSION["userid"])) {
-                                ?>
-                                    <li><a href="../account.php" id="account-a"><?php
-                                        $firstname = $_SESSION["firstname"];
-                                        $firstname = str_replace("-", " ", $firstname);
-                                        $abr = explode(" ", $firstname);
-                                        echo substr($abr[0], 0, 10);
-                                    ?></a></li>
-                                <?php
-                            } else {
-                                ?>                            
-                                    <li><a href="../login.php" id="login-a">Log In</a></li>
-                                <?php
-                            }
+                    // Check if file is in main folder
+                    if ($cur_dir[count($cur_dir) - 1] != "quokka_mobile") {
+                        // Check if user is logged in
+                        if (isset($_SESSION["userid"])) {
+                    ?>
+                            <li>
+                                <a href="../account.php" id="account-a">
+                                    <?php
+                                    $firstname = $_SESSION["firstname"];
+                                    $firstname = str_replace("-", " ", $firstname);
+                                    $abr = explode(" ", $firstname);
+                                    echo substr($abr[0], 0, 10);
+                                    ?>
+                                </a>
+                            </li>
+                        <?php
                         } else {
-                            if(isset($_SESSION["userid"])) {
-                                ?>
-                                    <li><a href="account.php" id="account-a"><?php
-                                        $firstname = $_SESSION["firstname"];
-                                        $firstname = str_replace("-", " ", $firstname);
-                                        $abr = explode(" ", $firstname);
-                                        echo substr($abr[0], 0, 10);
-                                    ?></a></li>
-                                <?php
-                            } else {
-                                ?>                            
-                                    <li><a href="login.php" id="login-a">Log In</a></li>
-                                <?php
-                            }
+                        ?>
+                            <li><a href="../login.php" id="login-a">Log In</a></li>
+                        <?php
                         }
+                    } else {
+                        if (isset($_SESSION["userid"])) {
+                        ?>
+                            <li>
+                                <a href="account.php" id="account-a">
+                                    <?php
+                                    $firstname = $_SESSION["firstname"];
+                                    $firstname = str_replace("-", " ", $firstname);
+                                    $abr = explode(" ", $firstname);
+                                    echo substr($abr[0], 0, 10);
+                                    ?>
+                                </a>
+                            </li>
+                        <?php
+                        } else {
+                        ?>
+                            <li><a href="login.php" id="login-a">Log In</a></li>
+                    <?php
+                        }
+                    }
                     ?>
                 </ul>
             </article>
@@ -90,14 +98,13 @@
         </article>
     </nav>
     <script>
-
         // Load Data funcion
         function load_data(query) {
-            
+
             var loc = window.location.pathname;
             var dir = loc.substring(0, loc.lastIndexOf('/'));
 
-            if(dir != "/quokka_mobile") {
+            if (dir != "/quokka_mobile") {
                 var searchInc = "../php-includes/search.inc.php";
                 var productPage = "../producten.php";
                 var productDir = "../producten";
@@ -110,7 +117,7 @@
             }
 
             // Check if input is 3 or longer
-            if(query.length > 2) {
+            if (query.length > 2) {
 
                 // Remove HTML tags from input
                 let sanitizedQuery = query.replace(/(<([^>]+)>)/gi, "");
@@ -121,14 +128,14 @@
 
                 // Open ajax connection to search.inc.php
                 var ajax_request = new XMLHttpRequest();
-                
+
                 ajax_request.open("POST", searchInc);
                 ajax_request.send(form_data);
 
                 ajax_request.onreadystatechange = function() {
 
                     // Run code if connection was successful
-                    if(ajax_request.readyState == 4 && ajax_request.status == 200) {
+                    if (ajax_request.readyState == 4 && ajax_request.status == 200) {
 
                         // Parse the returned JSON
                         var response = JSON.parse(ajax_request.responseText);
@@ -139,14 +146,14 @@
                         var html = "<article class=\"list-group\">";
 
                         // Check if something was found
-                        if(response.length > 0) {
-                            
+                        if (response.length > 0) {
+
                             // Append standard search result
-                            html += "<a href=\""+ productPage +"?search="+sanitizedQuery+"\" class=\"list-group-item\">"+
-                                "<p>Zoek naar: \""+sanitizedQuery+"\"</p></a>";
+                            html += "<a href=\"" + productPage + "?search=" + sanitizedQuery + "\" class=\"list-group-item\">" +
+                                "<p>Zoek naar: \"" + sanitizedQuery + "\"</p></a>";
 
                             // Append other search results
-                            for(var count = 0; count < response.length; count++) {
+                            for (var count = 0; count < response.length; count++) {
 
                                 // Variables
                                 var url;
@@ -165,18 +172,18 @@
                                 //console.log(url);
 
                                 // Append to element
-                                html += "<a href=\""+ productDir +"/"+url+".php\" class=\"list-group-item\"><img src=\""+ imageDir +"/"+url+".jpg\" alt=\""+name+"\"></img>"+
-                                    "<p>"+name+"</p></a>";
+                                html += "<a href=\"" + productDir + "/" + url + ".php\" class=\"list-group-item\"><img src=\"" + imageDir + "/" + url + ".jpg\" alt=\"" + name + "\"></img>" +
+                                    "<p>" + name + "</p></a>";
                             }
 
                         } else {
                             // Append standard search result
-                            html += "<a href=\""+ productPage +"?search="+sanitizedQuery+"\" class=\"list-group-item\">"+
-                                "<p>Zoek naar: \""+sanitizedQuery+"\"</p></a>";
+                            html += "<a href=\"" + productPage + "?search=" + sanitizedQuery + "\" class=\"list-group-item\">" +
+                                "<p>Zoek naar: \"" + sanitizedQuery + "\"</p></a>";
                         }
 
                         // Close html element
-                        html += "</article>";    
+                        html += "</article>";
 
                         // Set innerHTML to element value
                         document.getElementById("search_result").innerHTML = html;
@@ -190,6 +197,5 @@
                 document.getElementById("search_result1").innerHTML = "";
             }
         }
-
     </script>
 </header>

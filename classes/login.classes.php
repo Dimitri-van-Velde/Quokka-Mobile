@@ -3,21 +3,23 @@
 require_once '../php-includes/dbh.inc.php';
 
 // Create Login class
-class Login extends Dbh {
+class Login extends Dbh
+{
 
     // Create getUser function
-    protected function getUser($email, $password) {
+    protected function getUser($email, $password)
+    {
         $stmt = $this->connect()->prepare("SELECT password FROM users WHERE email = ?");
 
         // If the statement failed, give an error
-        if(!$stmt->execute(array($email))) {
+        if (!$stmt->execute(array($email))) {
             $stmt = null;
             header("Location: ../login.php?error=stmtfailed");
             exit();
         }
 
         // If no results were found, give an error
-        if($stmt->rowCount() == 0) {
+        if ($stmt->rowCount() == 0) {
             $stmt = null;
             var_dump($stmt);
             header("Location: ../login.php?error=usernotfound");
@@ -29,27 +31,27 @@ class Login extends Dbh {
         $checkPassword = password_verify($password, $hashedPassword[0]["password"]);
 
         // If the passwords don't match, give an error
-        if($checkPassword == false) {
+        if ($checkPassword == false) {
             $stmt = null;
             header("Location: ../login.php?error=wrongpassword");
             exit();
-        } elseif($checkPassword == true) { //If the passwords match, get user info
+        } elseif ($checkPassword == true) { //If the passwords match, get user info
             $stmt = $this->connect()->prepare("SELECT * FROM users WHERE email = ?");
 
             // If the statement failed, give an error
-            if(!$stmt->execute(array($email))) {
+            if (!$stmt->execute(array($email))) {
                 $stmt = null;
                 header("Location: ../login.php?error=stmtfailed");
                 exit();
             }
 
             // If no results were found, give an error
-            if($stmt->rowCount() == 0) {
+            if ($stmt->rowCount() == 0) {
                 $stmt = null;
                 header("Location: ../login.php?error=usernotfound");
                 exit();
             }
-            
+
             // Get all the users information
             $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -75,5 +77,3 @@ class Login extends Dbh {
         }
     }
 }
-
-?>

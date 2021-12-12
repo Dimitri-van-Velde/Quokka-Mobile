@@ -1,18 +1,20 @@
 <?php
 
-class Dbh {
+class Dbh
+{
 
     // Variables
-    private $servername;
+    private $serverName;
     private $username;
     private $password;
     private $dbname;
     private $charset;
 
     // Connect function
-    public function connect() {
+    public function connect()
+    {
         // Set Variable information
-        $this->servername = "localhost";
+        $this->serverName = "localhost";
         $this->username = "root";
         $this->password = "";
         $this->dbname = "quokka_mobile";
@@ -22,7 +24,7 @@ class Dbh {
         try {
 
             // Define DSN
-            $dsn = "mysql:host=".$this->servername.";dbname=".$this->dbname.";charset=".$this->charset;
+            $dsn = "mysql:host=" . $this->serverName . ";dbname=" . $this->dbname . ";charset=" . $this->charset;
 
             // Define PDO
             $pdo = new PDO($dsn, $this->username, $this->password);
@@ -30,13 +32,9 @@ class Dbh {
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             return $pdo;
-
         } catch (PDOException $e) {
-            print "Connection failed: ".$e->getMessage();
+            print "Connection failed: " . $e->getMessage();
             die();
         }
     }
-
 }
-
-?>

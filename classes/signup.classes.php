@@ -3,10 +3,24 @@
 require_once '../php-includes/dbh.inc.php';
 
 // Create Signup class
-class Signup extends Dbh {
+class Signup extends Dbh
+{
 
     // Create setUser function
-    protected function setUser($email, $password, $pronoun, $firstname, $preposition, $lastname, $postalcode, $housenumber, $phonenumber, $birthdate, $streetname, $cityname) {
+    protected function setUser(
+        $email,
+        $password,
+        $pronoun,
+        $firstName,
+        $preposition,
+        $lastName,
+        $postalCode,
+        $houseNumber,
+        $phoneNumber,
+        $birthdate,
+        $streetName,
+        $cityName
+    ) {
         $stmt = $this->connect()->prepare("INSERT INTO `users` (email, password, pronoun, firstname, preposition, lastname, streetname, 
         housenumber, postalcode, cityname, phonenumber, birthdate)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -15,8 +29,10 @@ class Signup extends Dbh {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // If the statement failed, give an error
-        if(!$stmt->execute(array($email, $hashedPassword, $pronoun, $firstname, $preposition, $lastname, $streetname, 
-        $housenumber, $postalcode, $cityname, $phonenumber, $birthdate))) {
+        if (!$stmt->execute(array(
+            $email, $hashedPassword, $pronoun, $firstName, $preposition, $lastName, $streetName,
+            $houseNumber, $postalCode, $cityName, $phoneNumber, $birthdate
+        ))) {
             $stmt = null;
             header("Location: ../signup.php?error=stmtfailed");
             exit();
@@ -26,20 +42,19 @@ class Signup extends Dbh {
     }
 
     // Create checkEmail function
-    protected function checkEmail($email) {
+    protected function checkEmail($email)
+    {
         $stmt = $this->connect()->prepare("SELECT email FROM users WHERE email = ?");
 
         // If the statement failed, give an error
-        if(!$stmt->execute(array($email))) {
+        if (!$stmt->execute(array($email))) {
             $stmt = null;
             header("Location: ../signup.php?error=stmtfailed");
             exit();
         }
 
-        $resultCheck;
-
         // If no results were found, give an error
-        if($stmt->rowCount() > 0) {
+        if ($stmt->rowCount() > 0) {
             $resultCheck = false;
         } else {
             $resultCheck = true;
@@ -47,7 +62,4 @@ class Signup extends Dbh {
 
         return $resultCheck;
     }
-
 }
-
-?>

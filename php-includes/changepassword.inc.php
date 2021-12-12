@@ -2,14 +2,14 @@
 session_start();
 
 // Check if submit button was clicked
-if(isset($_POST["submit"])) {
+if (isset($_POST["submit"])) {
 
     // Variables
     $uid = $_SESSION["userid"];
-    $currentpassword = $_SESSION["currentpassword"];
+    $currentPassword = $_SESSION["currentpassword"];
     $password = $_POST["password"];
-    $newpassword = $_POST["newpassword"];
-    $newpasswordrepeat = $_POST["newpasswordrepeat"];
+    $newPassword = $_POST["newpassword"];
+    $newPasswordRepeat = $_POST["newpasswordrepeat"];
 
     // Include database connection and changeinfo classes
     include "../php-includes/dbh.inc.php";
@@ -17,7 +17,7 @@ if(isset($_POST["submit"])) {
     include "../classes/changepassword-contr.classes.php";
 
     // Create ChangepasswordContr instance
-    $changeinfo = new ChangepasswordContr($uid, $currentpassword, $password, $newpassword, $newpasswordrepeat);
+    $changeinfo = new ChangepasswordContr($uid, $currentPassword, $password, $newPassword, $newPasswordRepeat);
 
     // Running error handlers and signing user up
     $changeinfo->doPasswordChange();
@@ -26,7 +26,4 @@ if(isset($_POST["submit"])) {
     session_unset();
     session_destroy();
     header("Location: ../login.php?wachtwoordchange=success");
-
 }
-
-?>

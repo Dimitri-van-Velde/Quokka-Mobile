@@ -1,5 +1,5 @@
 <?php
-    session_start();
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -11,15 +11,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <?php
-        include 'head.html';
+    include 'head.html';
     ?>
 </head>
 
 <body>
     <?php
-        include 'nav.php';
+    include 'nav.php';
     ?>
-    
+
     <main class="home-container">
         <section class="home-text-container">
             <article>
@@ -32,32 +32,33 @@
         <section>
             <article>
                 <ul id="home-ul">
-                    
+
                 </ul>
             </article>
             <script>
                 homeProducts();
-                function homeProducts(){
+
+                function homeProducts() {
                     var home = "home";
                     // Create FormData element
                     var form_data = new FormData();
                     form_data.append("home", home);
                     // Open ajax connection to search.inc.php
                     var ajax_request = new XMLHttpRequest();
-            
+
                     ajax_request.open("POST", "php-includes/home.inc.php");
                     ajax_request.send(form_data);
                     ajax_request.onreadystatechange = function() {
                         // Run code if connection was successful
-                        if(ajax_request.readyState == 4 && ajax_request.status == 200) {
+                        if (ajax_request.readyState == 4 && ajax_request.status == 200) {
                             // Parse the returned JSON
                             var response = JSON.parse(ajax_request.responseText);
                             // Create HTML element
                             html = "";
                             // Check if something was found
-                            if(response.length > 0) {
+                            if (response.length > 0) {
                                 // Create li elements
-                                for(var count = 0; count < response.length; count++) {
+                                for (var count = 0; count < response.length; count++) {
                                     // Variables
                                     var url;
                                     var name = response[count].name;
@@ -72,10 +73,10 @@
                                     //console.log(url);
                                     // Append li's
                                     html += "<li>" +
-                                    "<a href=\"producten/"+url+".php\"><img src=\"images/"+url+".jpg\" alt=\""+name+"\"></a>" +
-                                    "<a href=\"producten/"+url+".php\">"+name+"</a>" +
-                                    "<p>Prijs: €"+priceWithComma+"</p>" +
-                                "</li>";
+                                        "<a href=\"producten/" + url + ".php\"><img src=\"images/" + url + ".jpg\" alt=\"" + name + "\"></a>" +
+                                        "<a href=\"producten/" + url + ".php\">" + name + "</a>" +
+                                        "<p>Prijs: €" + priceWithComma + "</p>" +
+                                        "</li>";
                                 }
                             }
                             // Put li's on screen
@@ -88,7 +89,7 @@
     </main>
 
     <?php
-        include 'footer.html';
+    include 'footer.html';
     ?>
 </body>
 
