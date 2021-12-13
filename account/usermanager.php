@@ -111,11 +111,14 @@ if ($_SESSION["perms"] != 1) {
 
                     // Check if an action was chosen
                     if ($_POST["actions"] != 0) {
+
+                        // Split into action and uid
                         $splitAction = explode(" ", $_POST["actions"]);
                         $_SESSION["action"] = $splitAction[0];
                         $_SESSION["action-uid"] = $splitAction[1];
 
                 ?>
+                        <!-- Wachtwoord formulier -->
                         <form action="usermanager.php" method="post" class="change-form">
                             <fieldset class="change-pers">
                                 <h3>Vul uw wachtwoord in om deze actie te voltooien.</h3>
@@ -141,8 +144,11 @@ if ($_SESSION["perms"] != 1) {
                 }
                 ?>
                 <?php
+
+                // Check if password is submitted
                 if (isset($_POST["continue"])) {
 
+                    // Do if password is wrong
                     if (password_verify($_POST["password"], $_SESSION["currentpassword"]) == false) {
                 ?>
                         <form class="change-form">
@@ -155,12 +161,14 @@ if ($_SESSION["perms"] != 1) {
                         <?php
                     }
 
+                    // Do if password is right
                     if (password_verify($_POST["password"], $_SESSION["currentpassword"]) == true) {
 
+                        // Import database connection
                         require_once '../php-includes/dbh.inc.php';
-
                         $dsn = new Dbh;
 
+                        // Get selected users current perms
                         $stmt = $dsn->connect()->prepare("SELECT perms FROM users WHERE iduser = ?");
 
                         // If the statement failed, give an error
@@ -171,13 +179,14 @@ if ($_SESSION["perms"] != 1) {
                         }
 
                         $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
                         $currentPerms = $user[0]["perms"];
 
                         $stmt = null;
 
+                        // Do if action is make-admin
                         if ($_SESSION["action"] == "make-admin") {
 
+                            // Do if user is currently not an admin
                             if ($currentPerms == 0) {
 
                                 $stmt = $dsn->connect()->prepare("UPDATE users SET perms = ? WHERE iduser = ?");
@@ -202,6 +211,8 @@ if ($_SESSION["perms"] != 1) {
 
                                 unset($_SESSION["action"]);
                                 unset($_SESSION["action-uid"]);
+
+                                // Do if user is currently an admin
                             } elseif ($currentPerms == 1) {
                             ?>
                                 <form class="change-form">
@@ -213,10 +224,13 @@ if ($_SESSION["perms"] != 1) {
                                 </form>
                                 <?php
                             }
+                            // Do if action is take-admin
                         } elseif ($_SESSION["action"] == "take-admin") {
 
+                            // Check if logged in user is not the selected user
                             if ($_SESSION["action-uid"] != $_SESSION["userid"]) {
 
+                                // Do if user is currently an admin
                                 if ($currentPerms == 1) {
 
                                     $stmt = $dsn->connect()->prepare("UPDATE users SET perms = ? WHERE iduser = ?");
@@ -241,6 +255,8 @@ if ($_SESSION["perms"] != 1) {
 
                                     unset($_SESSION["action"]);
                                     unset($_SESSION["action-uid"]);
+
+                                    // Do if user is currently not an admin
                                 } elseif ($currentPerms == 0) {
                                 ?>
                                     <form class="change-form">
@@ -250,17 +266,18 @@ if ($_SESSION["perms"] != 1) {
                                             </span>
                                         </fieldset>
                                     </form>
-                <?php
+                                <?php
                                 }
+                                // Check if logged in user is the selected user
                             } elseif ($_SESSION["action-uid"] == $_SESSION["userid"]) {
                                 ?>
-                                    <form class="change-form">
-                                        <fieldset class="change-pers">
-                                            <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
-                                                <p>U kunt zichzelf geen beheerders rechten ontnemen.</p>
-                                            </span>
-                                        </fieldset>
-                                    </form>
+                                <form class="change-form">
+                                    <fieldset class="change-pers">
+                                        <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                            <p>U kunt zichzelf geen beheerders rechten ontnemen.</p>
+                                        </span>
+                                    </fieldset>
+                                </form>
                 <?php
                             }
                         }
@@ -268,6 +285,8 @@ if ($_SESSION["perms"] != 1) {
                 }
                 ?>
                 <?php
+
+                // Get all customers
                 if (isset($_POST["klanten"])) {
                 ?>
                     <article class="account-content-table" id="account-content-table">
@@ -330,6 +349,8 @@ if ($_SESSION["perms"] != 1) {
                 }
                 ?>
                 <?php
+
+                // Get all administrators
                 if (isset($_POST["beheerders"])) {
                 ?>
                     <article class="account-content-table" id="account-content-table">
