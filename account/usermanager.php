@@ -379,7 +379,7 @@ if ($_SESSION["perms"] != 1) {
                                                     <option value="make-admin <?php echo $row["iduser"]; ?>">Maak beheerder</option>
                                                     <option value="take-admin <?php echo $row["iduser"]; ?>">Verwijder beheerder</option>
                                                 </select>
-                                                <input type="submit" name="submit">
+                                                <input type="submit" name="submit" value="Ga verder" class="usermanager-submit">
                                             </form>
                                         </td>
                                         <?php

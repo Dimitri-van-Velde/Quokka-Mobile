@@ -1287,8 +1287,8 @@ h3 {
     border: 1px solid #c6c6c6;
     border-radius: 10px;
     box-shadow: 3px 3px 3px #c2c2c2;
-    min-width: 400px;
-    max-width: 400px;
+    min-width: 250px;
+    max-width: 250px;
 }
 
 .change-pers fieldset {
@@ -1343,6 +1343,29 @@ h3 {
 .geg-ovz-ul li {
     list-style: none;
     padding-bottom: 10px;
+}
+
+.usermanager-submit {
+    margin-top: 5px;
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    background: rgb(0, 200, 200);
+    color: #FFF;
+    padding: 4px;
+    font-size: 12px;
+}
+
+.usermanager-submit:hover {
+    background: #09C;
+    -webkit-transition: background 0.3s ease-in-out;
+    -moz-transition: background 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.usermanager-submit:active {
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 @media screen and (min-width: 426px) {
@@ -1717,6 +1740,11 @@ h3 {
     .login-form {
         flex-direction: row;
         justify-content: space-around;
+    }
+
+    .change-pers {
+        min-width: 400px;
+        max-width: 400px;
     }
 }
 
