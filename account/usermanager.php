@@ -130,6 +130,8 @@ if ($_SESSION["perms"] != 1) {
                                         echo " beheerder maken.";
                                     } elseif ($_SESSION["action"] == "take-admin") {
                                         echo " beheerder verwijderen.";
+                                    } elseif ($_SESSION["action"] == "remove-customer") {
+                                        echo " verwijderen.";
                                     }
                                     ?>
                                 </h4>
@@ -280,6 +282,61 @@ if ($_SESSION["perms"] != 1) {
                                 </form>
                 <?php
                             }
+                        } elseif ($_SESSION["action"] == "remove-customer") {
+
+                            // Check if logged in user is not the selected user
+                            if ($_SESSION["action-uid"] != $_SESSION["userid"]) {
+
+                                // Do if user is currently not an admin
+                                if ($currentPerms == 0) {
+
+                                    $stmt = $dsn->connect()->prepare("DELETE FROM users WHERE iduser = ?");
+
+                                    // If the statement failed, give an error
+                                    if (!$stmt->execute(array($_SESSION["action-uid"]))) {
+                                        $stmt = null;
+                                        header("Location: ../account/usermanager.php?error=stmtfailed");
+                                        exit();
+                                    }
+
+                                    $stmt = null;
+                                ?>
+                                    <form class="change-form">
+                                        <fieldset class="change-pers">
+                                            <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                                <p>De gebruiker met user id <?php echo $_SESSION["action-uid"]; ?> is verwijderd uit de database.</p>
+                                            </span>
+                                        </fieldset>
+                                    </form>
+                                <?php
+
+                                    unset($_SESSION["action"]);
+                                    unset($_SESSION["action-uid"]);
+
+                                    // Do if user is currently an admin
+                                } elseif ($currentPerms == 1) {
+                                ?>
+                                    <form class="change-form">
+                                        <fieldset class="change-pers">
+                                            <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                                <p>De gebruiker met user id <?php echo $_SESSION["action-uid"]; ?> is een beheerder. De gebruiker is niet verwijderd.</p>
+                                            </span>
+                                        </fieldset>
+                                    </form>
+                                <?php
+                                }
+                                // Check if logged in user is the selected user
+                            } elseif ($_SESSION["action-uid"] == $_SESSION["userid"]) {
+                                ?>
+                                <form class="change-form">
+                                    <fieldset class="change-pers">
+                                        <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                            <p>U kunt zichzelf geen beheerders rechten ontnemen.</p>
+                                        </span>
+                                    </fieldset>
+                                </form>
+                <?php
+                            }
                         }
                     }
                 }
@@ -318,6 +375,7 @@ if ($_SESSION["perms"] != 1) {
                                             <form action="usermanager.php" method="post">
                                                 <select name="actions" id="actions">
                                                     <option value="0" selected>Kies actie</option>
+                                                    <option value="remove-customer <?php echo $row["iduser"]; ?>">Verwijder klant</option>
                                                     <option value="make-admin <?php echo $row["iduser"]; ?>">Maak beheerder</option>
                                                     <option value="take-admin <?php echo $row["iduser"]; ?>">Verwijder beheerder</option>
                                                 </select>
