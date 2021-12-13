@@ -6,6 +6,8 @@ if (isset($_POST["submit"])) {
 
     // Variables
     $uid = $_SESSION["userid"];
+    $currentPassword = $_SESSION["currentpassword"];
+    $password = $_POST["password"];
     $firstName = $_POST["firstname"];
     $preposition = $_POST["preposition"];
     if ($preposition != "") {
@@ -34,6 +36,8 @@ if (isset($_POST["submit"])) {
     // Create ChangeinfoContr instance
     $changeinfo = new ChangeinfoContr(
         $uid,
+        $currentPassword,
+        $password,
         $firstName,
         $preposition,
         $lastName,
@@ -49,6 +53,7 @@ if (isset($_POST["submit"])) {
     $changeinfo->doInfoChange();
 
     // Sending user to gegevens page
-    session_start();
-    header("Location: ../account/gegevens-aanpassen.php?infochange=success");
+    session_unset();
+    session_destroy();
+    header("Location: ../login.php?infochange=success");
 }

@@ -17,7 +17,13 @@ if (isset($_POST["submit"])) {
     include "../classes/changepassword-contr.classes.php";
 
     // Create ChangepasswordContr instance
-    $changeinfo = new ChangepasswordContr($uid, $currentPassword, $password, $newPassword, $newPasswordRepeat);
+    $changeinfo = new ChangepasswordContr(
+        $uid,
+        $currentPassword,
+        $password,
+        $newPassword,
+        $newPasswordRepeat
+    );
 
     // Running error handlers and signing user up
     $changeinfo->doPasswordChange();

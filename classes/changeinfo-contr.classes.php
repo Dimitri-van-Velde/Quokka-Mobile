@@ -6,6 +6,8 @@ class ChangeinfoContr extends Changeinfo
 
     // Create variables
     private $uid;
+    private $currentPassword;
+    private $password;
     private $firstName;
     private $preposition;
     private $lastName;
@@ -19,6 +21,8 @@ class ChangeinfoContr extends Changeinfo
     // Construct variables
     public function __construct(
         $uid,
+        $currentPassword,
+        $password,
         $firstName,
         $preposition,
         $lastName,
@@ -30,6 +34,8 @@ class ChangeinfoContr extends Changeinfo
         $cityName
     ) {
         $this->uid = $uid;
+        $this->currentPassword = $currentPassword;
+        $this->password = $password;
         $this->firstName = $firstName;
         $this->preposition = $preposition;
         $this->lastName = $lastName;
@@ -48,6 +54,12 @@ class ChangeinfoContr extends Changeinfo
         // Check if input was empty
         if ($this->emptyInput() == false) {
             header("Location: ../account/gegevens-aanpassen.php?error=emptyinput");
+            exit();
+        }
+
+        // Check if the new password matches the old one
+        if ($this->currentPasswordMatch() == false) {
+            header("Location: ../account/gegevens-aanpassen.php?error=wrongpassword");
             exit();
         }
 
@@ -73,8 +85,22 @@ class ChangeinfoContr extends Changeinfo
         // Check if an input is empty
         if (
             empty($this->firstName) || empty($this->lastName) || empty($this->postalCode) || empty($this->houseNumber) ||
-            empty($this->phoneNumber) || empty($this->streetName) || empty($this->cityName)
+            empty($this->phoneNumber) || empty($this->streetName) || empty($this->cityName) || empty($this->password)
         ) {
+            $result = false;
+        } else {
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    // Create currentPasswordCheck function
+    private function currentPasswordMatch()
+    {
+        
+        // Check if the new password matches the old one
+        if (password_verify($this->password, $this->currentPassword) == false) {
             $result = false;
         } else {
             $result = true;

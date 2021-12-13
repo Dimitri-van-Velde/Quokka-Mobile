@@ -60,6 +60,17 @@ require_once 'php-includes/login.inc.php';
                             }
                             ?>
                             <?php
+                            if (isset($_GET["infochange"])) {
+                                if ($_GET["infochange"] == "success") {
+                            ?>
+                                    <span class="login-check-message"><img src="images/check.svg" alt="Check Icon">
+                                        <p>Uw informatie is succesvol aangepast! Log hieronder in om de veranderingen te zien.</p>
+                                    </span>
+                            <?php
+                                }
+                            }
+                            ?>
+                            <?php
                             if (isset($_GET["redirect"])) {
                                 if ($_GET["redirect"] == "account") {
                             ?>
