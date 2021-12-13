@@ -106,12 +106,18 @@ if ($_SESSION["perms"] != 1) {
                         <input type="submit" name="beheerders" value="Beheerders ophalen">
                     </form>
                 </article>
+                <?php
+                if (isset($_POST["submit"])) {
+                    echo "yo";
+                }
+                ?>
                 <article class="account-content-table" id="account-content-table">
                     <?php
                     if (isset($_POST["klanten"])) {
                     ?>
                         <table>
                             <thead>
+                                <th>Acties</th>
                                 <th>iduser</th>
                                 <th>email</th>
                                 <th>created_at</th>
@@ -131,18 +137,32 @@ if ($_SESSION["perms"] != 1) {
                                 $stmt = $dsn->connect()->prepare("SELECT * FROM users");
                                 $stmt->execute();
                                 foreach ($stmt as $row) {
-                                    echo "<tr>";
-                                    echo "<td>" . $row["iduser"] . "</td>";
-                                    echo "<td>" . $row["email"] . "</td>";
-                                    echo "<td>" . $row["created_at"] . "</td>";
-                                    echo "<td>" . $row["pronoun"] . "</td>";
-                                    echo "<td>" . $row["firstname"] . "</td>";
-                                    echo "<td>" . $row["preposition"] . "</td>";
-                                    echo "<td>" . $row["lastname"] . "</td>";
-                                    echo "<td>" . $row["postalcode"] . "</td>";
-                                    echo "<td>" . $row["housenumber"] . "</td>";
-                                    echo "<td>" . $row["phonenumber"] . "</td>";
-                                    echo "<td>" . $row["birthdate"] . "</td>";
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <form action="usermanager.php" method="post">
+                                                <select name="makeadmin" id="makeadmin">
+                                                    <option selected disabled>Kies actie</option>
+                                                    <option value="<?php echo $row["iduser"]; ?>">Maak beheerder</option>
+                                                </select>
+                                                <input type="submit" name="submit">
+                                            </form>
+                                        </td>
+                                        <?php
+                                        echo "<td>" . $row["iduser"] . "</td>";
+                                        echo "<td>" . $row["email"] . "</td>";
+                                        echo "<td>" . $row["created_at"] . "</td>";
+                                        echo "<td>" . $row["pronoun"] . "</td>";
+                                        echo "<td>" . $row["firstname"] . "</td>";
+                                        echo "<td>" . $row["preposition"] . "</td>";
+                                        echo "<td>" . $row["lastname"] . "</td>";
+                                        echo "<td>" . $row["postalcode"] . "</td>";
+                                        echo "<td>" . $row["housenumber"] . "</td>";
+                                        echo "<td>" . $row["phonenumber"] . "</td>";
+                                        echo "<td>" . $row["birthdate"] . "</td>";
+                                        ?>
+                                    </tr>
+                                <?php
                                     echo "</tr>";
                                 }
                                 ?>
