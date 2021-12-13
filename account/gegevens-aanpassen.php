@@ -124,7 +124,7 @@ if (!isset($_SESSION["userid"])) {
                         }
                         ?>
                         <fieldset>
-                            <input type="password" name="password" id="password" placeholder="Huidig Wachtwoord" tabindex="1" pattern=".{8,}" autofocus>
+                            <input type="password" name="password" id="password" placeholder="Uw Wachtwoord" tabindex="1" pattern=".{8,}" autofocus>
                         </fieldset>
                         <fieldset>
                             <input type="text" name="firstname" id="firstname" placeholder="Voornaam" tabindex="2" maxlength="50" value="<?php echo $_SESSION["firstname"]; ?>">

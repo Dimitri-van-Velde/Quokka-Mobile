@@ -106,10 +106,10 @@ if ($_SESSION["perms"] != 1) {
                         <input type="submit" name="bestellingen" value="Bestellingen ophalen">
                     </form>
                 </article>
-                <article class="account-content-table" id="account-content-table">
-                    <?php
-                    if (isset($_POST["producten"])) {
-                    ?>
+                <?php
+                if (isset($_POST["producten"])) {
+                ?>
+                    <article class="account-content-table" id="account-content-table">
                         <table>
                             <thead>
                                 <th>idproduct</th>
@@ -143,10 +143,10 @@ if ($_SESSION["perms"] != 1) {
                                 ?>
                             </tbody>
                         </table>
-                    <?php
-                    }
-                    ?>
-                </article>
+                    </article>
+                <?php
+                }
+                ?>
             </article>
         </section>
     </main>

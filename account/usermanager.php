@@ -108,13 +108,169 @@ if ($_SESSION["perms"] != 1) {
                 </article>
                 <?php
                 if (isset($_POST["submit"])) {
-                    echo "yo";
+
+                    // Check if an action was chosen
+                    if ($_POST["actions"] != 0) {
+                        $splitAction = explode(" ", $_POST["actions"]);
+                        $_SESSION["action"] = $splitAction[0];
+                        $_SESSION["action-uid"] = $splitAction[1];
+
+                ?>
+                        <form action="usermanager.php" method="post" class="change-form">
+                            <fieldset class="change-pers">
+                                <h3>Vul uw wachtwoord in om deze actie te voltooien.</h3>
+                                <h4>Gebruiker
+                                    <?php
+                                    echo $_SESSION["action-uid"];
+
+                                    if ($_SESSION["action"] == "make-admin") {
+                                        echo " beheerder maken.";
+                                    } elseif ($_SESSION["action"] == "take-admin") {
+                                        echo " beheerder verwijderen.";
+                                    }
+                                    ?>
+                                </h4>
+                                <fieldset>
+                                    <input type="password" name="password" id="password" placeholder="Uw Wachtwoord" tabindex="1" pattern=".{8,}" autofocus>
+                                </fieldset>
+                                <input type="submit" name="continue" value="Ga verder">
+                            </fieldset>
+                        </form>
+                <?php
+                    }
                 }
                 ?>
-                <article class="account-content-table" id="account-content-table">
-                    <?php
-                    if (isset($_POST["klanten"])) {
-                    ?>
+                <?php
+                if (isset($_POST["continue"])) {
+
+                    if (password_verify($_POST["password"], $_SESSION["currentpassword"]) == false) {
+                ?>
+                        <form class="change-form">
+                            <fieldset class="change-pers">
+                                <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                    <p>Het wachtwoord dat u heeft ingetypt klopt niet! Probeer het nog eens.</p>
+                                </span>
+                            </fieldset>
+                        </form>
+                        <?php
+                    }
+
+                    if (password_verify($_POST["password"], $_SESSION["currentpassword"]) == true) {
+
+                        require_once '../php-includes/dbh.inc.php';
+
+                        $dsn = new Dbh;
+
+                        $stmt = $dsn->connect()->prepare("SELECT perms FROM users WHERE iduser = ?");
+
+                        // If the statement failed, give an error
+                        if (!$stmt->execute(array($_SESSION["action-uid"]))) {
+                            $stmt = null;
+                            header("Location: ../account/usermanager.php?error=stmtfailed");
+                            exit();
+                        }
+
+                        $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                        $currentPerms = $user[0]["perms"];
+
+                        $stmt = null;
+
+                        if ($_SESSION["action"] == "make-admin") {
+
+                            if ($currentPerms == 0) {
+
+                                $stmt = $dsn->connect()->prepare("UPDATE users SET perms = ? WHERE iduser = ?");
+
+                                // If the statement failed, give an error
+                                if (!$stmt->execute(array(1, $_SESSION["action-uid"]))) {
+                                    $stmt = null;
+                                    header("Location: ../account/usermanager.php?error=stmtfailed");
+                                    exit();
+                                }
+
+                                $stmt = null;
+                        ?>
+                                <form class="change-form">
+                                    <fieldset class="change-pers">
+                                        <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                            <p>De gebruiker met user id <?php echo $_SESSION["action-uid"]; ?> is nu beheerder.</p>
+                                        </span>
+                                    </fieldset>
+                                </form>
+                            <?php
+
+                                unset($_SESSION["action"]);
+                                unset($_SESSION["action-uid"]);
+                            } elseif ($currentPerms == 1) {
+                            ?>
+                                <form class="change-form">
+                                    <fieldset class="change-pers">
+                                        <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                            <p>De gebruiker met user id <?php echo $_SESSION["action-uid"]; ?> is al een beheerder.</p>
+                                        </span>
+                                    </fieldset>
+                                </form>
+                                <?php
+                            }
+                        } elseif ($_SESSION["action"] == "take-admin") {
+
+                            if ($_SESSION["action-uid"] != $_SESSION["userid"]) {
+
+                                if ($currentPerms == 1) {
+
+                                    $stmt = $dsn->connect()->prepare("UPDATE users SET perms = ? WHERE iduser = ?");
+
+                                    // If the statement failed, give an error
+                                    if (!$stmt->execute(array(0, $_SESSION["action-uid"]))) {
+                                        $stmt = null;
+                                        header("Location: ../account/usermanager.php?error=stmtfailed");
+                                        exit();
+                                    }
+
+                                    $stmt = null;
+                                ?>
+                                    <form class="change-form">
+                                        <fieldset class="change-pers">
+                                            <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                                <p>De gebruiker met user id <?php echo $_SESSION["action-uid"]; ?> is nu geen beheerder meer.</p>
+                                            </span>
+                                        </fieldset>
+                                    </form>
+                                <?php
+
+                                    unset($_SESSION["action"]);
+                                    unset($_SESSION["action-uid"]);
+                                } elseif ($currentPerms == 0) {
+                                ?>
+                                    <form class="change-form">
+                                        <fieldset class="change-pers">
+                                            <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                                <p>De gebruiker met user id <?php echo $_SESSION["action-uid"]; ?> is geen beheerder.</p>
+                                            </span>
+                                        </fieldset>
+                                    </form>
+                <?php
+                                }
+                            } elseif ($_SESSION["action-uid"] == $_SESSION["userid"]) {
+                                ?>
+                                    <form class="change-form">
+                                        <fieldset class="change-pers">
+                                            <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                                <p>U kunt zichzelf geen beheerders rechten ontnemen.</p>
+                                            </span>
+                                        </fieldset>
+                                    </form>
+                <?php
+                            }
+                        }
+                    }
+                }
+                ?>
+                <?php
+                if (isset($_POST["klanten"])) {
+                ?>
+                    <article class="account-content-table" id="account-content-table">
                         <table>
                             <thead>
                                 <th>Acties</th>
@@ -141,9 +297,10 @@ if ($_SESSION["perms"] != 1) {
                                     <tr>
                                         <td>
                                             <form action="usermanager.php" method="post">
-                                                <select name="makeadmin" id="makeadmin">
-                                                    <option selected disabled>Kies actie</option>
-                                                    <option value="<?php echo $row["iduser"]; ?>">Maak beheerder</option>
+                                                <select name="actions" id="actions">
+                                                    <option value="0" selected>Kies actie</option>
+                                                    <option value="make-admin <?php echo $row["iduser"]; ?>">Maak beheerder</option>
+                                                    <option value="take-admin <?php echo $row["iduser"]; ?>">Verwijder beheerder</option>
                                                 </select>
                                                 <input type="submit" name="submit">
                                             </form>
@@ -168,12 +325,14 @@ if ($_SESSION["perms"] != 1) {
                                 ?>
                             </tbody>
                         </table>
-                    <?php
-                    }
-                    ?>
-                    <?php
-                    if (isset($_POST["beheerders"])) {
-                    ?>
+                    </article>
+                <?php
+                }
+                ?>
+                <?php
+                if (isset($_POST["beheerders"])) {
+                ?>
+                    <article class="account-content-table" id="account-content-table">
                         <table>
                             <thead>
                                 <th>iduser</th>
@@ -212,10 +371,10 @@ if ($_SESSION["perms"] != 1) {
                                 ?>
                             </tbody>
                         </table>
-                    <?php
-                    }
-                    ?>
-                </article>
+                    </article>
+                <?php
+                }
+                ?>
             </article>
         </section>
     </main>
