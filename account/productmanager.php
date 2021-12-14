@@ -100,10 +100,10 @@ if ($_SESSION["perms"] != 1) {
                 <h2>Manage Producten</h2>
                 <article class="account-content-select">
                     <form action="productmanager.php" method="post">
-                        <input type="submit" name="producten" value="Producten ophalen">
+                        <input type="submit" name="producten" value="Producten ophalen" class="usermanager-submit">
                     </form>
                     <form action="productmanager.php" method="post">
-                        <input type="submit" name="bestellingen" value="Bestellingen ophalen">
+                        <input type="submit" name="bestellingen" value="Bestellingen ophalen" class="usermanager-submit">
                     </form>
                 </article>
                 <?php
@@ -138,6 +138,41 @@ if ($_SESSION["perms"] != 1) {
                                     echo "<td>" . $row["screensize"] . "</td>";
                                     echo "<td>" . $row["color"] . "</td>";
                                     echo "<td>" . $row["sold"] . "</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </article>
+                <?php
+                }
+                ?>
+                <?php
+                if (isset($_POST["bestellingen"])) {
+                ?>
+                    <article class="account-content-table" id="account-content-table">
+                        <table>
+                            <thead>
+                                <th>idorderrow</th>
+                                <th>idorder</th>
+                                <th>idproduct</th>
+                                <th>name</th>
+                                <th>quantity</th>
+                            </thead>
+                            <tbody>
+                                <?php
+                                require_once '../php-includes/dbh.inc.php';
+                                $dsn = new Dbh;
+                                $stmt = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name` FROM `orderrow` 
+                                    JOIN `products` ON `orderrow`.`idproduct` = `products`.`idproduct`");
+                                $stmt->execute();
+                                foreach ($stmt as $row) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row["idorderrow"] . "</td>";
+                                    echo "<td>" . $row["idorder"] . "</td>";
+                                    echo "<td>" . $row["idproduct"] . "</td>";
+                                    echo "<td>" . $row["name"] . "</td>";
+                                    echo "<td>" . $row["quantity"] . "</td>";
                                     echo "</tr>";
                                 }
                                 ?>

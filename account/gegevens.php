@@ -98,7 +98,7 @@ if (!isset($_SESSION["userid"])) {
                 <ul class="geg-pers-ul">
                     <li>
                         <form action="gegevens-aanpassen.php" method="post">
-                            <input type="submit" value="Persoonlijke gegevens aanpassen">
+                            <input type="submit" value="Persoonlijke gegevens aanpassen" class="gegevens-submit">
                         </form>
                     </li>
                 </ul>
@@ -106,7 +106,7 @@ if (!isset($_SESSION["userid"])) {
                 <ul class="geg-acc-ul">
                     <li>
                         <form action="wachtwoord-aanpassen.php" method="post">
-                            <input type="submit" value="Wachtwoord aanpassen">
+                            <input type="submit" value="Wachtwoord aanpassen" class="gegevens-submit">
                         </form>
                     </li>
                 </ul>

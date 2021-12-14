@@ -100,10 +100,10 @@ if ($_SESSION["perms"] != 1) {
                 <h2>Manage Users</h2>
                 <article class="account-content-select">
                     <form action="usermanager.php" method="post">
-                        <input type="submit" name="klanten" value="Klanten ophalen">
+                        <input type="submit" name="klanten" value="Klanten ophalen" class="usermanager-submit">
                     </form>
                     <form action="usermanager.php" method="post">
-                        <input type="submit" name="beheerders" value="Beheerders ophalen">
+                        <input type="submit" name="beheerders" value="Beheerders ophalen" class="usermanager-submit">
                     </form>
                 </article>
                 <?php
