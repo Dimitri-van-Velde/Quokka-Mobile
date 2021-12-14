@@ -43,8 +43,7 @@ session_start();
                             <input placeholder="Voornaam" name="voornaam" id="voornaam" type="text" tabindex="1" required autofocus value="<?php echo $_SESSION["firstname"]; ?>">
                         </fieldset>
                         <fieldset>
-                            <input placeholder="Achternaam" name="achternaam" id="achternaam" type="text" tabindex="2" required value="
-                            <?php
+                            <input placeholder="Achternaam" name="achternaam" id="achternaam" type="text" tabindex="2" required value="<?php
                             if ($_SESSION["preposition"] != "") {
                                 echo $_SESSION["preposition"] . " " . $_SESSION["lastname"];
                             } else {
