@@ -12,7 +12,7 @@ if (!isset($_SESSION["userid"])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $_SESSION["firstname"] ?> | Gegevens Aanpassen</title>
+    <title><?php echo $_SESSION["firstname"] ?> | Winkelwagen</title>
     <?php
     include '../head.html';
     ?>
@@ -35,7 +35,7 @@ if (!isset($_SESSION["userid"])) {
                         </a>
                     </li>
                     <li>
-                        <a href="gegevens.php" class="account-current-page">
+                        <a href="gegevens.php">
                             <svg version="1.1" viewBox="0 0 14 14" aria-hidden="true" class="account-svg" focusable="false">
                                 <g fill-rule="nonzero">
                                     <path d="M5.834 2.999a4.141 4.141 0 00-.838.347l-.49-.245c-.247-.123-.608-.07-.8.121l-.484.485c-.183.183-.246.55-.12.799l.244.49A4.141 4.141 0 003 5.834l-.52.173c-.261.087-.479.38-.479.65v.685c0 .26.215.563.48.651l.519.173c.085.294.202.575.347.838l-.245.49c-.123.247-.07.608.121.8l.485.484c.183.183.55.246.799.12l.49-.244c.263.145.544.262.838.347l.173.52c.087.261.38.479.65.479h.685c.26 0 .563-.215.651-.48l.173-.519c.294-.085.575-.202.838-.347l.49.245c.247.123.608.07.8-.121l.484-.485c.183-.183.246-.55.12-.799l-.244-.49c.145-.263.262-.544.347-.838l.52-.173c.261-.087.479-.38.479-.65v-.685c0-.26-.215-.563-.48-.651l-.519-.173a4.141 4.141 0 00-.347-.838l.245-.49c.123-.247.07-.608-.121-.8l-.485-.484c-.183-.183-.55-.246-.799-.12l-.49.244A4.141 4.141 0 008.166 3l-.173-.52C7.906 2.219 7.613 2 7.343 2h-.685c-.26 0-.563.215-.651.48l-.173.519zm-.776-.836C5.281 1.496 5.962 1 6.658 1h.684c.706 0 1.378.497 1.6 1.163l.018.055.035.015.052-.026c.63-.315 1.462-.184 1.954.308l.484.484c.499.5.622 1.326.308 1.954l-.026.052.015.035.055.018c.667.223 1.163.904 1.163 1.6v.684c0 .706-.497 1.378-1.163 1.6l-.055.018-.015.035.026.052c.315.63.184 1.462-.308 1.954l-.484.484c-.5.499-1.326.622-1.954.308l-.052-.026-.035.015-.018.055c-.223.667-.904 1.163-1.6 1.163h-.684c-.706 0-1.378-.497-1.6-1.163l-.018-.055a5.143 5.143 0 01-.035-.015l-.052.026c-.63.315-1.462.184-1.954-.308L2.515 11c-.499-.5-.622-1.326-.308-1.954l.026-.052a5.14 5.14 0 01-.015-.035l-.055-.018C1.496 8.719 1 8.038 1 7.342v-.684c0-.706.497-1.378 1.163-1.6l.055-.018a5.14 5.14 0 01.015-.035l-.026-.052c-.315-.63-.184-1.462.308-1.954L3 2.515c.5-.499 1.326-.622 1.954-.308l.052.026a5.14 5.14 0 01.035-.015l.018-.055z">
@@ -55,7 +55,7 @@ if (!isset($_SESSION["userid"])) {
                         </a>
                     </li>
                     <li>
-                        <a href="cart.php">
+                        <a href="cart.php" class="account-current-page">
                             <svg version="1.1" viewBox="0 0 24 24" aria-hidden="true" class="account-svg" focusable="false">
                                 <path d="M23.9 6.5c0-.8-.7-1.5-1.5-1.5H5.8l-1-4H1c-.6 0-1 .4-1 1s.4 1 1 1h2.2L4 6.2l2.9 11.6c-.5.6-.9 1.4-.9 2.2 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.4-.1-.7-.2-1h4.4c-.1.3-.2.6-.2 1 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.9-.4-1.6-.9-2.2l2.7-11c0-.1.1-.2.1-.3zM10 20c0 .6-.4 1-1 1s-1-.4-1-1 .4-1 1-1 1 .4 1 1zm9 1c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm.2-4H8.8L6.3 7h15.4l-2.5 10z"></path>
                             </svg>Winkelwagen
@@ -100,72 +100,65 @@ if (!isset($_SESSION["userid"])) {
                 </ul>
             </article>
             <article class="account-content">
-                <h2>Persoonlijke gegevens aanpassen</h2>
-                <form action="../php-includes/changeinfo.inc.php" method="post" class="change-form">
-                    <fieldset class="change-pers">
-                        <?php
-                        if (isset($_GET["error"])) {
-                            if ($_GET["error"] == "emptyinput") {
-                        ?>
-                                <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
-                                    <p>Vul alle verplichte velden
-                                        in om aan te kunnen passen!</p>
-                                </span>
-                            <?php
-                            } elseif ($_GET["error"] == "stmtfailed") {
-                            ?>
-                                <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
-                                    <p>Er was een fout
-                                        in verbinden met de database! Neem A.U.B. <a href="../contactform.php">contact</a> op met
-                                        ons
-                                        op!</p>
-                                </span>
-                            <?php
-                            } elseif ($_GET["error"] == "wrongpassword") {
-                            ?>
-                                <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
-                                    <p>Het wachtwoord dat u heeft ingetypt klopt niet! Probeer het nog eens.</p>
-                                </span>
-                        <?php
-                            }
-                        }
-                        ?>
-                        <fieldset>
-                            <input type="password" name="password" id="password" placeholder="Uw Wachtwoord" tabindex="1" pattern=".{8,}" autofocus>
-                        </fieldset>
-                        <fieldset>
-                            <input type="text" name="firstname" id="firstname" placeholder="Voornaam" tabindex="2" maxlength="50" value="<?php echo $_SESSION["firstname"]; ?>">
-                        </fieldset>
-                        <fieldset>
-                            <input type="text" name="preposition" id="preposition" placeholder="Tussenvoegsel" tabindex="3" maxlength="50" value="<?php echo $_SESSION["preposition"]; ?>">
-                        </fieldset>
-                        <fieldset>
-                            <input type="text" name="lastname" id="lastname" placeholder="Achternaam" tabindex="4" maxlength="50" value="<?php echo $_SESSION["lastname"]; ?>">
-                        </fieldset>
-                        <fieldset>
-                            <input type="text" name="streetname" id="streetname" maxlength="50" placeholder="Straatnaam" tabindex="5" value="<?php echo $_SESSION["streetname"]; ?>">
-                        </fieldset>
-                        <fieldset>
-                            <input type="number" name="housenumber" id="housenumber" maxlength="5" placeholder="Huisnummer" tabindex="6" value="<?php echo $_SESSION["housenumber"]; ?>">
-                        </fieldset>
-                        <fieldset>
-                            <input type="text" name="postalcode" id="postalcode" pattern="[0-9]{4}[A-Z]{2}" placeholder="Postcode" tabindex="7" value="<?php echo $_SESSION["postalcode"]; ?>">
-                        </fieldset>
-                        <fieldset>
-                            <input type="text" name="cityname" id="cityname" maxlength="50" placeholder="Plaatsnaam" tabindex="8" value="<?php echo $_SESSION["cityname"]; ?>">
-                        </fieldset>
-                        <fieldset>
-                            <input type="number" name="phonenumber" id="phonenumber" maxlength="8" placeholder="Telefoonnummer" tabindex="9" value="<?php echo $_SESSION["phonenumber"]; ?>">
-                        </fieldset>
-                        <fieldset>
-                            <label for="birthdate">Geboortedatum: </label>
-                        </fieldset>
-                        <fieldset>
-                            <input type="date" name="birthdate" id="birthdate" placeholder="Geboortedatum" tabindex="10" value="<?php echo $_SESSION["birthdate"]; ?>">
-                        </fieldset>
-                        <input type="submit" name="submit" value="Pas aan">
-                    </fieldset>
-                </form>
+                <h2>Winkelwagen</h2>
+
+                <?php
+
+                if (isset($_POST["submit"])) {
+
+                    unset($_SESSION["orderid"]);
+
+                    echo "Uw bestelling is geplaatst.";
+                }
+
+                if (isset($_SESSION["orderid"])) {
+                ?>
+                    <article class="account-content-table" id="account-content-table">
+                        <table>
+                            <thead>
+                                <th>Productnaam</th>
+                                <th>Hoeveelheid</th>
+                                <th>Prijs</th>
+                            </thead>
+                            <tbody>
+                                <?php
+                                require_once '../php-includes/dbh.inc.php';
+                                $totalPrice = 0;
+                                $dsn = new Dbh;
+                                $stmt = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `products`.`price`, `orders`.`iduser` FROM `orderrow` 
+                                    INNER JOIN `products` ON `orderrow`.`idproduct` = `products`.`idproduct` 
+                                    INNER JOIN `orders` ON `orders`.`idorder` = `orderrow`.`idorder`
+                                    WHERE `iduser` = ? AND `orderrow`.`idorder` = ?;");
+                                $stmt->execute(array($_SESSION["userid"], $_SESSION["orderid"]));
+                                foreach ($stmt as $row) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row["name"] . "</td>";
+                                    echo "<td>" . $row["quantity"] . "</td>";
+                                    echo "<td>€" . $row["price"] * $row["quantity"] . "</td>";
+                                    echo "</tr>";
+
+                                    $totalPrice += $row["price"] * $row["quantity"];
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </article>
+                    <p>Totale prijs (ex. btw): <b>€<?php echo $totalPrice;?></b></p>
+
+                    <?php 
+                        $priceWithVAT = round(($totalPrice / 100 * 21) + $totalPrice, 2);
+                    ?>
+                    <p>Totale prijs (inc. btw): <b>€<?php echo $priceWithVAT;?></b></p>
+                    <form action="cart.php" method="post">
+                        <input type="submit" value="Bestel" class="order-submit" name="submit">
+                    </form>
+                <?php
+                }
+
+                if (empty($_POST["submit"]) && empty($_SESSION["orderid"])) {
+                    echo "Uw winkelwagen is leeg.";
+                }
+                ?>
             </article>
         </section>
     </main>

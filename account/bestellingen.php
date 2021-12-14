@@ -54,6 +54,13 @@ if (!isset($_SESSION["userid"])) {
                             </svg>Bestellingen
                         </a>
                     </li>
+                    <li>
+                        <a href="cart.php">
+                            <svg version="1.1" viewBox="0 0 24 24" aria-hidden="true" class="account-svg" focusable="false">
+                                <path d="M23.9 6.5c0-.8-.7-1.5-1.5-1.5H5.8l-1-4H1c-.6 0-1 .4-1 1s.4 1 1 1h2.2L4 6.2l2.9 11.6c-.5.6-.9 1.4-.9 2.2 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.4-.1-.7-.2-1h4.4c-.1.3-.2.6-.2 1 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.9-.4-1.6-.9-2.2l2.7-11c0-.1.1-.2.1-.3zM10 20c0 .6-.4 1-1 1s-1-.4-1-1 .4-1 1-1 1 .4 1 1zm9 1c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm.2-4H8.8L6.3 7h15.4l-2.5 10z"></path>
+                            </svg>Winkelwagen
+                        </a>
+                    </li>
                     <?php
                     // Check beheerder
                     if ($_SESSION["perms"] == 1) {
@@ -94,7 +101,34 @@ if (!isset($_SESSION["userid"])) {
             </article>
             <article class="account-content">
                 <h2>Bestellingen</h2>
-
+                <article class="account-content-table" id="account-content-table">
+                        <table>
+                            <thead>
+                                <th>Order Nummer</th>
+                                <th>Productnaam</th>
+                                <th>Hoeveelheid</th>
+                            </thead>
+                            <tbody>
+                                <?php
+                                require_once '../php-includes/dbh.inc.php';
+                                $dsn = new Dbh;
+                                $stmt = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `orders`.`iduser` FROM `orderrow` 
+                                    INNER JOIN `products` ON `orderrow`.`idproduct` = `products`.`idproduct` 
+                                    INNER JOIN `orders` ON `orders`.`idorder` = `orderrow`.`idorder`
+                                    WHERE `iduser` = ?
+                                    ORDER BY `idorder`, `idorderrow` ASC;");
+                                $stmt->execute(array($_SESSION["userid"]));
+                                foreach ($stmt as $row) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row["idorder"] . "</td>";
+                                    echo "<td>" . $row["name"] . "</td>";
+                                    echo "<td>" . $row["quantity"] . "</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </article>
             </article>
         </section>
     </main>
