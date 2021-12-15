@@ -104,51 +104,64 @@ if (!isset($_SESSION["userid"])) {
                 <?php
                 require_once '../php-includes/dbh.inc.php';
                 $dsn = new Dbh;
-                $stmt = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `orders`.`iduser` FROM `orderrow` 
-                                    INNER JOIN `products` ON `orderrow`.`idproduct` = `products`.`idproduct` 
-                                    INNER JOIN `orders` ON `orders`.`idorder` = `orderrow`.`idorder`
-                                    WHERE `iduser` = ?
-                                    ORDER BY `idorder`, `idorderrow` ASC;");
+                $stmt = $dsn->connect()->prepare("SELECT MIN(`orderrow`.`idorder`) AS 'minorder', `orders`.`iduser` 
+                    FROM `orderrow` JOIN `orders` ON `orderrow`.`idorder` = `orders`.`idorder` WHERE `orders`.`iduser` = ?;");
 
                 $stmt->execute(array($_SESSION["userid"]));
 
-                if ($stmt->rowCount() != 0) {
-                    foreach ($stmt as $row) {
-                        $currentOrder = $row["idorder"];
+                $stmt1 = $dsn->connect()->prepare("SELECT MAX(`orderrow`.`idorder`) AS 'maxorder', `orders`.`iduser` 
+                    FROM `orderrow` JOIN `orders` ON `orderrow`.`idorder` = `orders`.`idorder` WHERE `orders`.`iduser` = ?;");
+
+                $stmt1->execute(array($_SESSION["userid"]));
+
+                $min = $stmt->fetchAll();
+                $max = $stmt1->fetchAll();
+
+                if ($min[0]["minorder"] != null && $max[0]["maxorder"] != null) {
+
+                    for ($i = $min[0]["minorder"]; $i <= $max[0]["maxorder"]; $i++) {
+                        //echo $i . "<br>";
+
+                        $stmt2 = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `orders`.`iduser` FROM `orderrow` 
+                        INNER JOIN `products` ON `orderrow`.`idproduct` = `products`.`idproduct` 
+                        INNER JOIN `orders` ON `orders`.`idorder` = `orderrow`.`idorder` 
+                        WHERE `iduser` = ? AND `orderrow`.`idorder` = ? 
+                        ORDER BY `idorder`, `idorderrow` ASC;");
+
+                        $stmt2->execute(array($_SESSION["userid"], $i));
+
+                        if($stmt2->rowCount() != 0) {
+
                 ?>
-                    <article class="account-content-table" id="account-content-table">
-                        <table>
-                            <thead>
-                                <th>Order Nummer</th>
-                                <th>Productnaam</th>
-                                <th>Hoeveelheid</th>
-                            </thead>
-                            <tbody>
+                        <article class="account-content-table" id="account-content-table">
+                            <table>
+                                <thead>
+                                    <th>Order Nummer</th>
+                                    <th>Productnaam</th>
+                                    <th>Hoeveelheid</th>
+                                </thead>
+                                <tbody>
+                                    <?php
 
-                                <?php
-                                
-                                if ($currentOrder = $row["idorder"]) {
-                                    echo "<tr>";
-                                    echo "<td>" . $row["idorder"] . "</td>";
-                                    echo "<td>" . $row["name"] . "</td>";
-                                    echo "<td>" . $row["quantity"] . "</td>";
-                                    echo "</tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </article>
+                                    foreach ($stmt2 as $row) {
 
+                                        echo "<tr>";
+                                        echo "<td>" . $row["idorder"] . "</td>";
+                                        echo "<td>" . $row["name"] . "</td>";
+                                        echo "<td>" . $row["quantity"] . "</td>";
+                                        echo "</tr>";
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </article>
                 <?php
-                    
-                }
+                        }
+                    }
                 } else {
-                ?>
-                    <p>Er zijn nog geen bestellingen.</p>
-                <?php
+                    echo "Er zijn nog geen bestellingen geplaatst.";
                 }
                 ?>
-
             </article>
         </section>
     </main>
