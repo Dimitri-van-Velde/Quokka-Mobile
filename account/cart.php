@@ -12,7 +12,20 @@ if (!isset($_SESSION["userid"])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $_SESSION["firstname"] ?> | Winkelwagen</title>
+    <title><?php echo $_SESSION["firstname"] ?> | Winkelwagen (<?php if (isset($_SESSION["orderid"])) {
+                                                                    require_once '../php-includes/dbh.inc.php';
+                                                                    $dsn = new Dbh;
+                                                                    $stmt = $dsn->connect()->prepare("SELECT * FROM `orderrow` WHERE `idorder` = ?;");
+
+                                                                    $stmt->execute(array($_SESSION["orderid"]));
+
+                                                                    $cartCount = $stmt->rowCount();
+
+                                                                    echo $cartCount;
+                                                                } else {
+                                                                    echo 0;
+                                                                } ?>)
+    </title>
     <?php
     include '../head.html';
     ?>
@@ -144,12 +157,12 @@ if (!isset($_SESSION["userid"])) {
                             </tbody>
                         </table>
                     </article>
-                    <p>Totale prijs (ex. btw): <b>€<?php echo $totalPrice;?></b></p>
+                    <p>Totale prijs (ex. btw): <b>€<?php echo $totalPrice; ?></b></p>
 
-                    <?php 
-                        $priceWithVAT = round(($totalPrice / 100 * 21) + $totalPrice, 2);
+                    <?php
+                    $priceWithVAT = round(($totalPrice / 100 * 21) + $totalPrice, 2);
                     ?>
-                    <p>Totale prijs (inc. btw): <b>€<?php echo $priceWithVAT;?></b></p>
+                    <p>Totale prijs (inc. btw): <b>€<?php echo $priceWithVAT; ?></b></p>
                     <form action="cart.php" method="post">
                         <input type="submit" value="Bestel" class="order-submit" name="submit">
                     </form>

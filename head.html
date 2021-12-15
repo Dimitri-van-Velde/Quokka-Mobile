@@ -3,7 +3,19 @@
         var loc = window.location.pathname;
         var dir = loc.substring(0, loc.lastIndexOf('/'));
 
-        if(dir != "/quokka_mobile") {
+        if(dir == "/quokka_mobile") {
+            document.getElementById("logo").src = "images/logo.png";
+            document.getElementById("mag-glass").src = "images/magnifying-glass.png";
+            document.getElementById("mag-glass2").src = "images/magnifying-glass.png";
+            
+            document.getElementById("home-a").href = "home.php";
+            document.getElementById("quokka-a").href = "quokkamobile.php";
+            document.getElementById("personeel-a").href = "personeel.php";
+            document.getElementById("producten-a").href = "producten.php";
+            document.getElementById("contact-a").href = "contact.php";
+            document.getElementById("form-a").href = "contactform.php";
+            document.getElementById("icon").href = "images/logo.png";
+        } else if (dir == "/quokka_mobile/producten") {
             document.getElementById("logo").src = "../images/logo.png";
             document.getElementById("mag-glass").src = "../images/magnifying-glass.png";
             document.getElementById("mag-glass2").src = "../images/magnifying-glass.png";
@@ -15,7 +27,19 @@
             document.getElementById("contact-a").href = "../contact.php";
             document.getElementById("form-a").href = "../contactform.php";
             document.getElementById("icon").href = "../images/logo.png";
-        } 
+        } else if (dir == "/quokka_mobile/account") {
+            document.getElementById("logo").src = "../images/logo.png";
+            document.getElementById("mag-glass").src = "../images/magnifying-glass.png";
+            document.getElementById("mag-glass2").src = "../images/magnifying-glass.png";
+            
+            document.getElementById("home-a").href = "../home.php";
+            document.getElementById("quokka-a").href = "../quokkamobile.php";
+            document.getElementById("personeel-a").href = "../personeel.php";
+            document.getElementById("producten-a").href = "../producten.php";
+            document.getElementById("contact-a").href = "../contact.php";
+            document.getElementById("form-a").href = "../contactform.php";
+            document.getElementById("icon").href = "../images/logo.png";
+        }
     }
 </script>
 <link id="pageStyle" rel="stylesheet" href="style.css">

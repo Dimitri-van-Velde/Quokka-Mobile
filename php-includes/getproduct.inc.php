@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 class GetProduct extends Dbh
 {
@@ -75,6 +74,7 @@ class GetProduct extends Dbh
                     </button>
                 </form>
             </article>
+            <script>document.title = "<?php echo $name; ?>";</script>
 <?php
 
             // Do if submit button is pressed

@@ -114,6 +114,7 @@ if (!isset($_SESSION["userid"])) {
 
                 if ($stmt->rowCount() != 0) {
                     foreach ($stmt as $row) {
+                        $currentOrder = $row["idorder"];
                 ?>
                     <article class="account-content-table" id="account-content-table">
                         <table>
@@ -126,19 +127,21 @@ if (!isset($_SESSION["userid"])) {
 
                                 <?php
                                 
+                                if ($currentOrder = $row["idorder"]) {
                                     echo "<tr>";
                                     echo "<td>" . $row["idorder"] . "</td>";
                                     echo "<td>" . $row["name"] . "</td>";
                                     echo "<td>" . $row["quantity"] . "</td>";
                                     echo "</tr>";
-                                
+                                }
                                 ?>
                             </tbody>
                         </table>
                     </article>
 
                 <?php
-                    }
+                    
+                }
                 } else {
                 ?>
                     <p>Er zijn nog geen bestellingen.</p>
