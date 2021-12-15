@@ -93,9 +93,9 @@ class GetProduct extends Dbh
                     $stmt1 = null;
 
                     // Get current order id
-                    $stmt1 = $this->connect()->prepare("SELECT * FROM orders WHERE iduser = 1 ORDER BY idorder DESC LIMIT 1;");
+                    $stmt1 = $this->connect()->prepare("SELECT * FROM orders WHERE iduser = ? ORDER BY idorder DESC LIMIT 1;");
 
-                    if (!$stmt1->execute()) {
+                    if (!$stmt1->execute(array($_SESSION["userid"]))) {
                         $stmt1 = null;
                         header("Location: ../$url.php?error=stmtfailed");
                         exit();
@@ -120,6 +120,7 @@ class GetProduct extends Dbh
                     }
 
                     $stmt1 = null; 
+                    echo "<script>window.location.href = \"../account/cart.php\";</script>";
 
                     // If there is an ongoing order, proceed
                 } elseif (isset($_SESSION["orderid"])) {
@@ -132,6 +133,7 @@ class GetProduct extends Dbh
                     }
 
                     $stmt1 = null;
+                    echo "<script>window.location.href = \"../account/cart.php\";</script>";
                 }
             }
         }

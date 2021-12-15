@@ -109,6 +109,7 @@ if (!isset($_SESSION["userid"])) {
                     unset($_SESSION["orderid"]);
 
                     echo "Uw bestelling is geplaatst.";
+                    echo "<script>window.location.href = \"cart.php\";</script>";
                 }
 
                 if (isset($_SESSION["orderid"])) {

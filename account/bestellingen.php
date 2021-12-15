@@ -101,7 +101,21 @@ if (!isset($_SESSION["userid"])) {
             </article>
             <article class="account-content">
                 <h2>Bestellingen</h2>
-                <article class="account-content-table" id="account-content-table">
+                <?php
+                require_once '../php-includes/dbh.inc.php';
+                $dsn = new Dbh;
+                $stmt = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `orders`.`iduser` FROM `orderrow` 
+                                    INNER JOIN `products` ON `orderrow`.`idproduct` = `products`.`idproduct` 
+                                    INNER JOIN `orders` ON `orders`.`idorder` = `orderrow`.`idorder`
+                                    WHERE `iduser` = ?
+                                    ORDER BY `idorder`, `idorderrow` ASC;");
+
+                $stmt->execute(array($_SESSION["userid"]));
+
+                if ($stmt->rowCount() != 0) {
+                    foreach ($stmt as $row) {
+                ?>
+                    <article class="account-content-table" id="account-content-table">
                         <table>
                             <thead>
                                 <th>Order Nummer</th>
@@ -109,26 +123,29 @@ if (!isset($_SESSION["userid"])) {
                                 <th>Hoeveelheid</th>
                             </thead>
                             <tbody>
+
                                 <?php
-                                require_once '../php-includes/dbh.inc.php';
-                                $dsn = new Dbh;
-                                $stmt = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `orders`.`iduser` FROM `orderrow` 
-                                    INNER JOIN `products` ON `orderrow`.`idproduct` = `products`.`idproduct` 
-                                    INNER JOIN `orders` ON `orders`.`idorder` = `orderrow`.`idorder`
-                                    WHERE `iduser` = ?
-                                    ORDER BY `idorder`, `idorderrow` ASC;");
-                                $stmt->execute(array($_SESSION["userid"]));
-                                foreach ($stmt as $row) {
+                                
                                     echo "<tr>";
                                     echo "<td>" . $row["idorder"] . "</td>";
                                     echo "<td>" . $row["name"] . "</td>";
                                     echo "<td>" . $row["quantity"] . "</td>";
                                     echo "</tr>";
-                                }
+                                
                                 ?>
                             </tbody>
                         </table>
                     </article>
+
+                <?php
+                    }
+                } else {
+                ?>
+                    <p>Er zijn nog geen bestellingen.</p>
+                <?php
+                }
+                ?>
+
             </article>
         </section>
     </main>
