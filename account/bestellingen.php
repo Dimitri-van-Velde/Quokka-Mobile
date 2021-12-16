@@ -122,7 +122,8 @@ if (!isset($_SESSION["userid"])) {
                     for ($i = $min[0]["minorder"]; $i <= $max[0]["maxorder"]; $i++) {
                         //echo $i . "<br>";
 
-                        $stmt2 = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `products`.`price`, `orders`.`iduser`, `orders`.`shippingmethod` FROM `orderrow` 
+                        $stmt2 = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `products`.`price`, `orders`.`iduser`, `orders`.`shippingmethod` , `orders`.`orderdate`
+                        FROM `orderrow` 
                         INNER JOIN `products` ON `orderrow`.`idproduct` = `products`.`idproduct` 
                         INNER JOIN `orders` ON `orders`.`idorder` = `orderrow`.`idorder` 
                         WHERE `iduser` = ? AND `orderrow`.`idorder` = ? AND `shippingmethod` IS NOT NULL
@@ -132,28 +133,61 @@ if (!isset($_SESSION["userid"])) {
 
                         if ($stmt2->rowCount() != 0) {
 
+                            $stmt3 = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `products`.`price`, `orders`.`iduser`, 
+                        `orders`.`shippingmethod` , `orders`.`orderdate`, `orders`.`shippeddate`
+                        FROM `orderrow` 
+                        INNER JOIN `products` ON `orderrow`.`idproduct` = `products`.`idproduct` 
+                        INNER JOIN `orders` ON `orders`.`idorder` = `orderrow`.`idorder` 
+                        WHERE `iduser` = ? AND `orderrow`.`idorder` = ? AND `shippingmethod` IS NOT NULL
+                        ORDER BY `idorder`, `idorderrow` ASC;");
+
+                            $stmt3->execute(array($_SESSION["userid"], $i));
+
+                            $data = $stmt3->fetchAll();
                 ?>
-                            <article class="account-content-table" id="account-content-table">
-                                <table>
-                                    <thead>
-                                        <th>Productnaam</th>
-                                        <th>Hoeveelheid</th>
-                                        <th>Prijs</th>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-
-                                        foreach ($stmt2 as $row) {
-
-                                            echo "<tr>";
-                                            echo "<td>" . $row["name"] . "</td>";
-                                            echo "<td>" . $row["quantity"] . "</td>";
-                                            echo "<td>" . $row["price"] . "</td>";
-                                            echo "</tr>";
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
+                            <article class="account-bestelling" id="account-bestelling">
+                                <article>
+                                    <span class="orderinfo">
+                                        <p>Ordernummer: </p>
+                                        <p><?php echo $data[$i - 1]["idorder"]; ?></p>
+                                        <p>Orderdatum: </p>
+                                        <p><?php echo substr($data[$i - 1]["orderdate"], 0, 10); ?></p>
+                                        <p>Verzonden: </p>
+                                        <p>
+                                            <?php
+                                            if($data[$i - 1]["shippeddate"] == null) {
+                                                echo "Nog niet verzonden";
+                                            } else {
+                                                echo substr($data[$i - 1]["shippeddate"], 0, 10);
+                                            }
+                                            ?>
+                                        </p>
+                                    </span>
+                                </article>
+                                <?php
+                                foreach ($stmt2 as $row) {
+                                    // Get image URL
+                                    $name = $row["name"];
+                                    // Make lower case
+                                    $url = strtolower($name);
+                                    //Make alphanumeric
+                                    $url = preg_replace("/[^a-z0-9_\s-]/", "", $url);
+                                    //Clean up multiple dashes or whitespaces
+                                    $url = preg_replace("/[\s-]+/", " ", $url);
+                                    //Convert whitespaces and underscore to dash
+                                    $url = preg_replace("/[\s_]/", "-", $url);
+                                ?>
+                                    <article>
+                                        <img src="../images/<?php echo $url; ?>.jpg" alt="<?php echo $name; ?>">
+                                        <span>
+                                            <p><?php echo $name; ?></p>
+                                            <p>Aantal: <?php echo $row["quantity"]; ?></p>
+                                            <p>Prijs: <?php echo number_format(($row["price"] * $row["quantity"]), 2, ",<sup>", "."); ?></p>
+                                        </span>
+                                    </article>
+                                <?php
+                                }
+                                ?>
                             </article>
                 <?php
                         }

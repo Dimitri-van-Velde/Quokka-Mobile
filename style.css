@@ -1523,6 +1523,54 @@ h3 {
     vertical-align: -0.2rem;
 }
 
+/* Bestellingen */
+.account-bestelling {
+    margin-top: 20px;
+    display: flex;
+    flex-flow: column wrap;
+    border-left: 3px solid #0D98BA;
+}
+
+.account-bestelling article {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 3rem;
+    border-bottom: 1px solid #888;
+    padding: 30px;
+}
+
+.account-bestelling article:first-child {
+    border-top: 1px solid #888;
+}
+
+.account-bestelling article img {
+    height: 150px;
+}
+
+.account-bestelling article p {
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+.account-bestelling article span p {
+    margin-bottom: 10px;
+}
+
+.account-bestelling article span p:first-child {
+    font-weight: 600;
+}
+
+.orderinfo {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.orderinfo p:nth-child(odd) {
+    font-weight: bold!important;
+}
+
 @media screen and (min-width: 426px) {
 
     /* Home */
