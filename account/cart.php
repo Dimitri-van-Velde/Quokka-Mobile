@@ -117,55 +117,291 @@ if (!isset($_SESSION["userid"])) {
 
                 <?php
 
-                if (isset($_POST["submit"])) {
+                if (isset($_GET["error"])) {
+                    if ($_GET["error"] == "emptyselect") {
+                ?>
+                        <form class="change-form">
+                            <fieldset class="change-pers">
+                                <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                    <p>U moet een verzender en betalingsmethod kiezen voordat u verder kunt.</p>
+                                </span>
+                            </fieldset>
+                        </form>
+                    <?php
+                    }
+                }
 
-                    unset($_SESSION["orderid"]);
+                if (isset($_POST["deleterow"])) {
+                    $stmt = $dsn->connect()->prepare("DELETE FROM `orderrow` WHERE `idorderrow` = ?;");
+                    $stmt->execute(array($_POST["deleterow"]));
 
-                    echo "Uw bestelling is geplaatst.";
+                    $stmt = null;
+
                     echo "<script>window.location.href = \"cart.php\";</script>";
                 }
 
+                if (isset($_POST["submit"])) {
+
+                    if ($_POST["shippingmethod"] == 0 || $_POST["paymentmethod"] == 0) {
+                        echo "<script>window.location.href = \"cart.php?error=emptyselect\";</script>";
+                    } else {
+
+                        $stmt = $dsn->connect()->prepare("UPDATE `orders` SET `shippingmethod` = ?, `paymentmethod` = ? 
+                        WHERE `idorder` = ?;");
+                        $stmt->execute(array($_POST["shippingmethod"], $_POST["paymentmethod"], $_SESSION["orderid"]));
+
+                        $stmt = null;
+
+                        unset($_SESSION["orderid"]);
+
+                        echo "Uw bestelling is geplaatst.";
+                        echo "<script>window.location.href = \"cart.php\";</script>";
+                    }
+                }
+
                 if (isset($_SESSION["orderid"])) {
-                ?>
-                    <article class="account-content-table" id="account-content-table">
-                        <table>
-                            <thead>
-                                <th>Productnaam</th>
-                                <th>Hoeveelheid</th>
-                                <th>Prijs</th>
-                            </thead>
-                            <tbody>
-                                <?php
-                                require_once '../php-includes/dbh.inc.php';
-                                $totalPrice = 0;
-                                $dsn = new Dbh;
-                                $stmt = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `products`.`price`, `orders`.`iduser` FROM `orderrow` 
+                    ?>
+                    <article class="account-cart" id="account-cart">
+                        <?php
+                        require_once '../php-includes/dbh.inc.php';
+                        $totalPrice = 0;
+                        $dsn = new Dbh;
+                        $stmt = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.*, `orders`.`iduser` FROM `orderrow` 
                                     INNER JOIN `products` ON `orderrow`.`idproduct` = `products`.`idproduct` 
                                     INNER JOIN `orders` ON `orders`.`idorder` = `orderrow`.`idorder`
                                     WHERE `iduser` = ? AND `orderrow`.`idorder` = ?;");
-                                $stmt->execute(array($_SESSION["userid"], $_SESSION["orderid"]));
-                                foreach ($stmt as $row) {
-                                    echo "<tr>";
-                                    echo "<td>" . $row["name"] . "</td>";
-                                    echo "<td>" . $row["quantity"] . "</td>";
-                                    echo "<td>€" . $row["price"] * $row["quantity"] . "</td>";
-                                    echo "</tr>";
+                        $stmt->execute(array($_SESSION["userid"], $_SESSION["orderid"]));
 
-                                    $totalPrice += $row["price"] * $row["quantity"];
+                        $i = 0;
+                        foreach ($stmt as $row) {
+                            $i++;
+                            // Get image URL
+                            $name = $row["name"];
+                            // Make lower case
+                            $url = strtolower($name);
+                            //Make alphanumeric
+                            $url = preg_replace("/[^a-z0-9_\s-]/", "", $url);
+                            //Clean up multiple dashes or whitespaces
+                            $url = preg_replace("/[\s-]+/", " ", $url);
+                            //Convert whitespaces and underscore to dash
+                            $url = preg_replace("/[\s_]/", "-", $url);
+                        ?>
+                            <article>
+                                <img src="../images/<?php echo $url; ?>.jpg" alt="<?php echo $name; ?>">
+                                <span>
+                                    <p><?php echo $name; ?></p>
+                                    Aantal
+
+                                    <?php
+                                    switch ($row["quantity"]) {
+                                        case 1:
+                                    ?>
+                                            <select name="quantity<?php echo $i; ?>" id="quantity<?php echo $i; ?>" onchange="(get_quantity<?php echo $i; ?>(this.value))">
+                                                <option value="1" selected>1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                            </select>
+                                        <?php
+                                            break;
+                                        case 2:
+                                        ?>
+                                            <select name="quantity<?php echo $i; ?>" id="quantity<?php echo $i; ?>" onchange="(get_quantity<?php echo $i; ?>(this.value))">
+                                                <option value="1">1</option>
+                                                <option value="2" selected>2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                            </select>
+                                        <?php
+                                            break;
+                                        case 3:
+                                        ?>
+                                            <select name="quantity<?php echo $i; ?>" id="quantity<?php echo $i; ?>" onchange="(get_quantity<?php echo $i; ?>(this.value))">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3" selected>3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                            </select>
+                                        <?php
+                                            break;
+                                        case 4:
+                                        ?>
+                                            <select name="quantity<?php echo $i; ?>" id="quantity<?php echo $i; ?>" onchange="(get_quantity<?php echo $i; ?>(this.value))">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4" selected>4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                            </select>
+                                        <?php
+                                            break;
+                                        case 5:
+                                        ?>
+                                            <select name="quantity<?php echo $i; ?>" id="quantity<?php echo $i; ?>" onchange="(get_quantity<?php echo $i; ?>(this.value))">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5" selected>5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                            </select>
+                                        <?php
+                                            break;
+                                        case 6:
+                                        ?>
+                                            <select name="quantity<?php echo $i; ?>" id="quantity<?php echo $i; ?>" onchange="(get_quantity<?php echo $i; ?>(this.value))">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6" selected>6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                            </select>
+                                        <?php
+                                            break;
+                                        case 7:
+                                        ?>
+                                            <select name="quantity<?php echo $i; ?>" id="quantity<?php echo $i; ?>" onchange="(get_quantity<?php echo $i; ?>(this.value))">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7" selected>7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                            </select>
+                                        <?php
+                                            break;
+                                        case 8:
+                                        ?>
+                                            <select name="quantity<?php echo $i; ?>" id="quantity<?php echo $i; ?>" onchange="(get_quantity<?php echo $i; ?>(this.value))">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8" selected>8</option>
+                                                <option value="9">9</option>
+                                            </select>
+                                        <?php
+                                            break;
+                                        case 9:
+                                        ?>
+                                            <select name="quantity<?php echo $i; ?>" id="quantity<?php echo $i; ?>" onchange="(get_quantity<?php echo $i; ?>(this.value))">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9" selected>9</option>
+                                            </select>
+                                    <?php
+                                            break;
+                                    }
+                                    ?>
+                                    <form action="cart.php" method="post">
+                                        <button type="submit" name="deleterow" class="delete" value="<?php echo $row["idorderrow"]; ?>">
+                                            <svg version="1.1" viewBox="0 0 14 14" aria-hidden="true" focusable="false">
+                                                <path fill-rule="evenodd" d="M4 4l.484 7.752a.266.266 0 00.257.248H9.26a.262.262 0 00.257-.248L10 4h1l-.445 8.002c-.03.551-.493.998-1.058.998H4.503a1.07 1.07 0 01-1.058-.998L3 4h1zM2 3a1 1 0 01.999-1H6.04v-.003A.948.948 0 017 1c.552 0 1 .453 1 .997V2h2.99c.558 0 1.01.453 1.01 1H2zm3.5 1h1v5.509a.5.5 0 01-1 0V4zm2 0h1v5.509a.5.5 0 01-1 0V4z"></path>
+                                            </svg>
+                                            Verwijder
+                                        </button>
+                                    </form>
+                                </span>
+                                <p><?php echo number_format(($row["price"] * $row["quantity"]), 2, ",<sup>", ".");  ?></p>
+                            </article>
+                            <script>
+                                function get_quantity<?php echo $i; ?>(quantity) {
+
+                                    // Create FormData element
+                                    var form_data = new FormData();
+                                    form_data.append("quantity", quantity);
+                                    form_data.append("idorderrow", <?php echo $row["idorderrow"]; ?>);
+
+                                    // Open ajax connection to search.inc.php
+                                    var ajax_request = new XMLHttpRequest();
+
+                                    ajax_request.open("POST", "../php-includes/updatequantity.inc.php");
+                                    ajax_request.send(form_data);
+
+                                    ajax_request.onreadystatechange = function() {
+
+                                        // Run code if connection was successful
+                                        if (ajax_request.readyState == 4 && ajax_request.status == 200) {
+
+                                            // Parse the returned JSON
+                                            var response = ajax_request.responseText;
+
+                                            // Check if something was found
+                                            if (response.length > 0) {
+
+                                                window.location.href = "cart.php";
+
+                                            }
+                                        }
+                                    }
                                 }
-                                ?>
-                            </tbody>
-                        </table>
-                    </article>
-                    <p>Totale prijs (ex. btw): <b>€<?php echo $totalPrice; ?></b></p>
+                            </script>
+                        <?php
+                            $totalPrice += $row["price"] * $row["quantity"];
+                        }
+                        ?>
 
-                    <?php
-                    $priceWithVAT = round(($totalPrice / 100 * 21) + $totalPrice, 2);
-                    ?>
-                    <p>Totale prijs (inc. btw): <b>€<?php echo $priceWithVAT; ?></b></p>
-                    <form action="cart.php" method="post">
-                        <input type="submit" value="Bestel" class="order-submit" name="submit">
-                    </form>
+                    </article>
+                    <article class="account-cart-order">
+                        <span><p class="pricetitle">Totaal artikelen: </p><p class="price">€<?php echo number_format($totalPrice, 2, ",<sup>", "."); ?></p></span>
+                        <?php
+                        $priceWithVAT = number_format(($totalPrice / 100 * 21) + $totalPrice, 2, ",<sup>", ".");
+                        ?>
+                        <span><p class="pricetitle">BTW: </p><p class="price">€<?php echo number_format((($totalPrice / 100 * 21) + $totalPrice) - $totalPrice, 2, ",<sup>", "."); ?></p></span>
+                        <span><p class="pricetitle">Totaal (inc. btw): </p><p class="price">€<?php echo $priceWithVAT; ?></p></span>
+                        <form action="cart.php" method="post">
+                            <select name="shippingmethod" id="shippingmethod">
+                                <option value="0">Kies Verzender</option>
+                                <option value="postnl">PostNL</option>
+                                <option value="dhl">DHL</option>
+                                <option value="fedex">FedEx</option>
+                            </select>
+                            <select name="paymentmethod" id="paymentmethod">
+                                <option value="0">Kies Betalingsmethode</option>
+                                <option value="ideal">iDeal</option>
+                                <option value="paypal">PayPal</option>
+                            </select>
+                            <input type="submit" value="Bestel" class="order-submit" name="submit">
+                        </form>
+                    </article>
                 <?php
                 }
 

@@ -25,14 +25,6 @@ class GetProduct extends Dbh
             $color = $results[$i]["color"];
             $releaseDate = $results[$i]["releasedate"];
 
-            // Replace . with , in price
-            $price = substr_replace($price, ",", strlen($price) - 3, 1);
-            // Get numbers after comma
-            $pricecomma = substr($price, -2);
-            // Remove after comma
-            $price = substr($price, 0, -2);
-
-
             // Get image and site URL
             // Make lower case
             $url = strtolower($name);
@@ -49,7 +41,7 @@ class GetProduct extends Dbh
             </article>
             <article class="product-page-info">
                 <ul>
-                    <li>Prijs: €<?php echo $price; ?><sup><?php echo $pricecomma; ?></sup></li>
+                    <li>Prijs: €<?php echo number_format($price,  2, ",<sup>", "."); ?></li>
                     <li>Schermgrootte: <?php echo $screenSize; ?> inch scherm</li>
                     <li>Kleur: <?php echo $color; ?></li>
                     <li>Releasedatum: <?php echo $releaseDate; ?></li>

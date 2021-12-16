@@ -34,13 +34,6 @@ class Products extends Dbh
                     $price = $results[$i]["price"];
                     $screenSize = $results[$i]["screensize"];
 
-                    // Replace . with , in price
-                    $price = substr_replace($price, ",", strlen($price) - 3, 1);
-                    // Get numbers after comma
-                    $priceComma = substr($price, -2);
-                    // Remove after comma
-                    //$price = substr($price, 0, -2);
-
                     // Get image and site URL
                     // Make lower case
                     $url = strtolower($name);
@@ -55,7 +48,7 @@ class Products extends Dbh
                     echo "<li>
                             <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
                             <a href=\"producten/$url.php\">$name</a>
-                            <p>Prijs: €$price</p>
+                            <p>Prijs: €" . number_format($price,  2, ",<sup>", ".") . "</p>
                         </li>";
                 }
             } else {
@@ -87,13 +80,6 @@ class Products extends Dbh
                     $price = $results[$i]["price"];
                     $screenSize = $results[$i]["screensize"];
 
-                    // Replace . with , in price
-                    $price = substr_replace($price, ",", strlen($price) - 3, 1);
-                    // Get numbers after comma
-                    $priceComma = substr($price, -2);
-                    // Remove after comma
-                    //$price = substr($price, 0, -2);
-
                     // Get image and site URL
                     // Make lower case
                     $url = strtolower($name);
@@ -108,7 +94,7 @@ class Products extends Dbh
                     echo "<li>
                             <a href=\"producten/$url.php\"><img src=\"images/$url.jpg\" alt=\"$name\"></a>
                             <a href=\"producten/$url.php\">$name</a>
-                            <p>Prijs: €$price</p>
+                            <p>Prijs: €" . number_format($price,  2, ",<sup>", ".") . "</p>
                         </li>";
                 }
             }

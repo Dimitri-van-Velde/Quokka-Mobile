@@ -1428,6 +1428,101 @@ h3 {
     height: 80%;
 }
 
+/* Cart */
+
+.account-cart {
+    margin-top: 20px;
+    display: flex;
+    flex-flow: column wrap;
+    border-left: 3px solid #0D98BA;
+}
+
+.account-cart article {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 3rem;
+    border-bottom: 1px solid #888;
+    padding: 30px;
+}
+
+.account-cart article:first-child {
+    border-top: 1px solid #888;
+}
+
+.account-cart article img {
+    height: 150px;
+}
+
+.account-cart article p {
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+.account-cart article span p {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.account-cart article select {
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+.account-cart-order {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 20px;
+    padding: 30px;
+}
+
+.account-cart-order span {
+    margin-bottom: 10px;
+    padding-top: 5px;
+    display: flex;
+    flex-direction: row;
+    width: 250px;
+}
+
+.account-cart-order span:nth-child(3) {
+    border-top: 1px solid #888;
+}
+
+.account-cart-order .price {
+    font-weight: 600;
+}
+
+.account-cart-order .pricetitle {
+    margin-right: auto;
+}
+
+.account-cart-order form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.delete {
+    font-size: 1.2rem;
+    border: none;
+}
+
+.delete:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.delete svg {
+    fill: currentColor;
+    height: 1.2rem;
+    padding-right: 10px;
+    vertical-align: -0.2rem;
+}
+
 @media screen and (min-width: 426px) {
 
     /* Home */

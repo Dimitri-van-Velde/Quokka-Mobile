@@ -61,7 +61,7 @@ if (isset($_POST["brand"])) {
 
         $data[] = array(
             "name" => $row["name"],
-            "price" => $row["price"]
+            "price" => number_format($row["price"],  2, ",<sup>", ".")
         );
     }
 

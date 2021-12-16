@@ -122,39 +122,39 @@ if (!isset($_SESSION["userid"])) {
                     for ($i = $min[0]["minorder"]; $i <= $max[0]["maxorder"]; $i++) {
                         //echo $i . "<br>";
 
-                        $stmt2 = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `orders`.`iduser` FROM `orderrow` 
+                        $stmt2 = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `products`.`price`, `orders`.`iduser`, `orders`.`shippingmethod` FROM `orderrow` 
                         INNER JOIN `products` ON `orderrow`.`idproduct` = `products`.`idproduct` 
                         INNER JOIN `orders` ON `orders`.`idorder` = `orderrow`.`idorder` 
-                        WHERE `iduser` = ? AND `orderrow`.`idorder` = ? 
+                        WHERE `iduser` = ? AND `orderrow`.`idorder` = ? AND `shippingmethod` IS NOT NULL
                         ORDER BY `idorder`, `idorderrow` ASC;");
 
                         $stmt2->execute(array($_SESSION["userid"], $i));
 
-                        if($stmt2->rowCount() != 0) {
+                        if ($stmt2->rowCount() != 0) {
 
                 ?>
-                        <article class="account-content-table" id="account-content-table">
-                            <table>
-                                <thead>
-                                    <th>Order Nummer</th>
-                                    <th>Productnaam</th>
-                                    <th>Hoeveelheid</th>
-                                </thead>
-                                <tbody>
-                                    <?php
+                            <article class="account-content-table" id="account-content-table">
+                                <table>
+                                    <thead>
+                                        <th>Productnaam</th>
+                                        <th>Hoeveelheid</th>
+                                        <th>Prijs</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
 
-                                    foreach ($stmt2 as $row) {
+                                        foreach ($stmt2 as $row) {
 
-                                        echo "<tr>";
-                                        echo "<td>" . $row["idorder"] . "</td>";
-                                        echo "<td>" . $row["name"] . "</td>";
-                                        echo "<td>" . $row["quantity"] . "</td>";
-                                        echo "</tr>";
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </article>
+                                            echo "<tr>";
+                                            echo "<td>" . $row["name"] . "</td>";
+                                            echo "<td>" . $row["quantity"] . "</td>";
+                                            echo "<td>" . $row["price"] . "</td>";
+                                            echo "</tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </article>
                 <?php
                         }
                     }

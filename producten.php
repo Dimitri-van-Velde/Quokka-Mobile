@@ -127,7 +127,6 @@ include_once 'php-includes/products.inc.php';
                                     var url;
                                     var name = response[count].name;
                                     var price = response[count].price;
-                                    var priceWithComma = price.replace(".", ",")
 
                                     //console.log(name);
 
@@ -145,7 +144,7 @@ include_once 'php-includes/products.inc.php';
                                     html += "<li>" +
                                         "<a href=\"producten/" + url + ".php\"><img src=\"images/" + url + ".jpg\" alt=\"" + name + "\"></a>" +
                                         "<a href=\"producten/" + url + ".php\">" + name + "</a>" +
-                                        "<p>Prijs: €" + priceWithComma + "</p>" +
+                                        "<p>Prijs: €" + price + "</p>" +
                                         "</li>";
                                 }
                             }
@@ -197,7 +196,6 @@ include_once 'php-includes/products.inc.php';
                                     var url;
                                     var name = response[count].name;
                                     var price = response[count].price;
-                                    var priceWithComma = price.replace(".", ",")
 
                                     //console.log(name);
 
@@ -215,7 +213,7 @@ include_once 'php-includes/products.inc.php';
                                     html += "<li>" +
                                         "<a href=\"producten/" + url + ".php\"><img src=\"images/" + url + ".jpg\" alt=\"" + name + "\"></a>" +
                                         "<a href=\"producten/" + url + ".php\">" + name + "</a>" +
-                                        "<p>Prijs: €" + priceWithComma + "</p>" +
+                                        "<p>Prijs: €" + price + "</p>" +
                                         "</li>";
                                 }
                             }
@@ -268,7 +266,6 @@ include_once 'php-includes/products.inc.php';
                                     var url;
                                     var name = response[count].name;
                                     var price = response[count].price;
-                                    var priceWithComma = price.replace(".", ",")
 
                                     //console.log(name);
 
@@ -286,7 +283,7 @@ include_once 'php-includes/products.inc.php';
                                     html += "<li>" +
                                         "<a href=\"producten/" + url + ".php\"><img src=\"images/" + url + ".jpg\" alt=\"" + name + "\"></a>" +
                                         "<a href=\"producten/" + url + ".php\">" + name + "</a>" +
-                                        "<p>Prijs: €" + priceWithComma + "</p>" +
+                                        "<p>Prijs: €" + price + "</p>" +
                                         "</li>";
                                 }
                             }
