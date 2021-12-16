@@ -104,11 +104,14 @@ if (!isset($_SESSION["userid"])) {
                 <?php
                 require_once '../php-includes/dbh.inc.php';
                 $dsn = new Dbh;
+
+                // Get lowest orderid value in orderrow
                 $stmt = $dsn->connect()->prepare("SELECT MIN(`orderrow`.`idorder`) AS 'minorder', `orders`.`iduser` 
                     FROM `orderrow` JOIN `orders` ON `orderrow`.`idorder` = `orders`.`idorder` WHERE `orders`.`iduser` = ?;");
 
                 $stmt->execute(array($_SESSION["userid"]));
 
+                // Get highest orderid value in orderrow
                 $stmt1 = $dsn->connect()->prepare("SELECT MAX(`orderrow`.`idorder`) AS 'maxorder', `orders`.`iduser` 
                     FROM `orderrow` JOIN `orders` ON `orderrow`.`idorder` = `orders`.`idorder` WHERE `orders`.`iduser` = ?;");
 
@@ -117,6 +120,7 @@ if (!isset($_SESSION["userid"])) {
                 $min = $stmt->fetchAll();
                 $max = $stmt1->fetchAll();
 
+                // Check if an order is not yours and skip
                 if ($min[0]["minorder"] != null && $max[0]["maxorder"] != null) {
 
                     for ($i = $min[0]["minorder"]; $i <= $max[0]["maxorder"]; $i++) {
@@ -149,16 +153,16 @@ if (!isset($_SESSION["userid"])) {
                                 <article>
                                     <span class="orderinfo">
                                         <p>Ordernummer: </p>
-                                        <p><?php echo $data[$i - 1]["idorder"]; ?></p>
+                                        <p><?php echo $data[0]["idorder"]; ?></p>
                                         <p>Orderdatum: </p>
-                                        <p><?php echo substr($data[$i - 1]["orderdate"], 0, 10); ?></p>
+                                        <p><?php echo substr($data[0]["orderdate"], 0, 10); ?></p>
                                         <p>Verzonden: </p>
                                         <p>
                                             <?php
-                                            if($data[$i - 1]["shippeddate"] == null) {
+                                            if($data[0]["shippeddate"] == null) {
                                                 echo "Nog niet verzonden";
                                             } else {
-                                                echo substr($data[$i - 1]["shippeddate"], 0, 10);
+                                                echo substr($data[0]["shippeddate"], 0, 10);
                                             }
                                             ?>
                                         </p>

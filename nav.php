@@ -23,82 +23,84 @@
                     $cur_dir = explode('\\', getcwd());
 
                     // Check if file is in main folder
-                    if ($cur_dir[count($cur_dir) - 1] == "quokka_mobile") {
+                    if (isset($_SESSION["userid"])) {
+                        if ($cur_dir[count($cur_dir) - 1] == "quokka_mobile") {
                     ?>
-                        <li>
-                            <a href="account/cart.php" id="cart-a">
-                                <svg version="1.1" viewBox="0 0 24 24" aria-hidden="true" class="account-svg" focusable="false">
-                                    <path d="M23.9 6.5c0-.8-.7-1.5-1.5-1.5H5.8l-1-4H1c-.6 0-1 .4-1 1s.4 1 1 1h2.2L4 6.2l2.9 11.6c-.5.6-.9 1.4-.9 2.2 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.4-.1-.7-.2-1h4.4c-.1.3-.2.6-.2 1 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.9-.4-1.6-.9-2.2l2.7-11c0-.1.1-.2.1-.3zM10 20c0 .6-.4 1-1 1s-1-.4-1-1 .4-1 1-1 1 .4 1 1zm9 1c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm.2-4H8.8L6.3 7h15.4l-2.5 10z"></path>
-                                </svg>
-                                <?php
+                            <li>
+                                <a href="account/cart.php" id="cart-a">
+                                    <svg version="1.1" viewBox="0 0 24 24" aria-hidden="true" class="account-svg" focusable="false">
+                                        <path d="M23.9 6.5c0-.8-.7-1.5-1.5-1.5H5.8l-1-4H1c-.6 0-1 .4-1 1s.4 1 1 1h2.2L4 6.2l2.9 11.6c-.5.6-.9 1.4-.9 2.2 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.4-.1-.7-.2-1h4.4c-.1.3-.2.6-.2 1 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.9-.4-1.6-.9-2.2l2.7-11c0-.1.1-.2.1-.3zM10 20c0 .6-.4 1-1 1s-1-.4-1-1 .4-1 1-1 1 .4 1 1zm9 1c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm.2-4H8.8L6.3 7h15.4l-2.5 10z"></path>
+                                    </svg>
+                                    <?php
 
-                                if (isset($_SESSION["orderid"])) {
-                                    require_once 'php-includes/dbh.inc.php';
-                                    $dsn = new Dbh;
-                                    $stmt = $dsn->connect()->prepare("SELECT * FROM `orderrow` WHERE `idorder` = ?;");
+                                    if (isset($_SESSION["orderid"])) {
+                                        require_once 'php-includes/dbh.inc.php';
+                                        $dsn = new Dbh;
+                                        $stmt = $dsn->connect()->prepare("SELECT * FROM `orderrow` WHERE `idorder` = ?;");
 
-                                    $stmt->execute(array($_SESSION["orderid"]));
+                                        $stmt->execute(array($_SESSION["orderid"]));
 
-                                    $cartCount = $stmt->rowCount();
+                                        $cartCount = $stmt->rowCount();
 
-                                    echo $cartCount;
-                                } else {
-                                    echo 0;
-                                }
-                                ?>
-                            </a>
-                        </li>
+                                        echo $cartCount;
+                                    } else {
+                                        echo 0;
+                                    }
+                                    ?>
+                                </a>
+                            </li>
+                        <?php
+                        } elseif ($cur_dir[count($cur_dir) - 1] == "account") {
+                        ?>
+                            <li>
+                                <a href="cart.php" id="cart-a">
+                                    <svg version="1.1" viewBox="0 0 24 24" aria-hidden="true" class="account-svg" focusable="false">
+                                        <path d="M23.9 6.5c0-.8-.7-1.5-1.5-1.5H5.8l-1-4H1c-.6 0-1 .4-1 1s.4 1 1 1h2.2L4 6.2l2.9 11.6c-.5.6-.9 1.4-.9 2.2 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.4-.1-.7-.2-1h4.4c-.1.3-.2.6-.2 1 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.9-.4-1.6-.9-2.2l2.7-11c0-.1.1-.2.1-.3zM10 20c0 .6-.4 1-1 1s-1-.4-1-1 .4-1 1-1 1 .4 1 1zm9 1c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm.2-4H8.8L6.3 7h15.4l-2.5 10z"></path>
+                                    </svg>
+                                    <?php
+                                    if (isset($_SESSION["orderid"])) {
+                                        require_once '../php-includes/dbh.inc.php';
+                                        $dsn = new Dbh;
+                                        $stmt = $dsn->connect()->prepare("SELECT * FROM `orderrow` WHERE `idorder` = ?;");
+
+                                        $stmt->execute(array($_SESSION["orderid"]));
+
+                                        $cartCount = $stmt->rowCount();
+
+                                        echo $cartCount;
+                                    } else {
+                                        echo 0;
+                                    }
+                                    ?>
+                                </a>
+                            </li>
+                        <?php
+                        } else {
+                        ?>
+                            <li>
+                                <a href="../account/cart.php" id="cart-a">
+                                    <svg version="1.1" viewBox="0 0 24 24" aria-hidden="true" class="account-svg" focusable="false">
+                                        <path d="M23.9 6.5c0-.8-.7-1.5-1.5-1.5H5.8l-1-4H1c-.6 0-1 .4-1 1s.4 1 1 1h2.2L4 6.2l2.9 11.6c-.5.6-.9 1.4-.9 2.2 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.4-.1-.7-.2-1h4.4c-.1.3-.2.6-.2 1 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.9-.4-1.6-.9-2.2l2.7-11c0-.1.1-.2.1-.3zM10 20c0 .6-.4 1-1 1s-1-.4-1-1 .4-1 1-1 1 .4 1 1zm9 1c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm.2-4H8.8L6.3 7h15.4l-2.5 10z"></path>
+                                    </svg>
+                                    <?php
+                                    if (isset($_SESSION["orderid"])) {
+                                        require_once '../php-includes/dbh.inc.php';
+                                        $dsn = new Dbh;
+                                        $stmt = $dsn->connect()->prepare("SELECT * FROM `orderrow` WHERE `idorder` = ?;");
+
+                                        $stmt->execute(array($_SESSION["orderid"]));
+
+                                        $cartCount = $stmt->rowCount();
+
+                                        echo $cartCount;
+                                    } else {
+                                        echo 0;
+                                    }
+                                    ?>
+                                </a>
+                            </li>
                     <?php
-                    } elseif ($cur_dir[count($cur_dir) - 1] == "account") {
-                    ?>
-                        <li>
-                            <a href="cart.php" id="cart-a">
-                                <svg version="1.1" viewBox="0 0 24 24" aria-hidden="true" class="account-svg" focusable="false">
-                                    <path d="M23.9 6.5c0-.8-.7-1.5-1.5-1.5H5.8l-1-4H1c-.6 0-1 .4-1 1s.4 1 1 1h2.2L4 6.2l2.9 11.6c-.5.6-.9 1.4-.9 2.2 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.4-.1-.7-.2-1h4.4c-.1.3-.2.6-.2 1 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.9-.4-1.6-.9-2.2l2.7-11c0-.1.1-.2.1-.3zM10 20c0 .6-.4 1-1 1s-1-.4-1-1 .4-1 1-1 1 .4 1 1zm9 1c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm.2-4H8.8L6.3 7h15.4l-2.5 10z"></path>
-                                </svg>
-                                <?php
-                                if (isset($_SESSION["orderid"])) {
-                                    require_once '../php-includes/dbh.inc.php';
-                                    $dsn = new Dbh;
-                                    $stmt = $dsn->connect()->prepare("SELECT * FROM `orderrow` WHERE `idorder` = ?;");
-
-                                    $stmt->execute(array($_SESSION["orderid"]));
-
-                                    $cartCount = $stmt->rowCount();
-
-                                    echo $cartCount;
-                                } else {
-                                    echo 0;
-                                }
-                                ?>
-                            </a>
-                        </li>
-                    <?php
-                    } else {
-                    ?>
-                        <li>
-                            <a href="../account/cart.php" id="cart-a">
-                                <svg version="1.1" viewBox="0 0 24 24" aria-hidden="true" class="account-svg" focusable="false">
-                                    <path d="M23.9 6.5c0-.8-.7-1.5-1.5-1.5H5.8l-1-4H1c-.6 0-1 .4-1 1s.4 1 1 1h2.2L4 6.2l2.9 11.6c-.5.6-.9 1.4-.9 2.2 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.4-.1-.7-.2-1h4.4c-.1.3-.2.6-.2 1 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.9-.4-1.6-.9-2.2l2.7-11c0-.1.1-.2.1-.3zM10 20c0 .6-.4 1-1 1s-1-.4-1-1 .4-1 1-1 1 .4 1 1zm9 1c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm.2-4H8.8L6.3 7h15.4l-2.5 10z"></path>
-                                </svg>
-                                <?php
-                                if (isset($_SESSION["orderid"])) {
-                                    require_once '../php-includes/dbh.inc.php';
-                                    $dsn = new Dbh;
-                                    $stmt = $dsn->connect()->prepare("SELECT * FROM `orderrow` WHERE `idorder` = ?;");
-
-                                    $stmt->execute(array($_SESSION["orderid"]));
-
-                                    $cartCount = $stmt->rowCount();
-
-                                    echo $cartCount;
-                                } else {
-                                    echo 0;
-                                }
-                                ?>
-                            </a>
-                        </li>
-                    <?php
+                        }
                     }
                     ?>
                     <li><a href="home.php" id="home-a">Home</a></li>

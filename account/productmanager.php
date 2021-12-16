@@ -127,12 +127,13 @@ if ($_SESSION["perms"] != 1) {
                                 <th>screensize</th>
                                 <th>color</th>
                                 <th>sold</th>
+                                <th>stock</th>
                             </thead>
                             <tbody>
                                 <?php
                                 require_once '../php-includes/dbh.inc.php';
                                 $dsn = new Dbh;
-                                $stmt = $dsn->connect()->prepare("SELECT products.*, sales.sold FROM products
+                                $stmt = $dsn->connect()->prepare("SELECT products.*, sales.sold, sales.stock FROM products
                                 JOIN sales ON products.idproduct = sales.idproduct");
                                 $stmt->execute();
                                 foreach ($stmt as $row) {
@@ -145,6 +146,7 @@ if ($_SESSION["perms"] != 1) {
                                     echo "<td>" . $row["screensize"] . "</td>";
                                     echo "<td>" . $row["color"] . "</td>";
                                     echo "<td>" . $row["sold"] . "</td>";
+                                    echo "<td>" . $row["stock"] . "</td>";
                                     echo "</tr>";
                                 }
                                 ?>

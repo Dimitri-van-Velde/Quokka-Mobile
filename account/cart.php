@@ -117,6 +117,7 @@ if (!isset($_SESSION["userid"])) {
 
                 <?php
 
+                // Send error messages
                 if (isset($_GET["error"])) {
                     if ($_GET["error"] == "emptyselect") {
                 ?>
@@ -131,6 +132,7 @@ if (!isset($_SESSION["userid"])) {
                     }
                 }
 
+                // Delete orderrow from cart
                 if (isset($_POST["deleterow"])) {
                     $stmt = $dsn->connect()->prepare("DELETE FROM `orderrow` WHERE `idorderrow` = ?;");
                     $stmt->execute(array($_POST["deleterow"]));
@@ -140,18 +142,64 @@ if (!isset($_SESSION["userid"])) {
                     echo "<script>window.location.href = \"cart.php\";</script>";
                 }
 
+// Process order
                 if (isset($_POST["submit"])) {
 
+                    // Check if all fields are selected
                     if ($_POST["shippingmethod"] == 0 || $_POST["paymentmethod"] == 0) {
                         echo "<script>window.location.href = \"cart.php?error=emptyselect\";</script>";
                     } else {
 
+                        // Get lowest productid value in order
+                        $stmt = $dsn->connect()->prepare("SELECT MIN(`idproduct`) AS 'minprod' FROM `orderrow` WHERE `idorder` = ?;");
+
+                        $stmt->execute(array($_SESSION["orderid"]));
+
+                        // Get highest productid value in order
+                        $stmt1 = $dsn->connect()->prepare("SELECT MAX(`idproduct`) AS 'maxprod' FROM `orderrow` WHERE `idorder` = ?;");
+
+                        $stmt1->execute(array($_SESSION["orderid"]));
+
+                        $min = $stmt->fetchAll();
+                        $max = $stmt1->fetchAll();
+
+                        $stmt = null;
+                        $stmt1 = null;
+
+                        // Update sold and stock based on amount of products in order
+                        for ($i = $min[0]["minprod"]; $i <= $max[0]["maxprod"]; $i++) {
+
+                            $stmt = $dsn->connect()->prepare("SELECT SUM(`quantity`) AS 'totalsold' FROM `orderrow` WHERE `idorder` = ? AND `idproduct` = ?;");
+
+                            $stmt->execute(array($_SESSION["orderid"], $i));
+
+                            $data = $stmt->fetchAll();
+
+                            // Update stock
+                            if ($data[0]["totalsold"] != null) {
+                                $stmt1 = $dsn->connect()->prepare("UPDATE `sales` 
+                            SET `sales`.`stock` = `sales`.`stock` - ? 
+                            WHERE `sales`.`idproduct` = ?;");
+
+                                $stmt1->execute(array($data[0]["totalsold"], $i));
+
+                                // Update sold
+                                $stmt2 = $dsn->connect()->prepare("UPDATE `sales` 
+                            SET `sales`.`sold` = `sales`.`sold` + ? 
+                            WHERE `sales`.`idproduct` = ?;");
+
+                                $stmt2->execute(array($data[0]["totalsold"], $i));
+                            }
+                        }
+
+                        // Add shipping and payment method information to order
                         $stmt = $dsn->connect()->prepare("UPDATE `orders` SET `shippingmethod` = ?, `paymentmethod` = ? 
                         WHERE `idorder` = ?;");
                         $stmt->execute(array($_POST["shippingmethod"], $_POST["paymentmethod"], $_SESSION["orderid"]));
 
                         $stmt = null;
 
+                        // Close order
                         unset($_SESSION["orderid"]);
 
                         echo "Uw bestelling is geplaatst.";
@@ -159,6 +207,7 @@ if (!isset($_SESSION["userid"])) {
                     }
                 }
 
+                // Do if there is an order ongoing
                 if (isset($_SESSION["orderid"])) {
                     ?>
                     <article class="account-cart" id="account-cart">
@@ -173,6 +222,8 @@ if (!isset($_SESSION["userid"])) {
                         $stmt->execute(array($_SESSION["userid"], $_SESSION["orderid"]));
 
                         $i = 0;
+                        
+                        // Show products in cart
                         foreach ($stmt as $row) {
                             $i++;
                             // Get image URL
@@ -193,6 +244,7 @@ if (!isset($_SESSION["userid"])) {
                                     Aantal
 
                                     <?php
+                                    // Check what quantity is currently chosen
                                     switch ($row["quantity"]) {
                                         case 1:
                                     ?>
@@ -381,12 +433,21 @@ if (!isset($_SESSION["userid"])) {
 
                     </article>
                     <article class="account-cart-order">
-                        <span><p class="pricetitle">Totaal artikelen: </p><p class="price">€<?php echo number_format($totalPrice, 2, ",<sup>", "."); ?></p></span>
+                        <span>
+                            <p class="pricetitle">Totaal artikelen: </p>
+                            <p class="price">€<?php echo number_format($totalPrice, 2, ",<sup>", "."); ?></p>
+                        </span>
                         <?php
                         $priceWithVAT = number_format(($totalPrice / 100 * 21) + $totalPrice, 2, ",<sup>", ".");
                         ?>
-                        <span><p class="pricetitle">BTW: </p><p class="price">€<?php echo number_format((($totalPrice / 100 * 21) + $totalPrice) - $totalPrice, 2, ",<sup>", "."); ?></p></span>
-                        <span><p class="pricetitle">Totaal (inc. btw): </p><p class="price">€<?php echo $priceWithVAT; ?></p></span>
+                        <span>
+                            <p class="pricetitle">BTW: </p>
+                            <p class="price">€<?php echo number_format((($totalPrice / 100 * 21) + $totalPrice) - $totalPrice, 2, ",<sup>", "."); ?></p>
+                        </span>
+                        <span>
+                            <p class="pricetitle">Totaal (inc. btw): </p>
+                            <p class="price">€<?php echo $priceWithVAT; ?></p>
+                        </span>
                         <form action="cart.php" method="post">
                             <select name="shippingmethod" id="shippingmethod">
                                 <option value="0">Kies Verzender</option>

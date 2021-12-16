@@ -66,67 +66,72 @@ class GetProduct extends Dbh
                     </button>
                 </form>
             </article>
-            <script>document.title = "<?php echo $name; ?>";</script>
+            <script>
+                document.title = "<?php echo $name; ?>";
+            </script>
 <?php
 
-            // Do if submit button is pressed
-            if (isset($_POST["submit"])) {
-                // If there is no ongoing order, create one and store in session
-                if (empty($_SESSION["orderid"])) {
-                    // Create the order
-                    $stmt1 = $this->connect()->prepare("INSERT INTO orders (iduser) VALUES (?)");
+            if (isset($_SESSION["userid"])) {
+                // Do if submit button is pressed
+                if (isset($_POST["submit"])) {
+                    // If there is no ongoing order, create one and store in session
+                    if (empty($_SESSION["orderid"])) {
+                        // Create the order
+                        $stmt1 = $this->connect()->prepare("INSERT INTO orders (iduser) VALUES (?)");
 
-                    if (!$stmt1->execute(array($_SESSION["userid"]))) {
+                        if (!$stmt1->execute(array($_SESSION["userid"]))) {
+                            $stmt1 = null;
+                            header("Location: ../$url.php?error=stmtfailed");
+                            exit();
+                        }
+
                         $stmt1 = null;
-                        header("Location: ../$url.php?error=stmtfailed");
-                        exit();
-                    }
 
-                    $stmt1 = null;
+                        // Get current order id
+                        $stmt1 = $this->connect()->prepare("SELECT * FROM orders WHERE iduser = ? ORDER BY idorder DESC LIMIT 1;");
 
-                    // Get current order id
-                    $stmt1 = $this->connect()->prepare("SELECT * FROM orders WHERE iduser = ? ORDER BY idorder DESC LIMIT 1;");
+                        if (!$stmt1->execute(array($_SESSION["userid"]))) {
+                            $stmt1 = null;
+                            header("Location: ../$url.php?error=stmtfailed");
+                            exit();
+                        }
 
-                    if (!$stmt1->execute(array($_SESSION["userid"]))) {
+                        foreach ($stmt1 as $row) {
+
+                            $orderId = $row["idorder"];
+                            $_SESSION["orderid"] = $orderId;
+                        }
+
                         $stmt1 = null;
-                        header("Location: ../$url.php?error=stmtfailed");
-                        exit();
-                    }
 
-                    foreach ($stmt1 as $row) {
+                        // Add orderrow to current order
+                        $stmt1 = $this->connect()->prepare("INSERT INTO orderrow (idorder, idproduct, quantity) VALUES (?, ?, ?)");
 
-                        $orderId = $row["idorder"];
-                        $_SESSION["orderid"] = $orderId;
+                        if (!$stmt1->execute(array($orderId, $productid, $_POST["quantity"]))) {
+                            $stmt1 = null;
+                            header("Location: ../$url.php?error=stmtfailed");
+                            exit();
+                        }
 
-                    }
-
-                    $stmt1 = null;
-
-                    // Add orderrow to current order
-                    $stmt1 = $this->connect()->prepare("INSERT INTO orderrow (idorder, idproduct, quantity) VALUES (?, ?, ?)");
-
-                    if (!$stmt1->execute(array($orderId, $productid, $_POST["quantity"]))) {
                         $stmt1 = null;
-                        header("Location: ../$url.php?error=stmtfailed");
-                        exit();
-                    }
+                        echo "<script>window.location.href = \"../account/cart.php\";</script>";
 
-                    $stmt1 = null; 
-                    echo "<script>window.location.href = \"../account/cart.php\";</script>";
+                        // If there is an ongoing order, proceed
+                    } elseif (isset($_SESSION["orderid"])) {
+                        $stmt1 = $this->connect()->prepare("INSERT INTO orderrow (idorder, idproduct, quantity) VALUES (?, ?, ?)");
 
-                    // If there is an ongoing order, proceed
-                } elseif (isset($_SESSION["orderid"])) {
-                    $stmt1 = $this->connect()->prepare("INSERT INTO orderrow (idorder, idproduct, quantity) VALUES (?, ?, ?)");
+                        if (!$stmt1->execute(array($_SESSION["orderid"], $productid, $_POST["quantity"]))) {
+                            $stmt1 = null;
+                            header("Location: ../$url.php?error=stmtfailed");
+                            exit();
+                        }
 
-                    if (!$stmt1->execute(array($_SESSION["orderid"], $productid, $_POST["quantity"]))) {
                         $stmt1 = null;
-                        header("Location: ../$url.php?error=stmtfailed");
-                        exit();
+                        echo "<script>window.location.href = \"../account/cart.php\";</script>";
                     }
-
-                    $stmt1 = null;
-                    echo "<script>window.location.href = \"../account/cart.php\";</script>";
                 }
+            } else {
+                echo "<script>window.location.href = \"../login.php?redirect=product\";</script>";
             }
         }
     }

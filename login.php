@@ -79,6 +79,12 @@ require_once 'php-includes/login.inc.php';
                                             zien moet u eerst inloggen!</p>
                                     </span>
                             <?php
+                                } elseif ($_GET["redirect"] == "product") {
+                            ?>
+                                    <span class="login-info-message"><img src="images/info.svg" alt="Info Icon">
+                                        <p>Om producten toe te voegen aan uw winkelwagen moet u eerst ingloggen!</p>
+                                    </span>
+                            <?php
                                 }
                             }
                             ?>
