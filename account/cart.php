@@ -184,6 +184,7 @@ if (!isset($_SESSION["userid"])) {
                             $data1 = $stmt1->fetchAll();
 
                             if ($data1[0]["stockresult"] < 0) {
+
                         ?>
                                 <form class="change-form">
                                     <fieldset class="change-pers">
@@ -214,21 +215,23 @@ if (!isset($_SESSION["userid"])) {
 
                                     $stmt3->execute(array($data[0]["totalsold"], $i));
                                 }
+
+                                if ($i == $max[0]["maxprod"]) {
+                                    // Add shipping and payment method information to order
+                                    $stmt = $dsn->connect()->prepare("UPDATE `orders` SET `shippingmethod` = ?, `paymentmethod` = ? 
+                                        WHERE `idorder` = ?;");
+                                    $stmt->execute(array($_POST["shippingmethod"], $_POST["paymentmethod"], $_SESSION["orderid"]));
+
+                                    $stmt = null;
+
+                                    // Close order
+                                    unset($_SESSION["orderid"]);
+
+                                    echo "Uw bestelling is geplaatst.";
+                                    echo "<script>window.location.href = \"cart.php\";</script>";
+                                }
                             }
                         }
-
-                        // Add shipping and payment method information to order
-                        $stmt = $dsn->connect()->prepare("UPDATE `orders` SET `shippingmethod` = ?, `paymentmethod` = ? 
-                        WHERE `idorder` = ?;");
-                        $stmt->execute(array($_POST["shippingmethod"], $_POST["paymentmethod"], $_SESSION["orderid"]));
-
-                        $stmt = null;
-
-                        // Close order
-                        unset($_SESSION["orderid"]);
-
-                        echo "Uw bestelling is geplaatst.";
-                        echo "<script>window.location.href = \"cart.php\";</script>";
                     }
                 }
 
