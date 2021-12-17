@@ -308,6 +308,55 @@ if (\$data[0][\"hidden\"] == 1) {
                 }
                 ?>
                 <?php
+                // Check if changeorder is set
+                if (isset($_POST["changeorder"])) {
+
+                    require_once '../php-includes/dbh.inc.php';
+                    $dsn = new Dbh;
+                    $stmt = $dsn->connect()->prepare("SELECT * FROM orders WHERE idorder = ? AND shippeddate IS NULL;");
+                    $stmt->execute(array($_SESSION["action-uid"]));
+
+                    if ($stmt->rowCount() == 0) {
+                ?>
+                        <form class="change-form">
+                            <fieldset class="change-pers">
+                                <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                    <p>Dit order is al verzonden. Orderrow is niet aangepast!</p>
+                                </span>
+                            </fieldset>
+                        </form>
+                    <?php
+                    } else {
+
+                        // Variables
+                        $idproduct = $_POST["idproduct"];
+                        $quantity = $_POST["quantity"];
+
+                        require_once '../php-includes/dbh.inc.php';
+                        $dsn = new Dbh;
+
+                        // Change product informaation
+                        $stmt = $dsn->connect()->prepare("UPDATE `orderrow` SET idproduct = ?, quantity = ?
+                        WHERE `idorderrow` = ?;");
+
+                        $stmt->execute(array($idproduct, $quantity, $_SESSION["orderrow-uid"]));
+
+                        unset($_SESSION["action"]);
+                        unset($_SESSION["action-uid"]);
+                        unset($_SESSION["orderrow-uid"]);
+                    ?>
+                        <form class="change-form">
+                            <fieldset class="change-pers">
+                                <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                    <p>Order is aangepast.</p>
+                                </span>
+                            </fieldset>
+                        </form>
+                <?php
+                    }
+                }
+                ?>
+                <?php
                 if (isset($_POST["submit"])) {
 
                     // Check if an action was chosen
@@ -317,27 +366,29 @@ if (\$data[0][\"hidden\"] == 1) {
                         $splitAction = explode(" ", $_POST["actions"]);
                         $_SESSION["action"] = $splitAction[0];
                         $_SESSION["action-uid"] = $splitAction[1];
+                        $_SESSION["orderrow-uid"] = $splitAction[2] ?? "";
 
                 ?>
                         <!-- Wachtwoord formulier -->
                         <form action="productmanager.php" method="post" class="change-form">
                             <fieldset class="change-pers">
                                 <h3>Vul uw wachtwoord in om deze actie te voltooien.</h3>
-                                <h4>Product
-                                    <?php
-                                    echo $_SESSION["action-uid"];
+                                <?php
 
-                                    if ($_SESSION["action"] == "edit-product") {
-                                        echo "  aanpassen.";
-                                    } elseif ($_SESSION["action"] == "add-product") {
-                                        echo "  toevoegen.";
-                                    } elseif ($_SESSION["action"] == "remove-product") {
-                                        echo "  verwijderen.";
-                                    } elseif ($_SESSION["action"] == "hide-product") {
-                                        echo "  verbergen.";
-                                    }
-                                    ?>
-                                </h4>
+                                if ($_SESSION["action"] == "edit-product") {
+                                    echo "<h4>Product " . $_SESSION["action-uid"] . " aanpassen.</h4>";
+                                } elseif ($_SESSION["action"] == "add-product") {
+                                    echo "<h4>Product " . $_SESSION["action-uid"] . " toevoegen.</h4>";
+                                } elseif ($_SESSION["action"] == "remove-product") {
+                                    echo "<h4>Product " . $_SESSION["action-uid"] . " verwijderen.</h4>";
+                                } elseif ($_SESSION["action"] == "hide-product") {
+                                    echo "<h4>Product " . $_SESSION["action-uid"] . " verbergen/zichtbaar maken.</h4>";
+                                } elseif ($_SESSION["action"] == "edit-order") {
+                                    echo "<h4>Order " . $_SESSION["action-uid"] . ", orderrow " . $_SESSION["orderrow-uid"] . " aanpassen.</h4>";
+                                } elseif ($_SESSION["action"] == "remove-order") {
+                                    echo "<h4>Order " . $_SESSION["action-uid"] . " verwijderen.</h4>";
+                                }
+                                ?>
                                 <fieldset>
                                     <input type="password" name="password" id="password" placeholder="Uw Wachtwoord" tabindex="1" pattern=".{8,}" autofocus>
                                 </fieldset>
@@ -498,7 +549,81 @@ if (\$data[0][\"hidden\"] == 1) {
                                     <input type="submit" name="hideproduct" value="Pas toe">
                                 </fieldset>
                             </form>
+                        <?php
+                        } elseif ($_SESSION["action"] == "edit-order") {
+
+                        ?>
+                            <form action="productmanager.php" method="post" class="change-form">
+                                <fieldset class="change-pers">
+                                    <h3>Pas orderrow aan</h3>
+                                    <fieldset>
+                                        <select name="idproduct" id="idproduct">
+                                            <?php
+                                            require_once '../php-includes/dbh.inc.php';
+                                            $dsn = new Dbh;
+                                            $stmt = $dsn->connect()->prepare("SELECT * FROM products;");
+                                            $stmt->execute();
+                                            foreach ($stmt as $row) {
+                                                echo "<option value=\"" . $row["idproduct"] . "\">" . $row["name"] . "</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </fieldset>
+                                    <fieldset>
+                                        <input type="number" name="quantity" id="quantity" placeholder="Hoeveelheid" step="1" min="0" required>
+                                    </fieldset>
+                                    <input type="submit" name="changeorder" value="Pas Aan">
+                                </fieldset>
+                            </form>
+                            <?php
+                        } elseif ($_SESSION["action"] == "remove-order") {
+
+                            require_once '../php-includes/dbh.inc.php';
+                            $dsn = new Dbh;
+                            $stmt = $dsn->connect()->prepare("SELECT * FROM orders WHERE idorder = ? AND shippeddate IS NULL;");
+                            $stmt->execute(array($_SESSION["action-uid"]));
+
+                            if ($stmt->rowCount() == 0) {
+                            ?>
+                                <form class="change-form">
+                                    <fieldset class="change-pers">
+                                        <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                            <p>Dit order is al verzonden. Order is niet verwijderd!</p>
+                                        </span>
+                                    </fieldset>
+                                </form>
+                            <?php
+                            } else {
+
+                                require_once '../php-includes/dbh.inc.php';
+                                $dsn = new Dbh;
+
+                                // Remove orderrows containing order
+                                $stmt = $dsn->connect()->prepare("DELETE FROM orderrow WHERE idorder = ?;");
+
+                                $stmt->execute(array($_SESSION["action-uid"]));
+
+                                $stmt = null;
+
+                                // Remove order
+                                $stmt = $dsn->connect()->prepare("DELETE FROM orders WHERE idorder = ?;");
+
+                                $stmt->execute(array($_SESSION["action-uid"]));
+
+                                $stmt = null;
+
+                            ?>
+                                <form class="change-form">
+                                    <fieldset class="change-pers">
+                                        <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                            <p>Order met id <?php echo $_SESSION["action-uid"]; ?> is verwijderd uit de database.</p>
+                                        </span>
+                                    </fieldset>
+                                </form>
                 <?php
+                                unset($_SESSION["action"]);
+                                unset($_SESSION["action-uid"]);
+                            }
                         }
                     }
                 }
@@ -577,27 +702,46 @@ if (\$data[0][\"hidden\"] == 1) {
                     <article class="account-content-table" id="account-content-table">
                         <table>
                             <thead>
+                                <th>Acties</th>
                                 <th>idorderrow</th>
                                 <th>idorder</th>
                                 <th>idproduct</th>
                                 <th>name</th>
                                 <th>quantity</th>
+                                <th>shippeddate</th>
                             </thead>
                             <tbody>
                                 <?php
                                 require_once '../php-includes/dbh.inc.php';
                                 $dsn = new Dbh;
-                                $stmt = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name` FROM `orderrow` 
+                                $stmt = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `orders`.`shippeddate` FROM `orderrow` 
                                     JOIN `products` ON `orderrow`.`idproduct` = `products`.`idproduct`
+                                    JOIN `orders` ON `orderrow`.`idorder` = `orders`.`idorder`
                                     ORDER BY `idorder`, `idorderrow` ASC");
                                 $stmt->execute();
                                 foreach ($stmt as $row) {
-                                    echo "<tr>";
-                                    echo "<td>" . $row["idorderrow"] . "</td>";
-                                    echo "<td>" . $row["idorder"] . "</td>";
-                                    echo "<td>" . $row["idproduct"] . "</td>";
-                                    echo "<td>" . $row["name"] . "</td>";
-                                    echo "<td>" . $row["quantity"] . "</td>";
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <form action="productmanager.php" method="post">
+                                                <select name="actions" id="actions">
+                                                    <option value="0" selected>Kies actie</option>
+                                                    <option value="edit-order <?php echo $row["idorder"]; ?> <?php echo $row["idorderrow"]; ?>">Pas orderrow aan</option>
+                                                    <option value="remove-order <?php echo $row["idorder"]; ?>">Verwijder order</option>
+                                                </select>
+                                                <input type="submit" name="submit" value="Ga verder" class="usermanager-submit">
+                                            </form>
+                                        </td>
+                                        <?php
+                                        echo "<td>" . $row["idorderrow"] . "</td>";
+                                        echo "<td>" . $row["idorder"] . "</td>";
+                                        echo "<td>" . $row["idproduct"] . "</td>";
+                                        echo "<td>" . $row["name"] . "</td>";
+                                        echo "<td>" . $row["quantity"] . "</td>";
+                                        echo "<td>" . $row["shippeddate"] . "</td>";
+                                        ?>
+                                    </tr>
+                                <?php
                                     echo "</tr>";
                                 }
                                 ?>

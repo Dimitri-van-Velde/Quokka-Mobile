@@ -143,6 +143,10 @@ if (!isset($_SESSION["userid"])) {
                     $stmt->execute(array($_SESSION["orderid"]));
 
                     if ($stmt->rowCount() == 0) {
+                        $stmt1 = $dsn->connect()->prepare("DELETE FROM `orders` WHERE `idorder` = ?;");
+                        $stmt1->execute(array($_SESSION["orderid"]));
+
+                        $stmt1 = null;
 
                         unset($_SESSION["orderid"]);
                         $stmt = null;
