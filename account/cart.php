@@ -128,7 +128,7 @@ if (!isset($_SESSION["userid"])) {
                                 </span>
                             </fieldset>
                         </form>
-                    <?php
+                        <?php
                     }
                 }
 
@@ -142,7 +142,7 @@ if (!isset($_SESSION["userid"])) {
                     echo "<script>window.location.href = \"cart.php\";</script>";
                 }
 
-// Process order
+                // Process order
                 if (isset($_POST["submit"])) {
 
                     // Check if all fields are selected
@@ -175,20 +175,45 @@ if (!isset($_SESSION["userid"])) {
 
                             $data = $stmt->fetchAll();
 
-                            // Update stock
-                            if ($data[0]["totalsold"] != null) {
-                                $stmt1 = $dsn->connect()->prepare("UPDATE `sales` 
+                            $stmt1 = $dsn->connect()->prepare("SELECT SUM(`stock` - ?) AS 'stockresult', `products`.`name` FROM `sales` 
+                                JOIN `products` ON `sales`.`idproduct` = `products`.`idproduct` 
+                                WHERE `sales`.`idproduct` = ?;");
+
+                            $stmt1->execute(array($data[0]["totalsold"], $i));
+
+                            $data1 = $stmt1->fetchAll();
+
+                            if ($data1[0]["stockresult"] < 0) {
+                        ?>
+                                <form class="change-form">
+                                    <fieldset class="change-pers">
+                                        <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                            <p>
+                                                U probeert <?php echo $data[0]["totalsold"]; ?> van de <?php echo $data1[0]["name"]; ?>
+                                                te kopen. Maar we hebben er nog maar <?php echo $data[0]["totalsold"] - ($data1[0]["stockresult"] * -1); ?>
+                                                in voorraad. Onze excuses hiervoor.
+                                            </p>
+                                        </span>
+                                    </fieldset>
+                                </form>
+                    <?php
+                            } else {
+
+                                // Update stock
+                                if ($data[0]["totalsold"] != null) {
+                                    $stmt2 = $dsn->connect()->prepare("UPDATE `sales` 
                             SET `sales`.`stock` = `sales`.`stock` - ? 
                             WHERE `sales`.`idproduct` = ?;");
 
-                                $stmt1->execute(array($data[0]["totalsold"], $i));
+                                    $stmt2->execute(array($data[0]["totalsold"], $i));
 
-                                // Update sold
-                                $stmt2 = $dsn->connect()->prepare("UPDATE `sales` 
+                                    // Update sold
+                                    $stmt3 = $dsn->connect()->prepare("UPDATE `sales` 
                             SET `sales`.`sold` = `sales`.`sold` + ? 
                             WHERE `sales`.`idproduct` = ?;");
 
-                                $stmt2->execute(array($data[0]["totalsold"], $i));
+                                    $stmt3->execute(array($data[0]["totalsold"], $i));
+                                }
                             }
                         }
 
@@ -222,7 +247,7 @@ if (!isset($_SESSION["userid"])) {
                         $stmt->execute(array($_SESSION["userid"], $_SESSION["orderid"]));
 
                         $i = 0;
-                        
+
                         // Show products in cart
                         foreach ($stmt as $row) {
                             $i++;
