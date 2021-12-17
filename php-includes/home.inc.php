@@ -16,6 +16,7 @@ if (isset($_POST["home"])) {
     $query = "
         SELECT `products`.*, `sales`.`sold` FROM `products` 
             JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
+            WHERE `hidden` = 0
             ORDER BY `sold` DESC
             LIMIT 3
         ";
@@ -29,7 +30,7 @@ if (isset($_POST["home"])) {
 
         $data[] = array(
             "name" => $row["name"],
-            "price" => $row["price"]
+            "price" => number_format($row["price"],  2, ",<sup>", ".")
         );
     }
 

@@ -139,6 +139,15 @@ if (!isset($_SESSION["userid"])) {
 
                     $stmt = null;
 
+                    $stmt = $dsn->connect()->prepare("SELECT * FROM `orderrow` WHERE `idorder` = ?;");
+                    $stmt->execute(array($_SESSION["orderid"]));
+
+                    if ($stmt->rowCount() == 0) {
+
+                        unset($_SESSION["orderid"]);
+                        $stmt = null;
+                    }
+
                     echo "<script>window.location.href = \"cart.php\";</script>";
                 }
 

@@ -114,11 +114,14 @@ if ($_SESSION["perms"] != 1) {
                     </form>
                 </article>
                 <?php
+
+                // Hide product
                 if (isset($_POST["hideproduct"])) {
-                    
+
                     require_once '../php-includes/dbh.inc.php';
                     $dsn = new Dbh;
 
+                    // Change hidden value to 0 or 1
                     $stmt = $dsn->connect()->prepare("UPDATE `products` SET `hidden` = ? WHERE `idproduct` = ?;");
 
                     $stmt->execute(array($_POST["hide"], $_SESSION["action-uid"]));
@@ -128,15 +131,15 @@ if ($_SESSION["perms"] != 1) {
                     <form class="change-form">
                         <fieldset class="change-pers">
                             <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
-                                <p>Het product met id <?php echo $_SESSION["action-uid"]; ?> is 
-                                <?php 
-                                    if($_POST["hide"] == 1) {
+                                <p>Het product met id <?php echo $_SESSION["action-uid"]; ?> is
+                                    <?php
+                                    if ($_POST["hide"] == 1) {
                                         echo "verborgen.";
                                     } else {
                                         echo "zichtbaar.";
                                     }
-                                ?>
-                            </p>
+                                    ?>
+                                </p>
                             </span>
                         </fieldset>
                     </form>
@@ -146,6 +149,7 @@ if ($_SESSION["perms"] != 1) {
                 }
                 ?>
                 <?php
+                // Add product
                 if (isset($_POST["addproduct"])) {
                     // Variables
                     $name = $_POST["name"];
@@ -158,6 +162,7 @@ if ($_SESSION["perms"] != 1) {
                     require_once '../php-includes/dbh.inc.php';
                     $dsn = new Dbh;
 
+                    // Insert product information into product table
                     $stmt = $dsn->connect()->prepare("INSERT INTO `products` (name, idbrand, price, releasedate, screensize, color)
                         VALUES (?, ?, ?, ?, ?, ?);");
 
@@ -165,6 +170,7 @@ if ($_SESSION["perms"] != 1) {
 
                     $stmt = null;
 
+                    // Get the id of the just inserted product
                     $stmt = $dsn->connect()->prepare("SELECT MAX(`idproduct`) AS 'maxproduct' FROM `products`;");
 
                     $stmt->execute();
@@ -173,6 +179,7 @@ if ($_SESSION["perms"] != 1) {
 
                     $stmt = null;
 
+                    // Set sales values for product
                     $stmt = $dsn->connect()->prepare("INSERT INTO `sales` (idproduct, sold, stock)
                         VALUES (?, ?, ?);");
 
@@ -180,13 +187,87 @@ if ($_SESSION["perms"] != 1) {
 
                     $stmt = null;
 
+                    // Create new product's page code
+                    $productPageCode = "<?php
+session_start();
+include_once \"../php-includes/dbh.inc.php\";
+include_once \"../php-includes/getproduct.inc.php\";
+
+require_once '../php-includes/dbh.inc.php';
+\$dsn = new Dbh;
+\$stmt = \$dsn->connect()->prepare(\"SELECT * FROM `products` WHERE `idproduct` = " . $data[0]["maxproduct"] . "\");
+\$stmt->execute();
+
+\$data = \$stmt->fetchAll();
+
+if (\$data[0][\"hidden\"] == 1) {
+    header(\"Location: ../producten.php?state=hidden\");
+}
+
+// Call Class
+\$object = new GetProduct;
+?>
+
+<!DOCTYPE html>
+<html lang=\"nl\">
+
+<head>
+    <meta charset=\"UTF-8\">
+    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <title>" . $name . "</title>
+    <?php
+    include '../head.html';
+    ?>
+</head>
+
+<body>
+    <?php
+    include '../nav.php';
+    ?>
+
+    <main>
+        <section class=\"product-page-container\">
+
+            <?php
+
+            // Echo to screen
+            // Set product id in ()
+            echo \$object->getSingleProduct(" . $data[0]["maxproduct"] . ");
+
+            ?>
+
+        </section>
+    </main>
+
+    <?php
+    include '../footer.html';
+    ?>
+
+</body>
+
+</html>";
+
+                    // Get image and site URL
+                    // Make lower case
+                    $url = strtolower($name);
+                    //Make alphanumeric
+                    $url = preg_replace("/[^a-z0-9_\s-]/", "", $url);
+                    //Clean up multiple dashes or whitespaces
+                    $url = preg_replace("/[\s-]+/", " ", $url);
+                    //Convert whitespaces and underscore to dash
+                    $url = preg_replace("/[\s_]/", "-", $url);
+
+                    // Create new product's page
+                    file_put_contents("../producten/$url.php", $productPageCode);
+
                     unset($_SESSION["action"]);
                     unset($_SESSION["action-uid"]);
                 ?>
                     <form class="change-form">
                         <fieldset class="change-pers">
                             <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
-                                <p>Het product is aangepast.</p>
+                                <p>Het product is toegevoegt.</p>
                             </span>
                         </fieldset>
                     </form>
@@ -194,6 +275,7 @@ if ($_SESSION["perms"] != 1) {
                 }
                 ?>
                 <?php
+                // Check if changeproduct is set
                 if (isset($_POST["changeproduct"])) {
                     // Variables
                     $name = $_POST["name"];
@@ -206,6 +288,7 @@ if ($_SESSION["perms"] != 1) {
                     require_once '../php-includes/dbh.inc.php';
                     $dsn = new Dbh;
 
+                    // Change product informaation
                     $stmt = $dsn->connect()->prepare("UPDATE `products` SET name = ?, idbrand = ?, price = ?, releasedate = ?, screensize = ?, color = ?
                         WHERE `idproduct` = ?;");
 
@@ -217,7 +300,7 @@ if ($_SESSION["perms"] != 1) {
                     <form class="change-form">
                         <fieldset class="change-pers">
                             <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
-                                <p>Het product is toegevoegt.</p>
+                                <p>Het product is aangepast.</p>
                             </span>
                         </fieldset>
                     </form>
