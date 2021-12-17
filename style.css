@@ -1443,6 +1443,7 @@ h3 {
     display: flex;
     flex-flow: column wrap;
     border-left: 3px solid #0D98BA;
+    margin-left: -20%;
 }
 
 .account-cart article {
@@ -1537,6 +1538,7 @@ h3 {
     display: flex;
     flex-flow: column wrap;
     border-left: 3px solid #0D98BA;
+    margin-left: -20%;
 }
 
 .account-bestelling article {
@@ -1572,7 +1574,7 @@ h3 {
 
 .orderinfo {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column wrap;
 }
 
 .orderinfo p:nth-child(odd) {
@@ -2005,6 +2007,12 @@ h3 {
         width: 40vw;
         max-width: 200px;
     }
+
+    .orderinfo {
+        display: flex;
+        flex-flow: row wrap;
+    }
+    
 }
 
 @media screen and (min-width: 1250px) {
