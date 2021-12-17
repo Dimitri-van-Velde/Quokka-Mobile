@@ -119,6 +119,7 @@ if ($_SESSION["perms"] != 1) {
                     <article class="account-content-table" id="account-content-table">
                         <table>
                             <thead>
+                                <th>Acties</th>
                                 <th>idproduct</th>
                                 <th>name</th>
                                 <th>idbrand</th>
@@ -137,7 +138,20 @@ if ($_SESSION["perms"] != 1) {
                                 JOIN sales ON products.idproduct = sales.idproduct");
                                 $stmt->execute();
                                 foreach ($stmt as $row) {
-                                    echo "<tr>";
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <form action="usermanager.php" method="post">
+                                                <select name="actions" id="actions">
+                                                    <option value="0" selected>Kies actie</option>
+                                                    <option value="remove-customer <?php echo $row["idproduct"]; ?>">Verwijder klant</option>
+                                                    <option value="make-admin <?php echo $row["idproduct"]; ?>">Maak beheerder</option>
+                                                    <option value="take-admin <?php echo $row["idproduct"]; ?>">Verwijder beheerder</option>
+                                                </select>
+                                                <input type="submit" name="submit" value="Ga verder" class="usermanager-submit">
+                                            </form>
+                                        </td>
+                                        <?php
                                     echo "<td>" . $row["idproduct"] . "</td>";
                                     echo "<td>" . $row["name"] . "</td>";
                                     echo "<td>" . $row["idbrand"] . "</td>";
@@ -147,6 +161,9 @@ if ($_SESSION["perms"] != 1) {
                                     echo "<td>" . $row["color"] . "</td>";
                                     echo "<td>" . $row["sold"] . "</td>";
                                     echo "<td>" . $row["stock"] . "</td>";
+                                    ?>
+                                    </tr>
+                                <?php
                                     echo "</tr>";
                                 }
                                 ?>

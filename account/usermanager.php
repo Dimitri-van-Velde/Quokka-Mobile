@@ -287,7 +287,7 @@ if ($_SESSION["perms"] != 1) {
                                         </span>
                                     </fieldset>
                                 </form>
-                <?php
+                                <?php
                             }
                         } elseif ($_SESSION["action"] == "remove-customer") {
 
@@ -297,32 +297,97 @@ if ($_SESSION["perms"] != 1) {
                                 // Do if user is currently not an admin
                                 if ($currentPerms == 0) {
 
-                                    $stmt = $dsn->connect()->prepare("DELETE FROM users WHERE iduser = ?");
+                                    $stmt1 = $dsn->connect()->prepare("SELECT * FROM `orders` WHERE `iduser` = ? AND `shippeddate` IS NULL;");
+                                    $stmt1->execute(array($_SESSION["action-uid"]));
 
-                                    // If the statement failed, give an error
-                                    if (!$stmt->execute(array($_SESSION["action-uid"]))) {
+                                    // Check for active orders
+                                    if ($stmt1->rowCount() == 0) {
+
+                                        // Get lowest orderid value in orderrow
+                                        $stmt = $dsn->connect()->prepare("SELECT MIN(`orderrow`.`idorder`) AS 'minorder', `orders`.`iduser` 
+                                            FROM `orderrow` JOIN `orders` ON `orderrow`.`idorder` = `orders`.`idorder` WHERE `orders`.`iduser` = ?;");
+
+                                        $stmt->execute(array($_SESSION["action-uid"]));
+
+                                        // Get highest orderid value in orderrow
+                                        $stmt1 = $dsn->connect()->prepare("SELECT MAX(`orderrow`.`idorder`) AS 'maxorder', `orders`.`iduser` 
+                                            FROM `orderrow` JOIN `orders` ON `orderrow`.`idorder` = `orders`.`idorder` WHERE `orders`.`iduser` = ?;");
+
+                                        $stmt1->execute(array($_SESSION["action-uid"]));
+
+                                        $min = $stmt->fetchAll();
+                                        $max = $stmt1->fetchAll();
+
                                         $stmt = null;
-                                        header("Location: ../account/usermanager.php?error=stmtfailed");
-                                        exit();
-                                    }
+                                        $stmt1 = null;
 
-                                    $stmt = null;
+                                        if ($min[0]["minorder"] != null && $max[0]["maxorder"] != null) {
+
+                                            for ($i = $min[0]["minorder"]; $i <= $max[0]["maxorder"]; $i++) {
+
+                                                $stmt = $dsn->connect()->prepare("DELETE FROM orderrow WHERE idorder = ?;");
+
+                                                $stmt->execute(array($i));
+
+                                                $stmt = null;
+
+                                                if ($i == $max[0]["maxorder"]) {
+                                                    $stmt = $dsn->connect()->prepare("DELETE FROM orders WHERE iduser = ?;");
+
+                                                    $stmt->execute(array($_SESSION["action-uid"]));
+
+                                                    $stmt = null;
+
+                                                    $stmt = $dsn->connect()->prepare("DELETE FROM users WHERE iduser = ?");
+
+                                                    // If the statement failed, give an error
+                                                    if (!$stmt->execute(array($_SESSION["action-uid"]))) {
+                                                        $stmt = null;
+                                                        header("Location: ../account/usermanager.php?error=stmtfailed");
+                                                        exit();
+                                                    }
+
+                                                    $stmt = null;
+                                                }
+                                            }
+                                        } else {
+                                            $stmt = $dsn->connect()->prepare("DELETE FROM users WHERE iduser = ?");
+
+                                            // If the statement failed, give an error
+                                            if (!$stmt->execute(array($_SESSION["action-uid"]))) {
+                                                $stmt = null;
+                                                header("Location: ../account/usermanager.php?error=stmtfailed");
+                                                exit();
+                                            }
+
+                                            $stmt = null;
+                                        }
                                 ?>
-                                    <form class="change-form">
-                                        <fieldset class="change-pers">
-                                            <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
-                                                <p>De gebruiker met user id <?php echo $_SESSION["action-uid"]; ?> is verwijderd uit de database.</p>
-                                            </span>
-                                        </fieldset>
-                                    </form>
-                                <?php
+                                        <form class="change-form">
+                                            <fieldset class="change-pers">
+                                                <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                                    <p>De gebruiker met user id <?php echo $_SESSION["action-uid"]; ?> is verwijderd uit de database.</p>
+                                                </span>
+                                            </fieldset>
+                                        </form>
+                                    <?php
 
-                                    unset($_SESSION["action"]);
-                                    unset($_SESSION["action-uid"]);
-
+                                        unset($_SESSION["action"]);
+                                        unset($_SESSION["action-uid"]);
+                                    } else {
+                                    ?>
+                                        <form class="change-form">
+                                            <fieldset class="change-pers">
+                                                <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                                    <p>De gebruiker met user id <?php echo $_SESSION["action-uid"]; ?> heeft een actieve bestelling. De gebruiker is niet verwijderd.</p>
+                                                </span>
+                                            </fieldset>
+                                        </form>
+                                    <?php
+                                    }
                                     // Do if user is currently an admin
                                 } elseif ($currentPerms == 1) {
-                                ?>
+                                    ?>
                                     <form class="change-form">
                                         <fieldset class="change-pers">
                                             <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
