@@ -13,7 +13,7 @@ class Products extends Dbh
             $strippedInput = strip_tags($_GET["search"]);
 
             // Database Query
-            $stmt = $this->connect()->prepare("SELECT * FROM `products` WHERE `name` LIKE :user_input");
+            $stmt = $this->connect()->prepare("SELECT * FROM `products` WHERE `name` LIKE :user_input AND `hidden` = 0");
             $parameters = array(":user_input" => "%" . $strippedInput . "%");
             $stmt->execute($parameters);
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -65,6 +65,7 @@ class Products extends Dbh
             // Database Query
             $stmt = $this->connect()->prepare("SELECT `products`.*, `sales`.`sold` FROM `products` 
                     JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
+                    WHERE `hidden` = 0
                     ORDER BY `sold` DESC");
             $stmt->execute();
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);

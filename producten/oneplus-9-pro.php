@@ -5,7 +5,7 @@ include_once "../php-includes/getproduct.inc.php";
 
 require_once '../php-includes/dbh.inc.php';
 $dsn = new Dbh;
-$stmt = $dsn->connect()->prepare("SELECT * FROM `products` WHERE `idproduct` = 7");
+$stmt = $dsn->connect()->prepare("SELECT * FROM `products` WHERE `idproduct` = 12");
 $stmt->execute();
 
 $data = $stmt->fetchAll();
@@ -25,7 +25,7 @@ $object = new GetProduct;
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OnePlus Nord N100</title>
+    <title>OnePlus 9 Pro</title>
     <?php
     include '../head.html';
     ?>
@@ -43,7 +43,7 @@ $object = new GetProduct;
 
             // Echo to screen
             // Set product id in ()
-            echo $object->getSingleProduct(7);
+            echo $object->getSingleProduct(12);
 
             ?>
 

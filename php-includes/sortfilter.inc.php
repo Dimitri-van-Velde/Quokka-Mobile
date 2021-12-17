@@ -25,30 +25,35 @@ if (isset($_POST["sort"])) {
                 $query = "
                     SELECT `products`.*, `sales`.`sold` FROM `products` 
                         JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
+                        WHERE `hidden` = 0
                         ORDER BY `sold` DESC
                     ";
             } elseif ($_POST["sort"] == "priceLtH") {
 
                 $query = "
                     SELECT * FROM `products`
+                        WHERE `hidden` = 0
                         ORDER BY `price` ASC
                     ";
             } elseif ($_POST["sort"] == "priceHtL") {
 
                 $query = "
                     SELECT * FROM `products`
+                        WHERE `hidden` = 0
                         ORDER BY `price` DESC
                     ";
             } elseif ($_POST["sort"] == "releaseNtO") {
 
                 $query = "
                     SELECT * FROM `products`
+                        WHERE `hidden` = 0
                         ORDER BY `releasedate` DESC
                     ";
             } elseif ($_POST["sort"] == "releaseOtN") {
 
                 $query = "
                     SELECT * FROM `products`
+                        WHERE `hidden` = 0
                         ORDER BY `releasedate` ASC
                     ";
             }
@@ -58,35 +63,35 @@ if (isset($_POST["sort"])) {
                 $query = "
                     SELECT `products`.*, `sales`.`sold` FROM `products` 
                         JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
-                        WHERE `idbrand` = $brand
+                        WHERE `idbrand` = $brand AND `hidden` = 0
                         ORDER BY `sold` DESC
                     ";
             } elseif ($_POST["sort"] == "priceLtH") {
 
                 $query = "
                     SELECT * FROM `products`
-                        WHERE `idbrand` = $brand
+                        WHERE `idbrand` = $brand AND `hidden` = 0
                         ORDER BY `price` ASC
                     ";
             } elseif ($_POST["sort"] == "priceHtL") {
 
                 $query = "
                     SELECT * FROM `products`
-                        WHERE `idbrand` = $brand
+                        WHERE `idbrand` = $brand AND `hidden` = 0
                         ORDER BY `price` DESC
                     ";
             } elseif ($_POST["sort"] == "releaseNtO") {
 
                 $query = "
                     SELECT * FROM `products`
-                        WHERE `idbrand` = $brand
+                        WHERE `idbrand` = $brand AND `hidden` = 0
                         ORDER BY `releasedate` DESC
                     ";
             } elseif ($_POST["sort"] == "releaseOtN") {
 
                 $query = "
                     SELECT * FROM `products`
-                        WHERE `idbrand` = $brand
+                        WHERE `idbrand` = $brand AND `hidden` = 0
                         ORDER BY `releasedate` ASC
                     ";
             }
@@ -98,35 +103,35 @@ if (isset($_POST["sort"])) {
                 $query = "
                     SELECT `products`.*, `sales`.`sold` FROM `products` 
                         JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
-                        WHERE `name` LIKE \"%" . $search . "%\"
+                        WHERE `name` LIKE \"%" . $search . "%\" AND `hidden` = 0
                         ORDER BY `sold` DESC
                     ";
             } elseif ($_POST["sort"] == "priceLtH") {
 
                 $query = "
                     SELECT * FROM `products`
-                    WHERE `name` LIKE \"%" . $search . "%\"
+                    WHERE `name` LIKE \"%" . $search . "%\" AND `hidden` = 0
                         ORDER BY `price` ASC
                     ";
             } elseif ($_POST["sort"] == "priceHtL") {
 
                 $query = "
                     SELECT * FROM `products`
-                    WHERE `name` LIKE \"%" . $search . "%\"
+                    WHERE `name` LIKE \"%" . $search . "%\" AND `hidden` = 0
                         ORDER BY `price` DESC
                     ";
             } elseif ($_POST["sort"] == "releaseNtO") {
 
                 $query = "
                     SELECT * FROM `products`
-                    WHERE `name` LIKE \"%" . $search . "%\"
+                    WHERE `name` LIKE \"%" . $search . "%\" AND `hidden` = 0
                         ORDER BY `releasedate` DESC
                     ";
             } elseif ($_POST["sort"] == "releaseOtN") {
 
                 $query = "
                     SELECT * FROM `products`
-                    WHERE `name` LIKE \"%" . $search . "%\"
+                    WHERE `name` LIKE \"%" . $search . "%\" AND `hidden` = 0
                         ORDER BY `releasedate` ASC
                     ";
             }
@@ -137,7 +142,7 @@ if (isset($_POST["sort"])) {
                     SELECT `products`.*, `sales`.`sold` FROM `products` 
                         JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
                         WHERE `idbrand` = $brand
-                        AND WHERE `name` LIKE \"%" . $search . "%\"
+                        AND WHERE `name` LIKE \"%" . $search . "%\" AND `hidden` = 0
                         ORDER BY `sold` DESC
                     ";
             } elseif ($_POST["sort"] == "priceLtH") {
@@ -145,7 +150,7 @@ if (isset($_POST["sort"])) {
                 $query = "
                     SELECT * FROM `products`
                         WHERE `idbrand` = $brand
-                        AND WHERE `name` LIKE \"%" . $search . "%\"
+                        AND WHERE `name` LIKE \"%" . $search . "%\" AND `hidden` = 0
                         ORDER BY `price` ASC
                     ";
             } elseif ($_POST["sort"] == "priceHtL") {
@@ -153,7 +158,7 @@ if (isset($_POST["sort"])) {
                 $query = "
                     SELECT * FROM `products`
                         WHERE `idbrand` = $brand
-                        AND WHERE `name` LIKE \"%" . $search . "%\"
+                        AND WHERE `name` LIKE \"%" . $search . "%\" AND `hidden` = 0
                         ORDER BY `price` DESC
                     ";
             } elseif ($_POST["sort"] == "releaseNtO") {
@@ -161,7 +166,7 @@ if (isset($_POST["sort"])) {
                 $query = "
                     SELECT * FROM `products`
                         WHERE `idbrand` = $brand
-                        AND WHERE `name` LIKE \"%" . $search . "%\"
+                        AND WHERE `name` LIKE \"%" . $search . "%\" AND `hidden` = 0
                         ORDER BY `releasedate` DESC
                     ";
             } elseif ($_POST["sort"] == "releaseOtN") {
@@ -169,7 +174,7 @@ if (isset($_POST["sort"])) {
                 $query = "
                     SELECT * FROM `products`
                         WHERE `idbrand` = $brand
-                        AND WHERE `name` LIKE \"%" . $search . "%\"
+                        AND WHERE `name` LIKE \"%" . $search . "%\" AND `hidden` = 0
                         ORDER BY `releasedate` ASC
                     ";
             }

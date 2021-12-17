@@ -21,35 +21,35 @@ if (isset($_POST["brand"])) {
         $query = "
             SELECT `products`.*, `sales`.`sold` FROM `products` 
                 JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
-                WHERE `idbrand` = $brand
+                WHERE `idbrand` = $brand AND `hidden` = 0
                 ORDER BY `sold` DESC
             ";
     } elseif ($_POST["current_sort"] == "priceLtH") {
 
         $query = "
             SELECT * FROM `products`
-                WHERE `idbrand` = $brand
+                WHERE `idbrand` = $brand AND `hidden` = 0
                 ORDER BY `price` ASC
             ";
     } elseif ($_POST["current_sort"] == "priceHtL") {
 
         $query = "
             SELECT * FROM `products`
-                WHERE `idbrand` = $brand
+                WHERE `idbrand` = $brand AND `hidden` = 0
                 ORDER BY `price` DESC
             ";
     } elseif ($_POST["current_sort"] == "releaseNtO") {
 
         $query = "
             SELECT * FROM `products`
-                WHERE `idbrand` = $brand
+                WHERE `idbrand` = $brand AND `hidden` = 0
                 ORDER BY `releasedate` DESC
             ";
     } elseif ($_POST["current_sort"] == "releaseOtN") {
 
         $query = "
             SELECT * FROM `products`
-                WHERE `idbrand` = $brand
+                WHERE `idbrand` = $brand AND `hidden` = 0
                 ORDER BY `releasedate` ASC
             ";
     }

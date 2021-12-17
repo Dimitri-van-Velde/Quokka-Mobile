@@ -19,7 +19,7 @@ if (isset($_POST["query"])) {
     $query = "
         SELECT `products`.*, `sales`.`sold` FROM `products` 
             JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
-            WHERE `name` LIKE \"%" . $condition . "%\"
+            WHERE `name` LIKE \"%" . $condition . "%\" AND `hidden` = 0
             ORDER BY `sold` DESC
             LIMIT 3
         ";

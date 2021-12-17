@@ -114,6 +114,313 @@ if ($_SESSION["perms"] != 1) {
                     </form>
                 </article>
                 <?php
+                if (isset($_POST["hideproduct"])) {
+                    
+                    require_once '../php-includes/dbh.inc.php';
+                    $dsn = new Dbh;
+
+                    $stmt = $dsn->connect()->prepare("UPDATE `products` SET `hidden` = ? WHERE `idproduct` = ?;");
+
+                    $stmt->execute(array($_POST["hide"], $_SESSION["action-uid"]));
+
+                    $stmt = null;
+                ?>
+                    <form class="change-form">
+                        <fieldset class="change-pers">
+                            <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                <p>Het product met id <?php echo $_SESSION["action-uid"]; ?> is 
+                                <?php 
+                                    if($_POST["hide"] == 1) {
+                                        echo "verborgen.";
+                                    } else {
+                                        echo "zichtbaar.";
+                                    }
+                                ?>
+                            </p>
+                            </span>
+                        </fieldset>
+                    </form>
+                <?php
+                    unset($_SESSION["action"]);
+                    unset($_SESSION["action-uid"]);
+                }
+                ?>
+                <?php
+                if (isset($_POST["addproduct"])) {
+                    // Variables
+                    $name = $_POST["name"];
+                    $idbrand = $_POST["idbrand"];
+                    $price = number_format($_POST["price"], 2, ".", "");
+                    $release = $_POST["release"];
+                    $screensize = number_format($_POST["screensize"], 2, ".", "");
+                    $color = ucfirst($_POST["color"]);
+
+                    require_once '../php-includes/dbh.inc.php';
+                    $dsn = new Dbh;
+
+                    $stmt = $dsn->connect()->prepare("INSERT INTO `products` (name, idbrand, price, releasedate, screensize, color)
+                        VALUES (?, ?, ?, ?, ?, ?);");
+
+                    $stmt->execute(array($name, $idbrand, $price, $release, $screensize, $color));
+
+                    $stmt = null;
+
+                    $stmt = $dsn->connect()->prepare("SELECT MAX(`idproduct`) AS 'maxproduct' FROM `products`;");
+
+                    $stmt->execute();
+
+                    $data = $stmt->fetchAll();
+
+                    $stmt = null;
+
+                    $stmt = $dsn->connect()->prepare("INSERT INTO `sales` (idproduct, sold, stock)
+                        VALUES (?, ?, ?);");
+
+                    $stmt->execute(array($data[0]["maxproduct"], 0, 1000));
+
+                    $stmt = null;
+
+                    unset($_SESSION["action"]);
+                    unset($_SESSION["action-uid"]);
+                ?>
+                    <form class="change-form">
+                        <fieldset class="change-pers">
+                            <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                <p>Het product is aangepast.</p>
+                            </span>
+                        </fieldset>
+                    </form>
+                <?php
+                }
+                ?>
+                <?php
+                if (isset($_POST["changeproduct"])) {
+                    // Variables
+                    $name = $_POST["name"];
+                    $idbrand = $_POST["idbrand"];
+                    $price = number_format($_POST["price"], 2, ".", "");
+                    $release = $_POST["release"];
+                    $screensize = number_format($_POST["screensize"], 2, ".", "");
+                    $color = ucfirst($_POST["color"]);
+
+                    require_once '../php-includes/dbh.inc.php';
+                    $dsn = new Dbh;
+
+                    $stmt = $dsn->connect()->prepare("UPDATE `products` SET name = ?, idbrand = ?, price = ?, releasedate = ?, screensize = ?, color = ?
+                        WHERE `idproduct` = ?;");
+
+                    $stmt->execute(array($name, $idbrand, $price, $release, $screensize, $color, $_SESSION["action-uid"]));
+
+                    unset($_SESSION["action"]);
+                    unset($_SESSION["action-uid"]);
+                ?>
+                    <form class="change-form">
+                        <fieldset class="change-pers">
+                            <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                <p>Het product is toegevoegt.</p>
+                            </span>
+                        </fieldset>
+                    </form>
+                <?php
+                }
+                ?>
+                <?php
+                if (isset($_POST["submit"])) {
+
+                    // Check if an action was chosen
+                    if ($_POST["actions"] != 0) {
+
+                        // Split into action and uid
+                        $splitAction = explode(" ", $_POST["actions"]);
+                        $_SESSION["action"] = $splitAction[0];
+                        $_SESSION["action-uid"] = $splitAction[1];
+
+                ?>
+                        <!-- Wachtwoord formulier -->
+                        <form action="productmanager.php" method="post" class="change-form">
+                            <fieldset class="change-pers">
+                                <h3>Vul uw wachtwoord in om deze actie te voltooien.</h3>
+                                <h4>Product
+                                    <?php
+                                    echo $_SESSION["action-uid"];
+
+                                    if ($_SESSION["action"] == "edit-product") {
+                                        echo "  aanpassen.";
+                                    } elseif ($_SESSION["action"] == "add-product") {
+                                        echo "  toevoegen.";
+                                    } elseif ($_SESSION["action"] == "remove-product") {
+                                        echo "  verwijderen.";
+                                    } elseif ($_SESSION["action"] == "hide-product") {
+                                        echo "  verbergen.";
+                                    }
+                                    ?>
+                                </h4>
+                                <fieldset>
+                                    <input type="password" name="password" id="password" placeholder="Uw Wachtwoord" tabindex="1" pattern=".{8,}" autofocus>
+                                </fieldset>
+                                <input type="submit" name="continue" value="Ga verder">
+                            </fieldset>
+                        </form>
+                <?php
+                    }
+                }
+                ?>
+                <?php
+
+                // Check if password is submitted
+                if (isset($_POST["continue"])) {
+
+                    // Do if password is wrong
+                    if (password_verify($_POST["password"], $_SESSION["currentpassword"]) == false) {
+                ?>
+                        <form class="change-form">
+                            <fieldset class="change-pers">
+                                <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                    <p>Het wachtwoord dat u heeft ingetypt klopt niet! Probeer het nog eens.</p>
+                                </span>
+                            </fieldset>
+                        </form>
+                        <?php
+                    }
+
+                    // Do if password is right
+                    if (password_verify($_POST["password"], $_SESSION["currentpassword"]) == true) {
+
+                        if ($_SESSION["action"] == "edit-product") {
+                        ?>
+                            <form action="productmanager.php" method="post" class="change-form">
+                                <fieldset class="change-pers">
+                                    <h3>Pas product aan</h3>
+                                    <fieldset>
+                                        <input type="text" name="name" id="name" placeholder="Product naam" maxlength="45" required>
+                                    </fieldset>
+                                    <fieldset>
+                                        <select name="idbrand" id="idbrand">
+                                            <option value="1">Samsung</option>
+                                            <option value="2">iPhone</option>
+                                            <option value="3">Huawei</option>
+                                            <option value="4">OnePlus</option>
+                                        </select>
+                                    </fieldset>
+                                    <fieldset>
+                                        <input type="number" name="price" id="price" placeholder="Prijs (0000.00)" step=".01" required>
+                                    </fieldset>
+                                    <fieldset>
+                                        Releasedatum:
+                                        <input type="date" name="release" id="release" placeholder="releasedate" required>
+                                    </fieldset>
+                                    <fieldset>
+                                        <input type="number" name="screensize" id="screensize" placeholder="Schermgrootte (00.00)" step=".01" required>
+                                    </fieldset>
+                                    <fieldset>
+                                        <input type="text" name="color" id="color" placeholder="Kleur" step=".01" required>
+                                    </fieldset>
+                                    <input type="submit" name="changeproduct" value="Pas Aan">
+                                </fieldset>
+                            </form>
+                        <?php
+                        } elseif ($_SESSION["action"] == "add-product") {
+                        ?>
+                            <form action="productmanager.php" method="post" class="change-form">
+                                <fieldset class="change-pers">
+                                    <h3>Voeg product toe</h3>
+                                    <fieldset>
+                                        <input type="text" name="name" id="name" placeholder="Product naam" maxlength="45" required>
+                                    </fieldset>
+                                    <fieldset>
+                                        <select name="idbrand" id="idbrand">
+                                            <option value="1">Samsung</option>
+                                            <option value="2">iPhone</option>
+                                            <option value="3">Huawei</option>
+                                            <option value="4">OnePlus</option>
+                                        </select>
+                                    </fieldset>
+                                    <fieldset>
+                                        <input type="number" name="price" id="price" placeholder="Prijs (0000.00)" step=".01" required>
+                                    </fieldset>
+                                    <fieldset>
+                                        Releasedatum:
+                                        <input type="date" name="release" id="release" placeholder="releasedate" required>
+                                    </fieldset>
+                                    <fieldset>
+                                        <input type="number" name="screensize" id="screensize" placeholder="Schermgrootte (00.00)" step=".01" required>
+                                    </fieldset>
+                                    <fieldset>
+                                        <input type="text" name="color" id="color" placeholder="Kleur" step=".01" required>
+                                    </fieldset>
+                                    <input type="submit" name="addproduct" value="Voeg Toe">
+                                </fieldset>
+                            </form>
+                            <?php
+                        } elseif ($_SESSION["action"] == "remove-product") {
+
+                            require_once '../php-includes/dbh.inc.php';
+                            $dsn = new Dbh;
+                            $stmt = $dsn->connect()->prepare("SELECT `products`.*, `sales`.`sold` FROM `products` 
+                                JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
+                                WHERE `products`.`idproduct` = ? AND `sold` = 0;");
+                            $stmt->execute(array($_SESSION["action-uid"]));
+
+                            if ($stmt->rowCount() != 0) {
+
+                                $stmt = $dsn->connect()->prepare("DELETE FROM sales WHERE idproduct = ?;");
+
+                                $stmt->execute(array($_SESSION["action-uid"]));
+
+                                $stmt = null;
+
+                                $stmt = $dsn->connect()->prepare("DELETE FROM products WHERE idproduct = ?;");
+
+                                $stmt->execute(array($_SESSION["action-uid"]));
+
+                                $stmt = null;
+                            ?>
+                                <form class="change-form">
+                                    <fieldset class="change-pers">
+                                        <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                            <p>Het product met id <?php echo $_SESSION["action-uid"]; ?> is verwijderd uit de database.</p>
+                                        </span>
+                                    </fieldset>
+                                </form>
+                            <?php
+
+                                unset($_SESSION["action"]);
+                                unset($_SESSION["action-uid"]);
+                            } else {
+                            ?>
+                                <form class="change-form">
+                                    <fieldset class="change-pers">
+                                        <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                            <p>Het product met id <?php echo $_SESSION["action-uid"]; ?> heeft bestellingen. Het product is niet verwijderd.</p>
+                                        </span>
+                                    </fieldset>
+                                </form>
+                            <?php
+                            }
+
+                            ?>
+
+                        <?php
+                        } elseif ($_SESSION["action"] == "hide-product") {
+                        ?>
+                            <form action="productmanager.php" method="post" class="change-form">
+                                <fieldset class="change-pers">
+                                    <h3>Verberg product</h3>
+                                    <fieldset>
+                                        <select name="hide" id="hide">
+                                            <option value="0">Maak zichtbaar</option>
+                                            <option value="1">Verberg</option>
+                                        </select>
+                                    </fieldset>
+                                    <input type="submit" name="hideproduct" value="Pas toe">
+                                </fieldset>
+                            </form>
+                <?php
+                        }
+                    }
+                }
+                ?>
+                <?php
                 if (isset($_POST["producten"])) {
                 ?>
                     <article class="account-content-table" id="account-content-table">
@@ -129,6 +436,7 @@ if ($_SESSION["perms"] != 1) {
                                 <th>color</th>
                                 <th>sold</th>
                                 <th>stock</th>
+                                <th>hidden</th>
                             </thead>
                             <tbody>
                                 <?php
@@ -138,30 +446,31 @@ if ($_SESSION["perms"] != 1) {
                                 JOIN sales ON products.idproduct = sales.idproduct");
                                 $stmt->execute();
                                 foreach ($stmt as $row) {
-                                    ?>
+                                ?>
                                     <tr>
                                         <td>
-                                            <form action="usermanager.php" method="post">
+                                            <form action="productmanager.php" method="post">
                                                 <select name="actions" id="actions">
                                                     <option value="0" selected>Kies actie</option>
-                                                    <option value="remove-customer <?php echo $row["idproduct"]; ?>">Verwijder klant</option>
-                                                    <option value="make-admin <?php echo $row["idproduct"]; ?>">Maak beheerder</option>
-                                                    <option value="take-admin <?php echo $row["idproduct"]; ?>">Verwijder beheerder</option>
+                                                    <option value="edit-product <?php echo $row["idproduct"]; ?>">Pas product aan</option>
+                                                    <option value="remove-product <?php echo $row["idproduct"]; ?>">Verwijder product</option>
+                                                    <option value="hide-product <?php echo $row["idproduct"]; ?>">Verberg/Maak zichtbaar</option>
                                                 </select>
                                                 <input type="submit" name="submit" value="Ga verder" class="usermanager-submit">
                                             </form>
                                         </td>
                                         <?php
-                                    echo "<td>" . $row["idproduct"] . "</td>";
-                                    echo "<td>" . $row["name"] . "</td>";
-                                    echo "<td>" . $row["idbrand"] . "</td>";
-                                    echo "<td>" . $row["price"] . "</td>";
-                                    echo "<td>" . $row["releasedate"] . "</td>";
-                                    echo "<td>" . $row["screensize"] . "</td>";
-                                    echo "<td>" . $row["color"] . "</td>";
-                                    echo "<td>" . $row["sold"] . "</td>";
-                                    echo "<td>" . $row["stock"] . "</td>";
-                                    ?>
+                                        echo "<td>" . $row["idproduct"] . "</td>";
+                                        echo "<td>" . $row["name"] . "</td>";
+                                        echo "<td>" . $row["idbrand"] . "</td>";
+                                        echo "<td>" . $row["price"] . "</td>";
+                                        echo "<td>" . $row["releasedate"] . "</td>";
+                                        echo "<td>" . $row["screensize"] . "</td>";
+                                        echo "<td>" . $row["color"] . "</td>";
+                                        echo "<td>" . $row["sold"] . "</td>";
+                                        echo "<td>" . $row["stock"] . "</td>";
+                                        echo "<td>" . $row["hidden"] . "</td>";
+                                        ?>
                                     </tr>
                                 <?php
                                     echo "</tr>";
@@ -170,6 +479,12 @@ if ($_SESSION["perms"] != 1) {
                             </tbody>
                         </table>
                     </article>
+                    <form action="productmanager.php" method="post" class="change-form">
+                        <select name="actions" id="actions" class="hidden-select">
+                            <option value="add-product ">Voeg product toe</option>
+                        </select>
+                        <input type="submit" name="submit" value="Voeg product toe" class="usermanager-submit">
+                    </form>
                 <?php
                 }
                 ?>

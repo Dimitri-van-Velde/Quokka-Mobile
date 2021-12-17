@@ -3,6 +3,17 @@ session_start();
 include_once "../php-includes/dbh.inc.php";
 include_once "../php-includes/getproduct.inc.php";
 
+require_once '../php-includes/dbh.inc.php';
+$dsn = new Dbh;
+$stmt = $dsn->connect()->prepare("SELECT * FROM `products` WHERE `idproduct` = 1");
+$stmt->execute();
+
+$data = $stmt->fetchAll();
+
+if ($data[0]["hidden"] == 1) {
+    header("Location: ../producten.php?state=hidden");
+}
+
 // Call Class
 $object = new GetProduct;
 ?>

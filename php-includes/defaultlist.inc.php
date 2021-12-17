@@ -16,6 +16,7 @@ if (isset($_POST["default_list"])) {
     $query = "
         SELECT `products`.*, `sales`.`sold` FROM `products` 
             JOIN `sales` ON `products`.`idproduct` = `sales`.`idproduct` 
+            WHERE `hidden` = 0
             ORDER BY `sold` DESC
         ";
 

@@ -1296,6 +1296,14 @@ h3 {
     border: medium none!important;
 }
 
+.change-pers select {
+    min-width: 100%;
+    padding: 10px;
+    background: #FFF;
+    border: 1px solid #CCC;
+    border-radius: 7px;
+}
+
 .change-pers input {
     min-width: 100%;
     padding: 10px;
@@ -1569,6 +1577,10 @@ h3 {
 
 .orderinfo p:nth-child(odd) {
     font-weight: bold!important;
+}
+
+.hidden-select {
+    display: none;
 }
 
 @media screen and (min-width: 426px) {
