@@ -2013,6 +2013,13 @@ h3 {
         flex-flow: row wrap;
     }
     
+    .account-bestelling {
+        margin-left: 0!important;
+    }
+    
+    .account-cart {
+        margin-left: 0!important;
+    }
 }
 
 @media screen and (min-width: 1250px) {

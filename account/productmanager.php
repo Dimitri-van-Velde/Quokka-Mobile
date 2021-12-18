@@ -159,6 +159,115 @@ if ($_SESSION["perms"] != 1) {
                     $screensize = number_format($_POST["screensize"], 2, ".", "");
                     $color = ucfirst($_POST["color"]);
 
+                    // Add image
+                    $target_dir = "../images/";
+                    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                    $uploadOk = 1;
+                    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+                    // Check if file is an actual image
+                    if (isset($_POST["addproduct"])) {
+                        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                        if ($check !== false) {
+                            $uploadOk = 1;
+                        } else {
+                ?>
+                            <form class="change-form">
+                                <fieldset class="change-pers">
+                                    <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                        <p>Het geuploade bestand is geen foto!</p>
+                                    </span>
+                                </fieldset>
+                            </form>
+                        <?php
+                            $uploadOk = 0;
+                            exit();
+                        }
+                    }
+
+                    // Check if image already exists
+                    if (file_exists($target_file)) {
+                        ?>
+                        <form class="change-form">
+                            <fieldset class="change-pers">
+                                <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                    <p>De geuploade foto bestaat al!</p>
+                                </span>
+                            </fieldset>
+                        </form>
+                    <?php
+                        $uploadOk = 0;
+                        exit();
+                    }
+
+                    // Check file size
+                    if ($_FILES["fileToUpload"]["size"] > 1000000) {
+                    ?>
+                        <form class="change-form">
+                            <fieldset class="change-pers">
+                                <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                    <p>Het formaat van de foto is te groot! Voeg er een toe kleiner dan 1MB.</p>
+                                </span>
+                            </fieldset>
+                        </form>
+                    <?php
+                        $uploadOk = 0;
+                        exit();
+                    }
+
+                    // Allow certain file formats
+                    if (
+                        $imageFileType != "jpg"
+                    ) {
+                    ?>
+                        <form class="change-form">
+                            <fieldset class="change-pers">
+                                <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                    <p>Alleen JPG foto's zijn toegestaan!</p>
+                                </span>
+                            </fieldset>
+                        </form>
+                    <?php
+                        $uploadOk = 0;
+                        exit();
+                    }
+
+                    // Check if $uploadOk is set to 0 by an error
+                    if ($uploadOk == 0) { ?>
+                        <form class="change-form">
+                            <fieldset class="change-pers">
+                                <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                    <p>De foto is niet geupload!</p>
+                                </span>
+                            </fieldset>
+                        </form>
+                        <?php
+                        exit();
+                        // if everything is ok, try to upload file
+                    } else {
+                        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                        ?>
+                            <form class="change-form">
+                                <fieldset class="change-pers">
+                                    <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                        <p>De foto <?php echo htmlspecialchars(basename($_FILES["fileToUpload"]["name"])); ?> is geupload.</p>
+                                    </span>
+                                </fieldset>
+                            </form>
+                        <?php
+                        } else { ?>
+                            <form class="change-form">
+                                <fieldset class="change-pers">
+                                    <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                        <p>Er is iets misgegaan met het uploaden van de foto!</p>
+                                    </span>
+                                </fieldset>
+                            </form>
+                    <?php
+                            exit();
+                        }
+                    }
+
                     require_once '../php-includes/dbh.inc.php';
                     $dsn = new Dbh;
 
@@ -263,7 +372,7 @@ if (\$data[0][\"hidden\"] == 1) {
 
                     unset($_SESSION["action"]);
                     unset($_SESSION["action-uid"]);
-                ?>
+                    ?>
                     <form class="change-form">
                         <fieldset class="change-pers">
                             <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
@@ -330,7 +439,7 @@ if (\$data[0][\"hidden\"] == 1) {
 
                         // Variables
                         $idproduct = $_POST["idproduct"];
-                        $quantity = $_POST["quantity"];
+                        $newQuantity = $_POST["quantity"];
 
                         require_once '../php-includes/dbh.inc.php';
                         $dsn = new Dbh;
@@ -339,11 +448,51 @@ if (\$data[0][\"hidden\"] == 1) {
                         $stmt = $dsn->connect()->prepare("UPDATE `orderrow` SET idproduct = ?, quantity = ?
                         WHERE `idorderrow` = ?;");
 
-                        $stmt->execute(array($idproduct, $quantity, $_SESSION["orderrow-uid"]));
+                        $stmt->execute(array($idproduct, $newQuantity, $_SESSION["orderrow-id"]));
 
+                        $stmt = null;
+
+                        // Change old product's stock
+                        $stmt = $dsn->connect()->prepare("UPDATE `sales` 
+                            SET `sales`.`stock` = `sales`.`stock` + ? 
+                            WHERE `sales`.`idproduct` = ?;");
+
+                        $stmt->execute(array($_SESSION["quantity"], $_SESSION["product-id"]));
+
+                        $stmt = null;
+
+                        // Change old product's sales
+                        $stmt = $dsn->connect()->prepare("UPDATE `sales` 
+                            SET `sales`.`sold` = `sales`.`sold` - ? 
+                            WHERE `sales`.`idproduct` = ?;");
+
+                        $stmt->execute(array($_SESSION["quantity"], $_SESSION["product-id"]));
+
+                        $stmt = null;
+
+                        // Change new product's stock
+                        $stmt = $dsn->connect()->prepare("UPDATE `sales` 
+                            SET `sales`.`stock` = `sales`.`stock` - ? 
+                            WHERE `sales`.`idproduct` = ?;");
+
+                        $stmt->execute(array($newQuantity, $idproduct));
+
+                        $stmt = null;
+
+                        // Change new product's sales
+                        $stmt = $dsn->connect()->prepare("UPDATE `sales` 
+                            SET `sales`.`sold` = `sales`.`sold` + ? 
+                            WHERE `sales`.`idproduct` = ?;");
+
+                        $stmt->execute(array($newQuantity, $idproduct));
+
+                        $stmt = null;
+
+                        unset($_SESSION["product-id"]);
+                        unset($_SESSION["quantity"]);
                         unset($_SESSION["action"]);
                         unset($_SESSION["action-uid"]);
-                        unset($_SESSION["orderrow-uid"]);
+                        unset($_SESSION["orderrow-id"]);
                     ?>
                         <form class="change-form">
                             <fieldset class="change-pers">
@@ -357,6 +506,49 @@ if (\$data[0][\"hidden\"] == 1) {
                 }
                 ?>
                 <?php
+                // Check if changestock is set
+                if (isset($_POST["changestock"])) {
+
+                    require_once '../php-includes/dbh.inc.php';
+                    $dsn = new Dbh;
+
+                    $quantity = $_POST["quantity"];
+                    $calc = $_POST["calc"];
+
+                    if ($calc == "add") {
+                        // Change new product's stock
+                        $stmt = $dsn->connect()->prepare("UPDATE `sales` 
+                            SET `sales`.`stock` = `sales`.`stock` + ? 
+                            WHERE `sales`.`idproduct` = ?;");
+
+                        $stmt->execute(array($quantity, $_SESSION["action-uid"]));
+
+                        $stmt = null;
+                    } elseif ($calc == "remove") {
+                        // Change new product's stock
+                        $stmt = $dsn->connect()->prepare("UPDATE `sales` 
+                            SET `sales`.`stock` = `sales`.`stock` - ? 
+                            WHERE `sales`.`idproduct` = ?;");
+
+                        $stmt->execute(array($quantity, $_SESSION["action-uid"]));
+
+                        $stmt = null;
+                    }
+
+                    unset($_SESSION["action"]);
+                    unset($_SESSION["action-uid"]);
+                ?>
+                    <form class="change-form">
+                        <fieldset class="change-pers">
+                            <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                <p>Voorraad is aangepast.</p>
+                            </span>
+                        </fieldset>
+                    </form>
+                <?php
+                }
+                ?>
+                <?php
                 if (isset($_POST["submit"])) {
 
                     // Check if an action was chosen
@@ -366,7 +558,9 @@ if (\$data[0][\"hidden\"] == 1) {
                         $splitAction = explode(" ", $_POST["actions"]);
                         $_SESSION["action"] = $splitAction[0];
                         $_SESSION["action-uid"] = $splitAction[1];
-                        $_SESSION["orderrow-uid"] = $splitAction[2] ?? "";
+                        $_SESSION["orderrow-id"] = $splitAction[2] ?? "";
+                        $_SESSION["product-id"] = $splitAction[3] ?? "";
+                        $_SESSION["quantity"] = $splitAction[4] ?? "";
 
                 ?>
                         <!-- Wachtwoord formulier -->
@@ -384,9 +578,11 @@ if (\$data[0][\"hidden\"] == 1) {
                                 } elseif ($_SESSION["action"] == "hide-product") {
                                     echo "<h4>Product " . $_SESSION["action-uid"] . " verbergen/zichtbaar maken.</h4>";
                                 } elseif ($_SESSION["action"] == "edit-order") {
-                                    echo "<h4>Order " . $_SESSION["action-uid"] . ", orderrow " . $_SESSION["orderrow-uid"] . " aanpassen.</h4>";
+                                    echo "<h4>Order " . $_SESSION["action-uid"] . ", orderrow " . $_SESSION["orderrow-id"] . " aanpassen.</h4>";
                                 } elseif ($_SESSION["action"] == "remove-order") {
                                     echo "<h4>Order " . $_SESSION["action-uid"] . " verwijderen.</h4>";
+                                } elseif ($_SESSION["action"] == "change-stock") {
+                                    echo "<h4>Product " . $_SESSION["action-uid"] . " voorraad aanpassen.</h4>";
                                 }
                                 ?>
                                 <fieldset>
@@ -455,7 +651,7 @@ if (\$data[0][\"hidden\"] == 1) {
                         <?php
                         } elseif ($_SESSION["action"] == "add-product") {
                         ?>
-                            <form action="productmanager.php" method="post" class="change-form">
+                            <form action="productmanager.php" method="post" class="change-form" enctype="multipart/form-data">
                                 <fieldset class="change-pers">
                                     <h3>Voeg product toe</h3>
                                     <fieldset>
@@ -482,6 +678,10 @@ if (\$data[0][\"hidden\"] == 1) {
                                     <fieldset>
                                         <input type="text" name="color" id="color" placeholder="Kleur" step=".01" required>
                                     </fieldset>
+                                    <fieldset>
+                                        Product foto (.jpg, max 1mb):
+                                        <input type="file" name="fileToUpload" id="fileToUpload" required>
+                                    </fieldset>
                                     <input type="submit" name="addproduct" value="Voeg Toe">
                                 </fieldset>
                             </form>
@@ -497,18 +697,85 @@ if (\$data[0][\"hidden\"] == 1) {
 
                             if ($stmt->rowCount() != 0) {
 
+                                $data = $stmt->fetchAll();
+
+                                $name = $data[0]["name"];
+
+                                // Get image and page URL
+                                // Make lower case
+                                $url = strtolower($name);
+                                //Make alphanumeric
+                                $url = preg_replace("/[^a-z0-9_\s-]/", "", $url);
+                                //Clean up multiple dashes or whitespaces
+                                $url = preg_replace("/[\s-]+/", " ", $url);
+                                //Convert whitespaces and underscore to dash
+                                $url = preg_replace("/[\s_]/", "-", $url);
+                                // Delete php and jpg of product from database
+
+                                $phpPage = "../producten/$url.php";
+                                $jpgImage = "../images/$url.jpg";
+
+                                // Use unlink() function to delete php page
+                                if (!unlink($phpPage)) {
+                            ?>
+                                    <form class="change-form">
+                                        <fieldset class="change-pers">
+                                            <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                                <p>Door een error kon <?php echo $phpPage; ?> niet verwijderd worden!</p>
+                                            </span>
+                                        </fieldset>
+                                    </form>
+                                <?php
+                                } else {
+                                ?>
+                                    <form class="change-form">
+                                        <fieldset class="change-pers">
+                                            <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                                <p><?php echo $phpPage; ?> is verwijderd.</p>
+                                            </span>
+                                        </fieldset>
+                                    </form>
+                                <?php
+                                }
+
+                                // Use unlink() function to delete image
+                                if (!unlink($jpgImage)) {
+                            ?>
+                                    <form class="change-form">
+                                        <fieldset class="change-pers">
+                                            <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                                <p>Door een error kon <?php echo $jpgImage; ?> niet verwijderd worden!</p>
+                                            </span>
+                                        </fieldset>
+                                    </form>
+                                <?php
+                                } else {
+                                ?>
+                                    <form class="change-form">
+                                        <fieldset class="change-pers">
+                                            <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                                <p><?php echo $jpgImage; ?> is verwijderd.</p>
+                                            </span>
+                                        </fieldset>
+                                    </form>
+                                <?php
+                                }
+
+                                // Delete product from sales table
                                 $stmt = $dsn->connect()->prepare("DELETE FROM sales WHERE idproduct = ?;");
 
                                 $stmt->execute(array($_SESSION["action-uid"]));
 
                                 $stmt = null;
 
+                                // Delete product from products table
                                 $stmt = $dsn->connect()->prepare("DELETE FROM products WHERE idproduct = ?;");
 
                                 $stmt->execute(array($_SESSION["action-uid"]));
 
                                 $stmt = null;
-                            ?>
+
+                                ?>
                                 <form class="change-form">
                                     <fieldset class="change-pers">
                                         <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
@@ -598,6 +865,32 @@ if (\$data[0][\"hidden\"] == 1) {
                                 require_once '../php-includes/dbh.inc.php';
                                 $dsn = new Dbh;
 
+                                // Get all products from order
+                                $stmt = $dsn->connect()->prepare("SELECT idproduct, quantity FROM orderrow WHERE idorder = ?;");
+
+                                $stmt->execute(array($_SESSION["action-uid"]));
+
+                                // Change sold/stock information for each product
+                                foreach ($stmt as $row) {
+                                    // Change product's stock
+                                    $stmt1 = $dsn->connect()->prepare("UPDATE `sales` 
+                                    SET `sales`.`stock` = `sales`.`stock` + ? 
+                                    WHERE `sales`.`idproduct` = ?;");
+
+                                    $stmt1->execute(array($row["quantity"], $row["idproduct"]));
+
+                                    $stmt1 = null;
+
+                                    // Change product's sales
+                                    $stmt1 = $dsn->connect()->prepare("UPDATE `sales` 
+                                    SET `sales`.`sold` = `sales`.`sold` - ? 
+                                    WHERE `sales`.`idproduct` = ?;");
+
+                                    $stmt1->execute(array($row["quantity"], $row["idproduct"]));
+
+                                    $stmt1 = null;
+                                }
+
                                 // Remove orderrows containing order
                                 $stmt = $dsn->connect()->prepare("DELETE FROM orderrow WHERE idorder = ?;");
 
@@ -620,10 +913,29 @@ if (\$data[0][\"hidden\"] == 1) {
                                         </span>
                                     </fieldset>
                                 </form>
-                <?php
+                            <?php
                                 unset($_SESSION["action"]);
                                 unset($_SESSION["action-uid"]);
                             }
+                        } elseif ($_SESSION["action"] == "change-stock") {
+
+                            ?>
+                            <form action="productmanager.php" method="post" class="change-form">
+                                <fieldset class="change-pers">
+                                    <h3>Pas voorraad aan</h3>
+                                    <fieldset>
+                                        <input type="number" name="quantity" id="quantity" placeholder="Hoeveelheid" step="1" min="0" required>
+                                    </fieldset>
+                                    <fieldset>
+                                        <select name="calc" id="calc">
+                                            <option value="add">Toevoegen aan vooraad</option>
+                                            <option value="remove">Verwijderen uit vooraad</option>
+                                        </select>
+                                    </fieldset>
+                                    <input type="submit" name="changestock" value="Pas Aan">
+                                </fieldset>
+                            </form>
+                <?php
                         }
                     }
                 }
@@ -637,14 +949,14 @@ if (\$data[0][\"hidden\"] == 1) {
                                 <th>Acties</th>
                                 <th>idproduct</th>
                                 <th>name</th>
+                                <th>sold</th>
+                                <th>stock</th>
+                                <th>hidden</th>
                                 <th>idbrand</th>
                                 <th>price</th>
                                 <th>releasedate</th>
                                 <th>screensize</th>
                                 <th>color</th>
-                                <th>sold</th>
-                                <th>stock</th>
-                                <th>hidden</th>
                             </thead>
                             <tbody>
                                 <?php
@@ -663,6 +975,7 @@ if (\$data[0][\"hidden\"] == 1) {
                                                     <option value="edit-product <?php echo $row["idproduct"]; ?>">Pas product aan</option>
                                                     <option value="remove-product <?php echo $row["idproduct"]; ?>">Verwijder product</option>
                                                     <option value="hide-product <?php echo $row["idproduct"]; ?>">Verberg/Maak zichtbaar</option>
+                                                    <option value="change-stock <?php echo $row["idproduct"]; ?>">Pas voorraad aan</option>
                                                 </select>
                                                 <input type="submit" name="submit" value="Ga verder" class="usermanager-submit">
                                             </form>
@@ -670,14 +983,20 @@ if (\$data[0][\"hidden\"] == 1) {
                                         <?php
                                         echo "<td>" . $row["idproduct"] . "</td>";
                                         echo "<td>" . $row["name"] . "</td>";
+                                        echo "<td>" . $row["sold"] . "</td>";
+                                        echo "<td>" . $row["stock"] . "</td>";
+                                        echo "<td>";
+                                        if ($row["hidden"] == 0) {
+                                            echo "false";
+                                        } else {
+                                            echo "true";
+                                        }
+                                        echo "</td>";
                                         echo "<td>" . $row["idbrand"] . "</td>";
                                         echo "<td>" . $row["price"] . "</td>";
                                         echo "<td>" . $row["releasedate"] . "</td>";
                                         echo "<td>" . $row["screensize"] . "</td>";
                                         echo "<td>" . $row["color"] . "</td>";
-                                        echo "<td>" . $row["sold"] . "</td>";
-                                        echo "<td>" . $row["stock"] . "</td>";
-                                        echo "<td>" . $row["hidden"] . "</td>";
                                         ?>
                                     </tr>
                                 <?php
@@ -714,7 +1033,7 @@ if (\$data[0][\"hidden\"] == 1) {
                                 <?php
                                 require_once '../php-includes/dbh.inc.php';
                                 $dsn = new Dbh;
-                                $stmt = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `orders`.`shippeddate` FROM `orderrow` 
+                                $stmt = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.*, `orders`.`shippeddate` FROM `orderrow` 
                                     JOIN `products` ON `orderrow`.`idproduct` = `products`.`idproduct`
                                     JOIN `orders` ON `orderrow`.`idorder` = `orders`.`idorder`
                                     ORDER BY `idorder`, `idorderrow` ASC");
@@ -726,7 +1045,7 @@ if (\$data[0][\"hidden\"] == 1) {
                                             <form action="productmanager.php" method="post">
                                                 <select name="actions" id="actions">
                                                     <option value="0" selected>Kies actie</option>
-                                                    <option value="edit-order <?php echo $row["idorder"]; ?> <?php echo $row["idorderrow"]; ?>">Pas orderrow aan</option>
+                                                    <option value="edit-order <?php echo $row["idorder"]; ?> <?php echo $row["idorderrow"]; ?> <?php echo $row["idproduct"]; ?> <?php echo $row["quantity"]; ?>">Pas orderrow aan</option>
                                                     <option value="remove-order <?php echo $row["idorder"]; ?>">Verwijder order</option>
                                                 </select>
                                                 <input type="submit" name="submit" value="Ga verder" class="usermanager-submit">
