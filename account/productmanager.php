@@ -948,27 +948,45 @@ if (\$data[0][\"hidden\"] == 1) {
                                     <input type="submit" name="changestock" value="Pas Aan">
                                 </fieldset>
                             </form>
-                        <?php
+                            <?php
                         } elseif ($_SESSION["action"] == "ship-order") {
 
                             require_once '../php-includes/dbh.inc.php';
                             $dsn = new Dbh;
 
-                            // Add shippeddate
-                            $stmt = $dsn->connect()->prepare("UPDATE orders SET shippeddate = NOW() WHERE idorder = ?;");
+                            // Check if order is shipped already
+                            $stmt = $dsn->connect()->prepare("SELECT * FROM `orders` WHERE idorder = ? AND shippeddate IS NULL;");
 
                             $stmt->execute(array($_SESSION["action-uid"]));
 
-                            $stmt = null;
-                        ?>
-                            <form class="change-form">
-                                <fieldset class="change-pers">
-                                    <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
-                                        <p>Order met id <?php echo $_SESSION["action-uid"]; ?> is verzonden.</p>
-                                    </span>
-                                </fieldset>
-                            </form>
+                            if ($stmt->rowCount() == 0) {
+                            ?>
+                                <form class="change-form">
+                                    <fieldset class="change-pers">
+                                        <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                            <p>Dit order is al verzonden.</p>
+                                        </span>
+                                    </fieldset>
+                                </form>
+                            <?php
+                            } else {
+                                // Add shippeddate
+                                $stmt = $dsn->connect()->prepare("UPDATE orders SET shippeddate = NOW() WHERE idorder = ?;");
+
+                                $stmt->execute(array($_SESSION["action-uid"]));
+
+                                $stmt = null;
+                            ?>
+                                <form class="change-form">
+                                    <fieldset class="change-pers">
+                                        <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                            <p>Order met id <?php echo $_SESSION["action-uid"]; ?> is verzonden.</p>
+                                        </span>
+                                    </fieldset>
+                                </form>
                 <?php
+                            }
+
                             unset($_SESSION["action"]);
                             unset($_SESSION["action-uid"]);
                         }
