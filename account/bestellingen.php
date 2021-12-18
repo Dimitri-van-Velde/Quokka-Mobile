@@ -123,7 +123,7 @@ if (!isset($_SESSION["userid"])) {
                 // Check if an order is not yours and skip
                 if ($min[0]["minorder"] != null && $max[0]["maxorder"] != null) {
 
-                    for ($i = $min[0]["minorder"]; $i <= $max[0]["maxorder"]; $i++) {
+                    for ($i = $max[0]["maxorder"]; $i >= $min[0]["minorder"]; $i--) {
                         //echo $i . "<br>";
 
                         $stmt2 = $dsn->connect()->prepare("SELECT `orderrow`.*, `products`.`name`, `products`.`price`, `orders`.`iduser`, `orders`.`shippingmethod` , `orders`.`orderdate`
