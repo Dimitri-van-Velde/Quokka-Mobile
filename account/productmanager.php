@@ -583,6 +583,8 @@ if (\$data[0][\"hidden\"] == 1) {
                                     echo "<h4>Order " . $_SESSION["action-uid"] . " verwijderen.</h4>";
                                 } elseif ($_SESSION["action"] == "change-stock") {
                                     echo "<h4>Product " . $_SESSION["action-uid"] . " voorraad aanpassen.</h4>";
+                                } elseif ($_SESSION["action"] == "ship-order") {
+                                    echo "<h4>Verzend order " . $_SESSION["action-uid"] . ".</h4>";
                                 }
                                 ?>
                                 <fieldset>
@@ -946,7 +948,29 @@ if (\$data[0][\"hidden\"] == 1) {
                                     <input type="submit" name="changestock" value="Pas Aan">
                                 </fieldset>
                             </form>
+                        <?php
+                        } elseif ($_SESSION["action"] == "ship-order") {
+
+                            require_once '../php-includes/dbh.inc.php';
+                            $dsn = new Dbh;
+
+                            // Add shippeddate
+                            $stmt = $dsn->connect()->prepare("UPDATE orders SET shippeddate = NOW() WHERE idorder = ?;");
+
+                            $stmt->execute(array($_SESSION["action-uid"]));
+
+                            $stmt = null;
+                        ?>
+                            <form class="change-form">
+                                <fieldset class="change-pers">
+                                    <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                        <p>Order met id <?php echo $_SESSION["action-uid"]; ?> is verzonden.</p>
+                                    </span>
+                                </fieldset>
+                            </form>
                 <?php
+                            unset($_SESSION["action"]);
+                            unset($_SESSION["action-uid"]);
                         }
                     }
                 }
@@ -1058,6 +1082,7 @@ if (\$data[0][\"hidden\"] == 1) {
                                                     <option value="0" selected>Kies actie</option>
                                                     <option value="edit-order <?php echo $row["idorder"]; ?> <?php echo $row["idorderrow"]; ?> <?php echo $row["idproduct"]; ?> <?php echo $row["quantity"]; ?>">Pas orderrow aan</option>
                                                     <option value="remove-order <?php echo $row["idorder"]; ?>">Verwijder order</option>
+                                                    <option value="ship-order <?php echo $row["idorder"]; ?>">Verzend order</option>
                                                 </select>
                                                 <input type="submit" name="submit" value="Ga verder" class="usermanager-submit">
                                             </form>
