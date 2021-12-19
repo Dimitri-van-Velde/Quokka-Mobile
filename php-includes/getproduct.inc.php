@@ -70,10 +70,10 @@ class GetProduct extends Dbh
                 document.title = "<?php echo $name; ?>";
             </script>
 <?php
+            // Do if submit button is pressed
+            if (isset($_POST["submit"])) {
 
-            if (isset($_SESSION["userid"])) {
-                // Do if submit button is pressed
-                if (isset($_POST["submit"])) {
+                if (isset($_SESSION["userid"])) {
                     // If there is no ongoing order, create one and store in session
                     if (empty($_SESSION["orderid"])) {
                         // Create the order
@@ -129,9 +129,9 @@ class GetProduct extends Dbh
                         $stmt1 = null;
                         echo "<script>window.location.href = \"../account/cart.php\";</script>";
                     }
+                } else {
+                    echo "<script>window.location.href = \"../login.php?redirect=product\";</script>";
                 }
-            } else {
-                echo "<script>window.location.href = \"../login.php?redirect=product\";</script>";
             }
         }
     }
