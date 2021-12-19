@@ -9,7 +9,7 @@
                 </label>
             </article>
             <article class="searchbar">
-                <form action="producten.php" method="get" autocomplete="off">
+                <form action="producten.php" method="get" autocomplete="off" id="searchbar">
                     <input type="text" name="search" id="search" placeholder="Waar ben je naar op zoek?" onkeyup="javascript:load_data(this.value)">
                     <button type="submit"><img src="images/magnifying-glass.png" alt="Search" id="mag-glass"></button>
                     <span id="search_result" class="search-result"></span>
@@ -175,7 +175,7 @@
             </article>
         </section>
         <article class="searchbar2">
-            <form action="producten.php" method="get" autocomplete="off">
+            <form action="producten.php" method="get" autocomplete="off" id="searchbar2">
                 <input type="text" name="search" placeholder="Waar ben je naar op zoek?" onkeyup="javascript:load_data(this.value)">
                 <button type="submit"><img src="images/magnifying-glass.png" alt="Search" id="mag-glass2"></button>
                 <span id="search_result1" class="search-result search-result1"></span>
@@ -189,11 +189,13 @@
             var loc = window.location.pathname;
             var dir = loc.substring(0, loc.lastIndexOf('/'));
 
-            if (dir != "/quokka_mobile") {
+            if (dir == "/quokka_mobile/producten" || dir == "/quokka_mobile/account") {
                 var searchInc = "../php-includes/search.inc.php";
                 var productPage = "../producten.php";
                 var productDir = "../producten";
                 var imageDir = "../images";
+                document.getElementById("searchbar").action = "../producten.php";
+                document.getElementById("searchbar2").action = "../producten.php";
             } else {
                 var searchInc = "php-includes/search.inc.php";
                 var productPage = "producten.php";

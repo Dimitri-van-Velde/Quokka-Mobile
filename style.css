@@ -1354,6 +1354,7 @@ h3 {
 
 .change-pers input[type="file"] {
     margin-top: 5px;
+    width: 100%;
 }
 
 .change-form input[type="submit"]:hover {
