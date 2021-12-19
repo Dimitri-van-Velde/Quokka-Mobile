@@ -263,7 +263,7 @@ if ($_SESSION["perms"] != 1) {
                                     </span>
                                 </fieldset>
                             </form>
-                    <?php
+                        <?php
                             exit();
                         }
                     }
@@ -368,7 +368,27 @@ if (\$data[0][\"hidden\"] == 1) {
                     $url = preg_replace("/[\s_]/", "-", $url);
 
                     // Create new product's page
-                    file_put_contents("../producten/$url.php", $productPageCode);
+                    if (file_put_contents("../producten/$url.php", $productPageCode)) {
+                        ?>
+                        <form class="change-form">
+                            <fieldset class="change-pers">
+                                <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
+                                    <p>De pagina <?php echo htmlspecialchars(basename("../producten/$url.php")); ?> is aangemaakt.</p>
+                                </span>
+                            </fieldset>
+                        </form>
+                    <?php
+                    } else {
+                    ?>
+                        <form class="change-form">
+                            <fieldset class="change-pers">
+                                <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
+                                    <p>Er is iets misgegaan bij het genereren van de pagina!</p>
+                                </span>
+                            </fieldset>
+                        </form>
+                    <?php
+                    }
 
                     unset($_SESSION["action"]);
                     unset($_SESSION["action-uid"]);
@@ -692,7 +712,10 @@ if (\$data[0][\"hidden\"] == 1) {
                                         <input type="text" name="color" id="color" placeholder="Kleur" step=".01" required>
                                     </fieldset>
                                     <fieldset>
-                                        Product foto (.jpg, max 1mb):
+                                        Product foto <article class="tooltip">
+                                            <img src="../images/questionmark.svg" alt="Vraagteken" class="questionmark">
+                                            <span class="tooltiptext">Format: voorbeeld-foto-a1.jpg, max 1MB</span>
+                                        </article>
                                         <input type="file" name="fileToUpload" id="fileToUpload" required>
                                     </fieldset>
                                     <input type="submit" name="addproduct" value="Voeg Toe">
@@ -728,13 +751,13 @@ if (\$data[0][\"hidden\"] == 1) {
                                 $phpPage = "../producten/$url.php";
                                 $jpgImage = "../images/$url.jpg";
 
-                                // Use unlink() function to delete php page
-                                if (!unlink($phpPage)) {
+                                // Use unlink() function to delete image
+                                if (!unlink($jpgImage)) {
                             ?>
                                     <form class="change-form">
                                         <fieldset class="change-pers">
                                             <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
-                                                <p>Door een error kon <?php echo $phpPage; ?> niet verwijderd worden!</p>
+                                                <p>Door een error kon <?php echo htmlspecialchars(basename($jpgImage)); ?> niet verwijderd worden!</p>
                                             </span>
                                         </fieldset>
                                     </form>
@@ -744,20 +767,20 @@ if (\$data[0][\"hidden\"] == 1) {
                                     <form class="change-form">
                                         <fieldset class="change-pers">
                                             <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
-                                                <p><?php echo $phpPage; ?> is verwijderd.</p>
+                                                <p>De foto <?php echo htmlspecialchars(basename($jpgImage)); ?> is verwijderd.</p>
                                             </span>
                                         </fieldset>
                                     </form>
                                 <?php
                                 }
 
-                                // Use unlink() function to delete image
-                                if (!unlink($jpgImage)) {
+                                // Use unlink() function to delete php page
+                                if (!unlink($phpPage)) {
                                 ?>
                                     <form class="change-form">
                                         <fieldset class="change-pers">
                                             <span class="login-error-message"><img src="../images/error.svg" alt="Error Icon">
-                                                <p>Door een error kon <?php echo $jpgImage; ?> niet verwijderd worden!</p>
+                                                <p>Door een error kon <?php echo htmlspecialchars(basename($phpPage)); ?> niet verwijderd worden!</p>
                                             </span>
                                         </fieldset>
                                     </form>
@@ -767,12 +790,13 @@ if (\$data[0][\"hidden\"] == 1) {
                                     <form class="change-form">
                                         <fieldset class="change-pers">
                                             <span class="login-check-message"><img src="../images/check.svg" alt="Check Icon">
-                                                <p><?php echo $jpgImage; ?> is verwijderd.</p>
+                                                <p>De pagina <?php echo htmlspecialchars(basename($phpPage)); ?> is verwijderd.</p>
                                             </span>
                                         </fieldset>
                                     </form>
                                 <?php
                                 }
+
 
                                 // Delete product from sales table
                                 $stmt = $dsn->connect()->prepare("DELETE FROM sales WHERE idproduct = ?;");
