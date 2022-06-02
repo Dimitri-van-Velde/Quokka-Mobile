@@ -1,5 +1,7 @@
 <?php
 
+include_once 'dbh.inc.php';
+
 // Variables
 // Form Info
 $vNaam = $_POST["voornaam"] ?? "";
@@ -17,7 +19,22 @@ $bugPage = $_POST["bug_page"] ?? "";
 $timestamp = date("c");
 
 // Webhook URL
-$url = "https://discord.com/api/webhooks/910252315573895218/VJPppRzEJOj7dI3ZRcHis-THXvOqodo7dc0ouEUDB6xV8womwvzxqOEFY4Bv-Kz6ztsM";
+
+$dbh = new Dbh;
+
+$stmt = $dbh->connect()->prepare("SELECT * FROM webhook;");
+
+if (!$stmt->execute()) {
+    $stmt = null;
+    header("Location: ../contactform.php?error=stmtfailed");
+    exit();
+}
+
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$url = $results[0]["link"];
+
+$stmt = null;
 
 // Embed for Discord
 
